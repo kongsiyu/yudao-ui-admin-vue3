@@ -5,8 +5,14 @@ import { ElImage, ElLink } from 'element-plus'
 VXETable.renderer.add('XPreview', {
   // 默认显示模板
   renderDefault(_renderOpts, params) {
+    const { type } = _renderOpts.props ?? {}
     const { row, column } = params
-    if (row.type.indexOf('image/') === 0) {
+    let rawType = type ?? 'image'
+    if (row.type) {
+      if (row.type.indexOf('image/') === 0) rawType = 'image'
+      else if (row.type.indexOf('video/') === 0) rawType = 'video'
+    }
+    if (rawType === 'image') {
       return (
         <ElImage
           style="width: 80px; height: 50px"
@@ -17,7 +23,7 @@ VXETable.renderer.add('XPreview', {
           lazy
         ></ElImage>
       )
-    } else if (row.type.indexOf('video/') === 0) {
+    } else if (rawType === 'video') {
       return (
         <video>
           <source src={row[column.field]}></source>
