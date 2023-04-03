@@ -32,7 +32,7 @@
 </template>
 <script setup lang="ts" name="Build">
 import formCreate from '@form-create/element-ui'
-import { useClipboard } from '@vueuse/core'
+// import { useClipboard } from '@vueuse/core'
 
 const { t } = useI18n()
 const message = useMessage()

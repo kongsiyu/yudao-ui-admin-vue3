@@ -64,7 +64,7 @@
             show-checkbox
             :props="defaultProps"
             :data="deptTreeOptions"
-            empty-text="加载中，请稍后"
+            empty-text="加载中，请稍候"
             multiple
           />
         </el-form-item>

@@ -105,7 +105,10 @@ const handleSelect = async (row) => {
     // 情况二：业务表单
   } else if (row.formCustomCreatePath) {
     await router.push({
-      path: row.formCustomCreatePath
+      path: row.formCustomCreatePath,
+      query: {
+        id: row.id
+      }
     })
     // 这里暂时无需加载流程图，因为跳出到另外个 Tab；
   }

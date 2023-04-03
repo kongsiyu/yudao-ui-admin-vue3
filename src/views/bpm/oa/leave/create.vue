@@ -22,7 +22,7 @@ import { rules, allSchemas } from './leave.data'
 const { t } = useI18n() // 国际化
 const message = useMessage() // 消息弹窗
 const { push } = useRouter() // 路由
-
+// const { query } = useRoute()
 // 表单参数
 const actionLoading = ref(false) // 按钮 Loading
 const formRef = ref<FormExpose>() // 表单 Ref
@@ -43,6 +43,8 @@ const submitForm = async () => {
       // data.endTime = XEUtils.toDateString(data.endTime, 'yyyy-MM-dd HH:mm:ss')
       data.startTime = Date.parse(new Date(data.startTime).toString()).toString()
       data.endTime = Date.parse(new Date(data.endTime).toString()).toString()
+      // console.log(query.id, 'query.id')
+      // data.id = query.id
       // 添加的提交
       await LeaveApi.createLeaveApi(data)
       message.success(t('common.createSuccess'))

@@ -62,7 +62,7 @@ import { DICT_TYPE, getIntDictOptions } from '@/utils/dict'
 import { CommonStatusEnum } from '@/utils/constants'
 import * as FormApi from '@/api/bpm/form'
 import { encodeConf, encodeFields, setConfAndFields } from '@/utils/formCreate'
-import { useClipboard } from '@vueuse/core'
+// import { useClipboard } from '@vueuse/core'
 
 const { t } = useI18n() // 国际化
 const message = useMessage() // 消息
