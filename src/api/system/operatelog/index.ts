@@ -23,11 +23,19 @@ export type OperateLogVO = {
   resultData: string
 }
 
+export interface OperateLogPageReqVO extends PageParam {
+  module?: string
+  userNickname?: string
+  type?: number
+  success?: boolean
+  startTime?: Date[]
+}
+
 // 查询操作日志列表
-export const getOperateLogPage = (params: PageParam) => {
+export const getOperateLogPageApi = (params: OperateLogPageReqVO) => {
   return request.get({ url: '/system/operate-log/page', params })
 }
 // 导出操作日志
-export const exportOperateLog = (params) => {
+export const exportOperateLogApi = (params: OperateLogPageReqVO) => {
   return request.download({ url: '/system/operate-log/export', params })
 }

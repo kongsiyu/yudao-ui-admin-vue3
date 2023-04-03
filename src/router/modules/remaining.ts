@@ -104,31 +104,6 @@ const remainingRouter: AppRouteRecordRaw[] = [
       }
     ]
   },
-
-  {
-    path: '/dict',
-    component: Layout,
-    name: 'dict',
-    meta: {
-      hidden: true
-    },
-    children: [
-      {
-        path: 'type/data/:dictType',
-        component: () => import('@/views/system/dict/data.vue'),
-        name: 'data',
-        meta: {
-          title: '字典数据',
-          noCache: true,
-          hidden: true,
-          canTo: true,
-          icon: '',
-          activeMenu: 'system/dict/data'
-        }
-      }
-    ]
-  },
-
   {
     path: '/codegen',
     component: Layout,
@@ -162,7 +137,7 @@ const remainingRouter: AppRouteRecordRaw[] = [
     children: [
       {
         path: 'job-log',
-        component: () => import('@/views/infra/job/logger/index.vue'),
+        component: () => import('@/views/infra/job/JobLog.vue'),
         name: 'JobLog',
         meta: {
           noCache: true,
@@ -225,26 +200,26 @@ const remainingRouter: AppRouteRecordRaw[] = [
     children: [
       {
         path: '/manager/form/edit',
-        component: () => import('@/views/bpm/form/editor/index.vue'),
+        component: () => import('@/views/bpm/form/formEditor.vue'),
         name: 'bpmFormEditor',
         meta: {
           noCache: true,
           hidden: true,
           canTo: true,
           title: '设计流程表单',
-          activeMenu: '/bpm/manager/form'
+          activeMenu: 'bpm/manager/form/formEditor'
         }
       },
       {
         path: '/manager/model/edit',
-        component: () => import('@/views/bpm/model/editor/index.vue'),
+        component: () => import('@/views/bpm/model/modelEditor.vue'),
         name: 'modelEditor',
         meta: {
           noCache: true,
           hidden: true,
           canTo: true,
           title: '设计流程',
-          activeMenu: '/bpm/manager/model'
+          activeMenu: 'bpm/manager/model/design'
         }
       },
       {
@@ -256,7 +231,7 @@ const remainingRouter: AppRouteRecordRaw[] = [
           hidden: true,
           canTo: true,
           title: '流程定义',
-          activeMenu: '/bpm/manager/model'
+          activeMenu: 'bpm/definition/index'
         }
       },
       {
@@ -272,7 +247,7 @@ const remainingRouter: AppRouteRecordRaw[] = [
       },
       {
         path: '/process-instance/create',
-        component: () => import('@/views/bpm/processInstance/create/index.vue'),
+        component: () => import('@/views/bpm/processInstance/create.vue'),
         name: 'BpmProcessInstanceCreate',
         meta: {
           noCache: true,
@@ -284,7 +259,7 @@ const remainingRouter: AppRouteRecordRaw[] = [
       },
       {
         path: '/process-instance/detail',
-        component: () => import('@/views/bpm/processInstance/detail/index.vue'),
+        component: () => import('@/views/bpm/processInstance/detail.vue'),
         name: 'BpmProcessInstanceDetail',
         meta: {
           noCache: true,
@@ -317,22 +292,6 @@ const remainingRouter: AppRouteRecordRaw[] = [
           title: '查看 OA 请假',
           activeMenu: 'bpm/oa/leave/detail'
         }
-      }
-    ]
-  },
-  {
-    path: '/property',
-    component: Layout,
-    name: 'property',
-    meta: {
-      hidden: true
-    },
-    children: [
-      {
-        path: 'value/:propertyId(\\d+)',
-        component: () => import('@/views/mall/product/property/value/index.vue'),
-        name: 'PropertyValue',
-        meta: { title: '商品属性值', icon: '', activeMenu: '/product/property' }
       }
     ]
   }

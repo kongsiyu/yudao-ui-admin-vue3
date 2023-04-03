@@ -1,10 +1,10 @@
 import request from '@/config/axios'
 
 export interface ErrorCodeVO {
-  id: number | undefined
+  id: number
   type: number
   applicationName: string
-  code: number | undefined
+  code: number
   message: string
   memo: string
   createTime: Date

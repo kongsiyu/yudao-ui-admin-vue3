@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { parseTime } from '@/utils/formatTime'
+import dayjs from 'dayjs'
 import * as NotifyMessageApi from '@/api/system/notify/message'
 
 const { push } = useRouter()
@@ -57,7 +57,7 @@ onMounted(() => {
                     {{ item.templateNickname }}：{{ item.templateContent }}
                   </span>
                   <span class="message-date">
-                    {{ parseTime(item.createTime) }}
+                    {{ dayjs(item.createTime).format('YYYY-MM-DD HH:mm:ss') }}
                   </span>
                 </div>
               </div>

@@ -11,7 +11,7 @@ export type FormVO = {
 }
 
 // 创建工作流的表单定义
-export const createForm = async (data: FormVO) => {
+export const createFormApi = async (data: FormVO) => {
   return await request.post({
     url: '/bpm/form/create',
     data: data
@@ -19,7 +19,7 @@ export const createForm = async (data: FormVO) => {
 }
 
 // 更新工作流的表单定义
-export const updateForm = async (data: FormVO) => {
+export const updateFormApi = async (data: FormVO) => {
   return await request.put({
     url: '/bpm/form/update',
     data: data
@@ -27,21 +27,21 @@ export const updateForm = async (data: FormVO) => {
 }
 
 // 删除工作流的表单定义
-export const deleteForm = async (id: number) => {
+export const deleteFormApi = async (id: number) => {
   return await request.delete({
     url: '/bpm/form/delete?id=' + id
   })
 }
 
 // 获得工作流的表单定义
-export const getForm = async (id: number) => {
+export const getFormApi = async (id: number) => {
   return await request.get({
     url: '/bpm/form/get?id=' + id
   })
 }
 
 // 获得工作流的表单定义分页
-export const getFormPage = async (params) => {
+export const getFormPageApi = async (params) => {
   return await request.get({
     url: '/bpm/form/page',
     params
@@ -49,7 +49,7 @@ export const getFormPage = async (params) => {
 }
 
 // 获得动态表单的精简列表
-export const getSimpleFormList = async () => {
+export const getSimpleFormsApi = async () => {
   return await request.get({
     url: '/bpm/form/list-all-simple'
   })

@@ -18,13 +18,18 @@ export interface MenuVO {
   createTime: Date
 }
 
+export interface MenuPageReqVO {
+  name?: string
+  status?: number
+}
+
 // 查询菜单（精简）列表
-export const getSimpleMenusList = () => {
+export const listSimpleMenusApi = () => {
   return request.get({ url: '/system/menu/list-all-simple' })
 }
 
 // 查询菜单列表
-export const getMenuList = (params) => {
+export const getMenuListApi = (params: MenuPageReqVO) => {
   return request.get({ url: '/system/menu/list', params })
 }
 
@@ -34,16 +39,16 @@ export const getMenuApi = (id: number) => {
 }
 
 // 新增菜单
-export const createMenu = (data: MenuVO) => {
+export const createMenuApi = (data: MenuVO) => {
   return request.post({ url: '/system/menu/create', data })
 }
 
 // 修改菜单
-export const updateMenu = (data: MenuVO) => {
+export const updateMenuApi = (data: MenuVO) => {
   return request.put({ url: '/system/menu/update', data })
 }
 
 // 删除菜单
-export const deleteMenu = (id: number) => {
+export const deleteMenuApi = (id: number) => {
   return request.delete({ url: '/system/menu/delete?id=' + id })
 }

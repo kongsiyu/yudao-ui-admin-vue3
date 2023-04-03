@@ -1,49 +1,36 @@
 import request from '@/config/axios'
-
-export type DictDataVO = {
-  id: number | undefined
-  sort: number | undefined
-  label: string
-  value: string
-  dictType: string
-  status: number
-  colorType: string
-  cssClass: string
-  remark: string
-  createTime: Date
-}
+import type { DictDataVO, DictDataPageReqVO, DictDataExportReqVO } from './types'
 
 // 查询字典数据（精简)列表
-export const listSimpleDictData = () => {
+export const listSimpleDictDataApi = () => {
   return request.get({ url: '/system/dict-data/list-all-simple' })
 }
 
 // 查询字典数据列表
-export const getDictDataPage = (params: PageParam) => {
+export const getDictDataPageApi = (params: DictDataPageReqVO) => {
   return request.get({ url: '/system/dict-data/page', params })
 }
 
 // 查询字典数据详情
-export const getDictData = (id: number) => {
+export const getDictDataApi = (id: number) => {
   return request.get({ url: '/system/dict-data/get?id=' + id })
 }
 
 // 新增字典数据
-export const createDictData = (data: DictDataVO) => {
+export const createDictDataApi = (data: DictDataVO) => {
   return request.post({ url: '/system/dict-data/create', data })
 }
 
 // 修改字典数据
-export const updateDictData = (data: DictDataVO) => {
+export const updateDictDataApi = (data: DictDataVO) => {
   return request.put({ url: '/system/dict-data/update', data })
 }
 
 // 删除字典数据
-export const deleteDictData = (id: number) => {
+export const deleteDictDataApi = (id: number) => {
   return request.delete({ url: '/system/dict-data/delete?id=' + id })
 }
-
 // 导出字典类型数据
-export const exportDictDataApi = (params) => {
+export const exportDictDataApi = (params: DictDataExportReqVO) => {
   return request.get({ url: '/system/dict-data/export', params })
 }

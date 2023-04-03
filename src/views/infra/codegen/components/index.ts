@@ -1,4 +1,5 @@
 import BasicInfoForm from './BasicInfoForm.vue'
-import ColumInfoForm from './ColumInfoForm.vue'
-import GenerateInfoForm from './GenerateInfoForm.vue'
-export { BasicInfoForm, ColumInfoForm, GenerateInfoForm }
+import CloumInfoForm from './CloumInfoForm.vue'
+import ImportTable from './ImportTable.vue'
+import Preview from './Preview.vue'
+export { BasicInfoForm, CloumInfoForm, ImportTable, Preview }

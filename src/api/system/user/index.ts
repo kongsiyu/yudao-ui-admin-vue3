@@ -17,43 +17,58 @@ export interface UserVO {
   createTime: Date
 }
 
+export interface UserPageReqVO extends PageParam {
+  deptId?: number
+  username?: string
+  mobile?: string
+  status?: number
+  createTime?: Date[]
+}
+
+export interface UserExportReqVO {
+  code?: string
+  name?: string
+  status?: number
+  createTime?: Date[]
+}
+
 // 查询用户管理列表
-export const getUserPage = (params: PageParam) => {
+export const getUserPageApi = (params: UserPageReqVO) => {
   return request.get({ url: '/system/user/page', params })
 }
 
 // 查询用户详情
-export const getUser = (id: number) => {
+export const getUserApi = (id: number) => {
   return request.get({ url: '/system/user/get?id=' + id })
 }
 
 // 新增用户
-export const createUser = (data: UserVO) => {
+export const createUserApi = (data: UserVO) => {
   return request.post({ url: '/system/user/create', data })
 }
 
 // 修改用户
-export const updateUser = (data: UserVO) => {
+export const updateUserApi = (data: UserVO) => {
   return request.put({ url: '/system/user/update', data })
 }
 
 // 删除用户
-export const deleteUser = (id: number) => {
+export const deleteUserApi = (id: number) => {
   return request.delete({ url: '/system/user/delete?id=' + id })
 }
 
 // 导出用户
-export const exportUser = (params) => {
+export const exportUserApi = (params: UserExportReqVO) => {
   return request.download({ url: '/system/user/export', params })
 }
 
 // 下载用户导入模板
-export const importUserTemplate = () => {
+export const importUserTemplateApi = () => {
   return request.download({ url: '/system/user/get-import-template' })
 }
 
 // 用户密码重置
-export const resetUserPwd = (id: number, password: string) => {
+export const resetUserPwdApi = (id: number, password: string) => {
   const data = {
     id,
     password
@@ -62,7 +77,7 @@ export const resetUserPwd = (id: number, password: string) => {
 }
 
 // 用户状态修改
-export const updateUserStatus = (id: number, status: number) => {
+export const updateUserStatusApi = (id: number, status: number) => {
   const data = {
     id,
     status
@@ -71,6 +86,6 @@ export const updateUserStatus = (id: number, status: number) => {
 }
 
 // 获取用户精简信息列表
-export const getSimpleUserList = (): Promise<UserVO[]> => {
+export const getListSimpleUsersApi = () => {
   return request.get({ url: '/system/user/list-all-simple' })
 }

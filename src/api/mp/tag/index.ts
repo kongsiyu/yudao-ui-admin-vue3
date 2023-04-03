@@ -1,14 +1,7 @@
 import request from '@/config/axios'
 
-export interface TagVO {
-  id?: number
-  name: string
-  accountId: number
-  createTime: Date
-}
-
 // 创建公众号标签
-export const createTag = (data: TagVO) => {
+export const createTag = (data) => {
   return request.post({
     url: '/mp/tag/create',
     data: data
@@ -16,7 +9,7 @@ export const createTag = (data: TagVO) => {
 }
 
 // 更新公众号标签
-export const updateTag = (data: TagVO) => {
+export const updateTag = (data) => {
   return request.put({
     url: '/mp/tag/update',
     data: data
@@ -24,21 +17,21 @@ export const updateTag = (data: TagVO) => {
 }
 
 // 删除公众号标签
-export const deleteTag = (id: number) => {
+export const deleteTag = (id) => {
   return request.delete({
     url: '/mp/tag/delete?id=' + id
   })
 }
 
 // 获得公众号标签
-export const getTag = (id: number) => {
+export const getTag = (id) => {
   return request.get({
     url: '/mp/tag/get?id=' + id
   })
 }
 
 // 获得公众号标签分页
-export const getTagPage = (query: PageParam) => {
+export const getTagPage = (query) => {
   return request.get({
     url: '/mp/tag/page',
     params: query
@@ -46,14 +39,14 @@ export const getTagPage = (query: PageParam) => {
 }
 
 // 获取公众号标签精简信息列表
-export const getSimpleTagList = () => {
+export const getSimpleTags = () => {
   return request.get({
     url: '/mp/tag/list-all-simple'
   })
 }
 
 // 同步公众号标签
-export const syncTag = (accountId: number) => {
+export const syncTag = (accountId) => {
   return request.post({
     url: '/mp/tag/sync?accountId=' + accountId
   })
