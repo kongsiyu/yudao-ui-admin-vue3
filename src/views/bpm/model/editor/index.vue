@@ -62,10 +62,10 @@ const save = async (bpmnXml) => {
   } as unknown as ModelApi.ModelVO
   // 提交
   if (data.id) {
-    await ModelApi.updateModel(data)
+    await ModelApi.updateModelApi(data)
     message.success('修改成功')
   } else {
-    await ModelApi.createModel(data)
+    await ModelApi.createModelApi(data)
     message.success('新增成功')
   }
   // 跳转回去
@@ -85,7 +85,7 @@ onMounted(async () => {
     return
   }
   // 查询模型
-  const data = await ModelApi.getModel(modelId)
+  const data = await ModelApi.getModelApi(modelId)
   xmlString.value = data.bpmnXml
   model.value = {
     ...data,

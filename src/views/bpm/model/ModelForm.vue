@@ -162,13 +162,13 @@ const open = async (type: string, id?: number) => {
   if (id) {
     formLoading.value = true
     try {
-      formData.value = await ModelApi.getModel(id)
+      formData.value = await ModelApi.getModelApi(id)
     } finally {
       formLoading.value = false
     }
   }
   // 获得流程表单的下拉框的数据
-  formList.value = await FormApi.getSimpleFormList()
+  formList.value = await FormApi.getSimpleFormsApi()
 }
 defineExpose({ open }) // 提供 open 方法，用于打开弹窗
 
@@ -184,7 +184,7 @@ const submitForm = async () => {
   try {
     const data = formData.value as unknown as ModelApi.ModelVO
     if (formType.value === 'create') {
-      await ModelApi.createModel(data)
+      await ModelApi.createModelApi(data)
       // 提示，引导用户做后续的操作
       await ElMessageBox.alert(
         '<strong>新建模型成功！</strong>后续需要执行如下 4 个步骤：' +
@@ -200,7 +200,7 @@ const submitForm = async () => {
         }
       )
     } else {
-      await ModelApi.updateModel(data)
+      await ModelApi.updateModelApi(data)
       message.success(t('common.updateSuccess'))
     }
     modelVisible.value = false

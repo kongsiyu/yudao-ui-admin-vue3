@@ -79,10 +79,10 @@ const submitForm = async () => {
     data.conf = encodeConf(designer) // 表单配置
     data.fields = encodeFields(designer) // 表单字段
     if (!data.id) {
-      await FormApi.createForm(data)
+      await FormApi.createFormApi(data)
       message.success(t('common.createSuccess'))
     } else {
-      await FormApi.updateForm(data)
+      await FormApi.updateFormApi(data)
       message.success(t('common.updateSuccess'))
     }
     modelVisible.value = false
@@ -99,7 +99,7 @@ onMounted(async () => {
     return
   }
   // 场景二：修改表单
-  const data = await FormApi.getForm(id)
+  const data = await FormApi.getFormApi(id)
   formData.value = data
   setConfAndFields(designer, data.conf, data.fields)
 })
