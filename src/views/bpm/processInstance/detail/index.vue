@@ -46,7 +46,7 @@
             <Icon icon="ep:position" /> 委派
           </el-button>
           <el-button type="warning" @click="handleBack(item)">
-            <Icon icon="ep:back" /> 回退
+            <Icon icon="ep:back" /> 退回
           </el-button>
         </div>
       </el-col>
