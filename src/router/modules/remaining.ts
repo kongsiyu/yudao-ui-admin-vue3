@@ -225,26 +225,26 @@ const remainingRouter: AppRouteRecordRaw[] = [
     children: [
       {
         path: '/manager/form/edit',
-        component: () => import('@/views/bpm/form/editor/index.vue'),
+        component: () => import('@/views/bpm/form/formEditor.vue'),
         name: 'bpmFormEditor',
         meta: {
           noCache: true,
           hidden: true,
           canTo: true,
           title: '设计流程表单',
-          activeMenu: '/bpm/manager/form'
+          activeMenu: '/bpm/manager/formEditor'
         }
       },
       {
         path: '/manager/model/edit',
-        component: () => import('@/views/bpm/model/editor/index.vue'),
+        component: () => import('@/views/bpm/model/modelEditor.vue'),
         name: 'modelEditor',
         meta: {
           noCache: true,
           hidden: true,
           canTo: true,
           title: '设计流程',
-          activeMenu: '/bpm/manager/model'
+          activeMenu: '/bpm/manager/design'
         }
       },
       {
@@ -256,7 +256,7 @@ const remainingRouter: AppRouteRecordRaw[] = [
           hidden: true,
           canTo: true,
           title: '流程定义',
-          activeMenu: '/bpm/manager/model'
+          activeMenu: '/bpm/definition/index'
         }
       },
       {
@@ -272,7 +272,7 @@ const remainingRouter: AppRouteRecordRaw[] = [
       },
       {
         path: '/process-instance/create',
-        component: () => import('@/views/bpm/processInstance/create/index.vue'),
+        component: () => import('@/views/bpm/processInstance/create.vue'),
         name: 'BpmProcessInstanceCreate',
         meta: {
           noCache: true,
@@ -284,7 +284,7 @@ const remainingRouter: AppRouteRecordRaw[] = [
       },
       {
         path: '/process-instance/detail',
-        component: () => import('@/views/bpm/processInstance/detail/index.vue'),
+        component: () => import('@/views/bpm/processInstance/detail.vue'),
         name: 'BpmProcessInstanceDetail',
         meta: {
           noCache: true,
