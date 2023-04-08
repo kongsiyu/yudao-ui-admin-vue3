@@ -92,7 +92,7 @@
         >
           <template #default="scope">
             <el-button type="text" @click="selectMaterialFun(scope.row)"
-              >选择<Icon icon="ep:circle-plus" />
+              >选择<Icon icon="akar-icons:circle-plus" />
             </el-button>
           </template>
         </el-table-column>
