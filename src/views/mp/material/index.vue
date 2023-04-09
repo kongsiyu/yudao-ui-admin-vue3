@@ -240,7 +240,6 @@
 import WxVoicePlayer from '@/views/mp/components/wx-voice-play/main.vue'
 import WxVideoPlayer from '@/views/mp/components/wx-video-play/main.vue'
 import WxAccountSelect from '@/views/mp/components/wx-account-select/main.vue'
-// import * as MpAccountApi from '@/api/mp/account'
 import * as MpMaterialApi from '@/api/mp/material'
 import * as authUtil from '@/utils/auth'
 import { dateFormatter } from '@/utils/formatTime'
@@ -251,7 +250,6 @@ const BASE_URL = import.meta.env.VITE_BASE_URL
 const actionUrl = BASE_URL + '/admin-api/mp/material/upload-permanent'
 const headers = { Authorization: 'Bearer ' + authUtil.getAccessToken() }
 
-// const queryFormRef = ref()
 const uploadFormRef = ref()
 const uploadVideoRef = ref()
 
