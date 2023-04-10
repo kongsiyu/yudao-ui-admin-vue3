@@ -105,7 +105,7 @@ const toggleClick = () => {
           <ElDescriptionsItem
             v-for="item in schema"
             :key="item.field"
-            min-width="80"
+            min-width="100"
             v-bind="getBindItemValue(item)"
           >
             <template #label>
