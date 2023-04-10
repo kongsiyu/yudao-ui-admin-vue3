@@ -13,11 +13,31 @@ const validateMobile = (rule: any, value: any, callback: any) => {
     }
   }
 }
+const validatePassword = (rule: any, value: any, callback: any) => {
+  const reg = /^(?! +$).+/
+  if (value === '') {
+    callback(new Error('请输入用户密码'))
+  } else {
+    if (!reg.test(value)) {
+      callback(new Error('名称不能为空或空字符串'))
+    } else {
+      callback()
+    }
+  }
+}
 // 表单校验
 export const rules = reactive({
   username: [required],
   nickname: [required],
-  password: [required],
+  password: [
+    {
+      min: 4,
+      max: 16,
+      trigger: 'blur',
+      message: '密码长度为 4-16 位'
+    },
+    { validator: validatePassword, trigger: 'blur' }
+  ],
   deptId: [required],
   email: [
     { required: true, message: t('profile.rules.mail'), trigger: 'blur' },
