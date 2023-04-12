@@ -3,12 +3,7 @@
     <!-- 列表 -->
     <XTable @register="registerTable">
       <template #toolbar_buttons>
-        <XButton
-          type="primary"
-          preIcon="ep:upload"
-          title="上传文件"
-          @click="uploadDialogVisible = true"
-        />
+        <XButton type="primary" preIcon="ep:upload" title="上传文件" @click="uploadDialog" />
       </template>
       <template #actionbtns_default="{ row }">
         <XTextButton
@@ -166,7 +161,11 @@ const handleDetail = (row: FileApi.FileVO) => {
   dialogTitle.value = t('action.detail')
   dialogVisible.value = true
 }
-
+// 打开上传对话框
+const uploadDialog = () => {
+  uploadDialogVisible.value = true
+  uploadDisabled.value = false
+}
 // ========== 复制相关 ==========
 const handleCopy = async (text: string) => {
   let url = text
