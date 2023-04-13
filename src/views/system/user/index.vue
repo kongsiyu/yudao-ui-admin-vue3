@@ -45,7 +45,7 @@
             preIcon="ep:upload"
             :title="t('action.import')"
             v-hasPermi="['system:user:import']"
-            @click="importDialogVisible = true"
+            @click="importClick"
           />
           <!-- 操作：导出用户 -->
           <XButton
@@ -470,6 +470,10 @@ const userRole = reactive({
   nickname: '',
   roleIds: []
 })
+const importClick = () => {
+  importDialogVisible.value = true
+  uploadDisabled.value = false
+}
 const handleRole = async (row: UserApi.UserVO) => {
   userRole.id = row.id
   userRole.username = row.username
