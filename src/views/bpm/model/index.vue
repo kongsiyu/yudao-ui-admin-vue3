@@ -305,7 +305,7 @@
 
     <!-- 流程模型图的预览 -->
     <XModal title="流程图" v-model="showBpmnOpen" width="80%" height="90%">
-      <my-process-viewer
+      <MyProcessViewer
         key="designer"
         v-model="bpmnXML"
         :value="bpmnXML"
@@ -319,6 +319,7 @@
 <script setup lang="ts">
 // 全局相关的 import
 import { DICT_TYPE, getDictOptions } from '@/utils/dict'
+import { MyProcessViewer } from '@/components/bpmnProcessDesigner/package'
 import { FormInstance, UploadInstance } from 'element-plus'
 
 // 业务相关的 import

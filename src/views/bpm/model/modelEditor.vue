@@ -2,7 +2,7 @@
   <div class="app-container">
     <!-- 流程设计器，负责绘制流程等 -->
     <!-- <myProcessDesigner -->
-    <my-process-designer
+    <MyProcessDesigner
       :key="`designer-${reloadIndex}`"
       v-if="xmlString !== undefined"
       v-model="xmlString"
@@ -16,7 +16,7 @@
     />
     <!-- 流程属性器，负责编辑每个流程节点的属性 -->
     <!-- <MyProcessPalette -->
-    <my-properties-panel
+    <MyProcessPenal
       :key="`penal-${reloadIndex}`"
       :bpmnModeler="modeler"
       :prefix="controlForm.prefix"
@@ -27,7 +27,8 @@
 </template>
 
 <script setup lang="ts">
-// import { translations } from '@/components/bpmnProcessDesigner/src/translations'
+import { MyProcessDesigner, MyProcessPenal } from '@/components/bpmnProcessDesigner/package'
+  // import { translations } from '@/components/bpmnProcessDesigner/src/translations'
 // 自定义元素选中时的弹出菜单（修改 默认任务 为 用户任务）
 import CustomContentPadProvider from '@/components/bpmnProcessDesigner/package/designer/plugins/content-pad'
 // 自定义左侧菜单（修改 默认任务 为 用户任务）

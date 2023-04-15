@@ -49,7 +49,7 @@
     </XModal>
     <!-- 流程模型图的预览 -->
     <XModal title="流程图" v-model="showBpmnOpen" width="80%" height="90%">
-      <my-process-viewer
+      <MyProcessViewer
         key="designer"
         v-model="bpmnXML"
         :value="bpmnXML"
@@ -66,6 +66,7 @@ import * as DefinitionApi from '@/api/bpm/definition'
 import { allSchemas } from './definition.data'
 import { setConfAndFields2 } from '@/utils/formCreate'
 import { DICT_TYPE } from '@/utils/dict'
+import { MyProcessViewer } from '@/components/bpmnProcessDesigner/package'
 
 const bpmnXML = ref(null)
 const showBpmnOpen = ref(false)
