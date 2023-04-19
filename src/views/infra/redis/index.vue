@@ -266,6 +266,7 @@ const handleKeyValue = async (row) => {
   cacheForm.value = res
 }
 onBeforeMount(() => {
+  // TODO @hiiwbs 微信，优化使用 Echart 组件
   readRedisInfo()
 })
 </script>
