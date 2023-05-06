@@ -216,6 +216,7 @@ export const PayRefundStatusEnum = {
     name: '退款关闭'
   }
 }
+
 /**
  * 商品SPU枚举类
  */
