@@ -27,15 +27,18 @@ const goMyList = () => {
     name: 'MyNotifyMessage'
   })
 }
-
+let timer: any = 0
 // ========== 初始化 =========
 onMounted(() => {
   // 首次加载小红点
   getUnreadCount()
   // 轮询刷新小红点
-  setInterval(() => {
+  timer = setInterval(() => {
     getUnreadCount()
   }, 1000 * 60 * 2)
+})
+onUnmounted(() => {
+  clearInterval(timer)
 })
 </script>
 <template>
