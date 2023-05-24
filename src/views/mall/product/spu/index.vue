@@ -8,7 +8,7 @@
       class="-mb-15px"
       label-width="68px"
     >
-      <!-- TODO @puhui999：https://admin.java.crmeb.net/store/index，参考，使用分类 + 标题搜索 fix-->
+      <!-- TODO @puhui999：品牌应该是数据下拉哈 -->
       <el-form-item label="品牌名称" prop="name">
         <el-input
           v-model="queryParams.name"
@@ -19,6 +19,7 @@
         />
       </el-form-item>
       <!--  TODO 分类只能选择二级分类目前还没做，还是先以联调通顺为主 -->
+      <!-- TODO puhui999：我们要不改成支持选择一级。如果选择一级，后端要递归查询下子分类，然后去 in？ -->
       <el-form-item label="商品分类" prop="categoryId">
         <el-tree-select
           v-model="queryParams.categoryId"
@@ -50,21 +51,11 @@
           <Icon class="mr-5px" icon="ep:refresh" />
           重置
         </el-button>
-        <el-button v-hasPermi="['product:spu:create']" plain type="primary" @click="openForm">
+        <el-button v-hasPermi="['product:brand:create']" plain type="primary" @click="openForm">
           <Icon class="mr-5px" icon="ep:plus" />
           新增
         </el-button>
         <!-- TODO @puhui999：增加一个【导出】操作 -->
-        <el-button
-          v-hasPermi="['product:spu:export']"
-          :loading="exportLoading"
-          plain
-          type="success"
-          @click="handleExport"
-        >
-          <Icon class="mr-5px" icon="ep:download" />
-          导出
-        </el-button>
       </el-form-item>
     </el-form>
   </ContentWrap>
@@ -80,7 +71,12 @@
       />
     </el-tabs>
     <el-table v-loading="loading" :data="list">
-      <!--   TODO 折叠数据按需增加暂定以下三个   -->
+      <!-- TODO puhui：这几个属性哈，一行三个
+      商品分类：服装鞋包/箱包
+商品市场价格：100.00
+成本价：0.00
+收藏：5
+虚拟销量：999   -->
       <el-table-column type="expand" width="30">
         <template #default="{ row }">
           <el-form class="demo-table-expand" inline label-position="left">
@@ -96,19 +92,13 @@
           </el-form>
         </template>
       </el-table-column>
-      <!-- TODO puhui999: ID 编号的展示 fix-->
       <el-table-column key="id" align="center" label="商品编号" prop="id" />
       <el-table-column label="商品图" min-width="80">
         <template #default="{ row }">
-          <el-image
-            :src="row.picUrl"
-            style="width: 30px; height: 30px"
-            @click="imagePreview(row.picUrl)"
-          />
+          <el-image :src="row.picUrl" @click="imagePreview(row.picUrl)" class="w-30px h-30px" />
         </template>
       </el-table-column>
       <el-table-column :show-overflow-tooltip="true" label="商品名称" min-width="300" prop="name" />
-      <!-- TODO 价格 / 100.0 -->
       <el-table-column align="center" label="商品售价" min-width="90" prop="price">
         <template #default="{ row }">
           {{ formatToFraction(row.price) }}
@@ -126,7 +116,6 @@
       />
       <el-table-column align="center" label="状态" min-width="80">
         <template #default="{ row }">
-          <!-- fix: 修复打开回收站时商品误触改变商品状态的事件，因为el-switch只用0和1没有-1所以当商品状态为-1时状态使用el-tag显示  -->
           <template v-if="row.status >= 0">
             <el-switch
               v-model="row.status"
@@ -206,17 +195,15 @@ import { createImageViewer } from '@/components/ImageViewer'
 import { dateFormatter } from '@/utils/formatTime'
 import { defaultProps, handleTree } from '@/utils/tree'
 import { ProductSpuStatusEnum } from '@/utils/constants'
-import { formatToFraction } from '@/utils'
-import download from '@/utils/download'
 import * as ProductSpuApi from '@/api/mall/product/spu'
 import * as ProductCategoryApi from '@/api/mall/product/category'
+import { formatToFraction } from '@/utils'
 
 const message = useMessage() // 消息弹窗
 const { t } = useI18n() // 国际化
 const { currentRoute, push } = useRouter() // 路由跳转
 
 const loading = ref(false) // 列表的加载中
-const exportLoading = ref(false) // 导出的加载中
 const total = ref(0) // 列表的总页数
 const list = ref<any[]>([]) // 列表的数据
 // tabs 数据
@@ -250,7 +237,6 @@ const tabsData = ref([
 
 /** 获得每个 Tab 的数量 */
 const getTabsCount = async () => {
-  // TODO @puhui999：这里是不是可以不要 try catch 哈 fix
   const res = await ProductSpuApi.getTabsCount()
   for (let objName in res) {
     tabsData.value[Number(objName)].count = res[objName]
@@ -263,7 +249,6 @@ const queryParams = ref({
 }) // 查询参数
 const queryFormRef = ref() // 搜索的表单Ref
 
-// TODO @puhui999：可以改成 handleTabClick：更准确一点；fix
 const handleTabClick = (tab: TabsPaneContext) => {
   queryParams.value.tabType = tab.paneName
   getList()
@@ -281,7 +266,6 @@ const getList = async () => {
   }
 }
 
-// TODO @puhui999：是不是 changeStatus 和 addToTrash 调用一个统一的方法，去更新状态。这样逻辑会更干净一些。fix
 /**
  * 更改 SPU 状态
  *
@@ -289,7 +273,6 @@ const getList = async () => {
  * @param status 更改前的值
  */
 const changeStatus = async (row, status?: number) => {
-  // fix: 将加入回收站功能合并到changeStatus并优化
   const deepCopyValue = cloneDeep(unref(row))
   if (typeof status !== 'undefined') deepCopyValue.status = status
   try {
@@ -305,7 +288,6 @@ const changeStatus = async (row, status?: number) => {
         text = `加入${ProductSpuStatusEnum.RECYCLE.name}`
         break
     }
-    // fix: 修复恢复到仓库的信息提示
     await message.confirm(
       deepCopyValue.status === -1
         ? `确认要将[${row.name}]${text}吗？`
@@ -343,12 +325,8 @@ const handleDelete = async (id: number) => {
   } catch {}
 }
 
-/**
- * 商品图预览
- * @param imgUrl
- */
+/** 商品图预览 */
 const imagePreview = (imgUrl: string) => {
-  // fix: 改用https://kailong110120130.gitee.io/vue-element-plus-admin-doc/components/image-viewer.html 预览图片
   createImageViewer({
     urlList: [imgUrl]
   })
@@ -379,6 +357,7 @@ const openForm = (id?: number) => {
   // 新增
   push('/product/productSpuAdd')
 }
+
 /**
  * 查看商品详情
  */
@@ -386,28 +365,14 @@ const openDetail = () => {
   message.alert('查看详情未完善！！！')
 }
 
-/** 导出按钮操作 */
-const handleExport = async () => {
-  try {
-    // 导出的二次确认
-    await message.exportConfirm()
-    // 发起导出
-    exportLoading.value = true
-    const data = await ProductSpuApi.exportSpu(queryParams)
-    download.excel(data, '商品spu.xls')
-  } catch {
-  } finally {
-    exportLoading.value = false
-  }
-}
-
-// 监听路由变化更新列表 TODO @puhui999：这个是必须加的么？fix: 因为编辑表单是以路由的方式打开，保存表单后列表不会刷新
+// 监听路由变化更新列表，解决商品保存后，列表不刷新的问题。
 watch(
   () => currentRoute.value,
   () => {
     getList()
   }
 )
+
 const categoryList = ref() // 分类树
 /** 初始化 **/
 onMounted(async () => {
