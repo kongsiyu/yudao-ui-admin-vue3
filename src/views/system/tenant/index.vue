@@ -128,7 +128,11 @@ const handleCreate = async () => {
   setDialogTile('create')
   await nextTick()
   console.log(allSchemas.formSchema, 'allSchemas.formSchema')
-  if (allSchemas.formSchema[4].field !== 'username') {
+  let haveUser = allSchemas.formSchema.filter((res) => {
+    return res.field == 'username'
+  })
+  if (haveUser.length == 0) {
+    // if (allSchemas.formSchema[4].field !== 'username') {
     unref(formRef)?.addSchema(
       {
         field: 'username',
