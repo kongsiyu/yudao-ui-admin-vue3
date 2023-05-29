@@ -14,6 +14,12 @@ const getTenantPackageOptions = async () => {
       label: tenantPackage.name
     })
   })
+  tenantPackageOption.push({
+    key: 0,
+    value: 0,
+    label: '系统租户',
+    disabled: true
+  })
 
   return tenantPackageOption
 }
