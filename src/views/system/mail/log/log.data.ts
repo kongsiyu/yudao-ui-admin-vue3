@@ -89,12 +89,12 @@ const crudSchemas = reactive<VxeCrudSchema>({
     {
       title: '模板编号',
       field: 'templateId',
-      isSearch: true
+      isTable: false
     },
     {
       title: '模板编码',
       field: 'templateCode',
-      isTable: false
+      isSearch: true
     },
     {
       title: '模版发送人名称',
