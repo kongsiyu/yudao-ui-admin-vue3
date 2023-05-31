@@ -54,8 +54,8 @@
       :on-exceed="handleExceed"
       :on-success="handleFileSuccess"
       :on-error="excelUploadError"
-      :on-change="handleFileChange"
       :before-remove="beforeRemove"
+      :on-change="handleFileChange"
       :auto-upload="false"
       accept=".jpg, .png, .gif"
     >
@@ -168,6 +168,15 @@ const uploadDialog = () => {
 }
 // ========== 复制相关 ==========
 const handleCopy = async (text: string) => {
+  // const { copy, copied, isSupported } = useClipboard({ source: text, read: true })
+  // if (!isSupported.value) {
+  //   message.error(t('common.copyError'))
+  // } else {
+  //   await copy()
+  //   if (unref(copied.value)) {
+  //     message.success(t('common.copySuccess'))
+  //   }
+  // }
   let url = text
   let oInput = document.createElement('textarea')
   oInput.value = url
@@ -177,17 +186,5 @@ const handleCopy = async (text: string) => {
   document.execCommand('Copy') // 执行浏览器复制命令
   message.success(t('common.copySuccess'))
   oInput.remove()
-  // const { copy, copied, isSupported } = useClipboard({ source: text, read: true })
-  // console.log(copy, 'copycopycopy')
-  // console.log(copied, 'copiedcopiedcopied')
-  // console.log(isSupported, 'isSupportedisSupportedisSupported')
-  // if (!isSupported.value) {
-  //   message.error(t('common.copyError'))
-  // } else {
-  //   await copy()
-  //   if (unref(copied.value)) {
-  //     message.success(t('common.copySuccess'))
-  //   }
-  // }
 }
 </script>

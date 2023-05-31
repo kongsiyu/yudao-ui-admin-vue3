@@ -129,15 +129,6 @@ const handleFiles = (datas: CodegenPreviewVO[]) => {
 }
 /** 复制 **/
 const copy = async (text: string) => {
-  let url = text
-  let oInput = document.createElement('textarea')
-  oInput.value = url
-  document.body.appendChild(oInput)
-  oInput.select() // 选择对象;
-  // console.log(oInput.value)
-  document.execCommand('Copy') // 执行浏览器复制命令
-  message.success('复制成功')
-  oInput.remove()
   // const { copy, copied, isSupported } = useClipboard({ source: text })
   // if (!isSupported.value) {
   //   message.error(t('common.copyError'))
@@ -147,6 +138,15 @@ const copy = async (text: string) => {
   //     message.success(t('common.copySuccess'))
   //   }
   // }
+  let url = text
+  let oInput = document.createElement('textarea')
+  oInput.value = url
+  document.body.appendChild(oInput)
+  oInput.select() // 选择对象;
+  // console.log(oInput.value)
+  document.execCommand('Copy') // 执行浏览器复制命令
+  message.success(t('common.copySuccess'))
+  oInput.remove()
 }
 defineExpose({
   show
