@@ -1,6 +1,5 @@
 import type { VxeCrudSchema } from '@/hooks/web/useVxeCrudSchemas'
 // 国际化
-
 const { t } = useI18n()
 // CrudSchema
 const crudSchemas = reactive<VxeCrudSchema>({
@@ -12,7 +11,14 @@ const crudSchemas = reactive<VxeCrudSchema>({
     {
       title: '任务编号',
       field: 'jobId',
-      isSearch: true
+      search: {
+        show: true,
+        itemRender: {
+          name: 'input',
+          defaultValue: ''
+        }
+      },
+      isForm: true
     },
     {
       title: '处理器的名字',

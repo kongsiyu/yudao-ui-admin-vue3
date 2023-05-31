@@ -49,16 +49,29 @@
 </template>
 <script setup lang="ts" name="JobLog">
 import dayjs from 'dayjs'
+
 import * as JobLogApi from '@/api/infra/jobLog'
 import { allSchemas } from './jobLog.data'
+import { useRoute } from 'vue-router'
 
 const { t } = useI18n() // 国际化
+
+const { query } = useRoute()
+
+let jobId = ''
+jobId = query ? query.id : ''
+if (jobId) {
+  allSchemas.searchSchema[0].itemRender.defaultValue = jobId
+} else {
+  allSchemas.searchSchema[0].itemRender.defaultValue = ''
+}
 // 列表相关的变量
 const [registerTable, { exportList }] = useXTable({
   allSchemas: allSchemas,
   getListApi: JobLogApi.getJobLogPageApi,
   exportListApi: JobLogApi.exportJobLogApi
 })
+
 // ========== CRUD 相关 ==========
 const dialogVisible = ref(false) // 是否显示弹出层
 const dialogTitle = ref('') // 弹出层标题

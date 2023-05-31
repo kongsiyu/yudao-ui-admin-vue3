@@ -30,7 +30,7 @@
   </XModal>
 </template>
 <script setup lang="ts">
-import { useClipboard } from '@vueuse/core'
+// import { useClipboard } from '@vueuse/core'
 import { handleTree2 } from '@/utils/tree'
 import { previewCodegenApi } from '@/api/infra/codegen'
 import { CodegenTableVO, CodegenPreviewVO } from '@/api/infra/codegen/types'
@@ -129,15 +129,24 @@ const handleFiles = (datas: CodegenPreviewVO[]) => {
 }
 /** 复制 **/
 const copy = async (text: string) => {
-  const { copy, copied, isSupported } = useClipboard({ source: text })
-  if (!isSupported.value) {
-    message.error(t('common.copyError'))
-  } else {
-    await copy()
-    if (unref(copied.value)) {
-      message.success(t('common.copySuccess'))
-    }
-  }
+  let url = text
+  let oInput = document.createElement('textarea')
+  oInput.value = url
+  document.body.appendChild(oInput)
+  oInput.select() // 选择对象;
+  // console.log(oInput.value)
+  document.execCommand('Copy') // 执行浏览器复制命令
+  message.success('复制成功')
+  oInput.remove()
+  // const { copy, copied, isSupported } = useClipboard({ source: text })
+  // if (!isSupported.value) {
+  //   message.error(t('common.copyError'))
+  // } else {
+  //   await copy()
+  //   if (unref(copied.value)) {
+  //     message.success(t('common.copySuccess'))
+  //   }
+  // }
 }
 defineExpose({
   show

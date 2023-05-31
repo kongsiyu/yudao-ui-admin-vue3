@@ -1,7 +1,6 @@
 import type { VxeCrudSchema } from '@/hooks/web/useVxeCrudSchemas'
 const { t } = useI18n() // 国际化
 // 表单校验
-
 export const rules = reactive({
   name: [required],
   handlerName: [required],
