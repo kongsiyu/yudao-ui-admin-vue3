@@ -40,8 +40,6 @@ import App from './App.vue'
 
 import './permission'
 
-import { isDevMode } from '@/utils/env'
-
 import { MyPD } from '@/components/bpmnProcessDesigner/package/index.js'
 import '@/components/bpmnProcessDesigner/package/theme/index.scss'
 import 'bpmn-js/dist/assets/diagram-js.css'
@@ -53,11 +51,6 @@ import hljs from 'highlight.js' //导入代码高亮文件
 import 'highlight.js/styles/github.css' //导入代码高亮样式  新版
 
 import Logger from '@/utils/Logger'
-
-// 本地开发模式 全局引入 element-plus 样式，加快第一次进入速度
-if (isDevMode()) {
-  import('element-plus/dist/index.css')
-}
 
 // 创建实例
 const setupAll = async () => {
