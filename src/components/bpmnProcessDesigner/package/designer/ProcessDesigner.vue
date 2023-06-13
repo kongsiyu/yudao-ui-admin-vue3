@@ -196,11 +196,8 @@
       max-height="600px"
     >
       <!-- append-to-body -->
-      <div v-highlight>
-        <code class="hljs">
-          <!-- 高亮代码块 -->
-          {{ previewResult }}
-        </code>
+      <div>
+        <pre><code class="hljs" v-html="highlightedCode(previewResult)"></code></pre>
       </div>
     </Dialog>
   </div>
@@ -368,9 +365,9 @@ const additionalModules = computed(() => {
   return Modules
 })
 const moddleExtensions = computed(() => {
-  console.log(props.onlyCustomizeModdle, 'props.onlyCustomizeModdle')
-  console.log(props.moddleExtension, 'props.moddleExtension')
-  console.log(props.prefix, 'props.prefix')
+  // console.log(props.onlyCustomizeModdle, 'props.onlyCustomizeModdle')
+  // console.log(props.moddleExtension, 'props.moddleExtension')
+  // console.log(props.prefix, 'props.prefix')
   const Extensions: any = {}
   // 仅使用用户自定义模块
   if (props.onlyCustomizeModdle) {
@@ -433,22 +430,22 @@ const initBpmnModeler = () => {
 
   // bpmnModeler.createDiagram()
 
-  console.log(bpmnModeler, 'bpmnModeler111111')
+  // console.log(bpmnModeler, 'bpmnModeler111111')
   emit('init-finished', bpmnModeler)
   initModelListeners()
 }
 
 const initModelListeners = () => {
   const EventBus = bpmnModeler.get('eventBus')
-  console.log(EventBus, 'EventBus')
+  // console.log(EventBus, 'EventBus')
   // 注册需要的监听事件, 将. 替换为 - , 避免解析异常
   props.events.forEach((event: any) => {
     EventBus.on(event, function (eventObj) {
-      let eventName = event.replace(/\./g, '-')
+      // let eventName = event.replace(/\./g, '-')
       // eventName.name = eventName
       let element = eventObj ? eventObj.element : null
-      console.log(eventName, 'eventName')
-      console.log(element, 'element')
+      // console.log(eventName, 'eventName')
+      // console.log(element, 'element')
       emit('element-click', element, eventObj)
       // emit(eventName, element, eventObj)
     })
@@ -475,7 +472,7 @@ const initModelListeners = () => {
 }
 /* 创建新的流程图 */
 const createNewDiagram = async (xml) => {
-  console.log(xml, 'xml')
+  // console.log(xml, 'xml')
   // 将字符串转换成图显示出来
   let newId = props.processId || `Process_${new Date().getTime()}`
   let newName = props.processName || `业务流程_${new Date().getTime()}`
@@ -484,7 +481,7 @@ const createNewDiagram = async (xml) => {
     // console.log(xmlString, 'xmlString')
     // console.log(this.bpmnModeler.importXML);
     let { warnings } = await bpmnModeler.importXML(xmlString)
-    console.log(warnings, 'warnings')
+    // console.log(warnings, 'warnings')
     if (warnings && warnings.length) {
       warnings.forEach((warn) => console.warn(warn))
     }
@@ -564,7 +561,7 @@ const downloadProcessAsSvg = () => {
 }
 const processSimulation = () => {
   simulationStatus.value = !simulationStatus.value
-  console.log(bpmnModeler.get('toggleMode', 'strict'), "bpmnModeler.get('toggleMode')")
+  // console.log(bpmnModeler.get('toggleMode', 'strict'), "bpmnModeler.get('toggleMode')")
   props.simulation && bpmnModeler.get('toggleMode', 'strict').toggleMode()
 }
 const processRedo = () => {
@@ -627,7 +624,7 @@ const elementsAlign = (align) => {
 }
 /*-----------------------------    方法结束     ---------------------------------*/
 const previewProcessXML = () => {
-  console.log(bpmnModeler.saveXML, 'bpmnModeler')
+  // console.log(bpmnModeler.saveXML, 'bpmnModeler')
   bpmnModeler.saveXML({ format: true }).then(({ xml }) => {
     // console.log(xml, 'xml111111')
     previewResult.value = xml
@@ -663,10 +660,10 @@ const previewProcessJson = () => {
 }
 /* ------------------------------------------------ 芋道源码 methods ------------------------------------------------------ */
 const processSave = async () => {
-  console.log(bpmnModeler, 'bpmnModelerbpmnModelerbpmnModelerbpmnModeler')
+  // console.log(bpmnModeler, 'bpmnModelerbpmnModelerbpmnModelerbpmnModeler')
   const { err, xml } = await bpmnModeler.saveXML()
-  console.log(err, 'errerrerrerrerr')
-  console.log(xml, 'xmlxmlxmlxmlxml')
+  // console.log(err, 'errerrerrerrerr')
+  // console.log(xml, 'xmlxmlxmlxmlxml')
   // 读取异常时抛出异常
   if (err) {
     // this.$modal.msgError('保存模型失败，请重试！')
@@ -685,11 +682,36 @@ const processSave = async () => {
 //   return result.value || '&nbsp;'
 // }
 onBeforeMount(() => {
-  console.log(props, 'propspropspropsprops')
+  // console.log(props, 'propspropspropsprops')
 })
-onMounted(() => {
+/**
+ * 代码高亮
+ */
+import hljs from 'highlight.js' // 导入代码高亮文件
+import 'highlight.js/styles/github.css' // 导入代码高亮样式
+import java from 'highlight.js/lib/languages/java'
+import xml from 'highlight.js/lib/languages/java'
+import javascript from 'highlight.js/lib/languages/javascript'
+import sql from 'highlight.js/lib/languages/sql'
+import typescript from 'highlight.js/lib/languages/typescript'
+const highlightedCode = (item) => {
+  const language = item.filePath.substring(item.filePath.lastIndexOf('.') + 1)
+  const result = hljs.highlight(language, item.code || '', true)
+  return result.value || '&nbsp;'
+}
+
+/** 初始化 **/
+onMounted(async () => {
   initBpmnModeler()
   createNewDiagram(props.value)
+  // 注册代码高亮的各种语言
+  hljs.registerLanguage('java', java)
+  hljs.registerLanguage('xml', xml)
+  hljs.registerLanguage('html', xml)
+  hljs.registerLanguage('vue', xml)
+  hljs.registerLanguage('javascript', javascript)
+  hljs.registerLanguage('sql', sql)
+  hljs.registerLanguage('typescript', typescript)
 })
 onBeforeUnmount(() => {
   // this.$once('hook:beforeDestroy', () => {

@@ -66,11 +66,11 @@ const model = ref<ModelVO>()
 onMounted(() => {
   // 如果 modelId 非空，说明是修改流程模型
   const modelId = router.currentRoute.value.query && router.currentRoute.value.query.modelId
-  console.log(modelId, 'modelId')
+  // console.log(modelId, 'modelId')
   if (modelId) {
     // let data = '4b4909d8-97e7-11ec-8e20-862bc1a4a054'
     getModelApi(modelId as unknown as number).then((data) => {
-      console.log(data, 'response')
+      // console.log(data, 'response')
       xmlString.value = data.bpmnXml
       model.value = {
         ...data,
@@ -101,8 +101,8 @@ onMounted(() => {
 const initModeler = (item) => {
   setTimeout(() => {
     modeler.value = item
-    console.log(item, 'initModeler方法modeler')
-    console.log(modeler.value, 'initModeler方法modeler')
+    // console.log(item, 'initModeler方法modeler')
+    // console.log(modeler.value, 'initModeler方法modeler')
     // controlForm.value.prefix = '2222'
   }, 10)
 }
@@ -112,12 +112,12 @@ const save = (bpmnXml) => {
     ...(model.value ?? ({} as ModelVO)),
     bpmnXml: bpmnXml // bpmnXml 只是初始化流程图，后续修改无法通过它获得
   }
-  console.log(data, 'data')
+  // console.log(data, 'data')
 
   // 修改的提交
   if (data.id) {
-    updateModelApi(data).then((response) => {
-      console.log(response, 'response')
+    updateModelApi(data).then(() => {
+      // console.log(response, 'response')
       message.success('修改成功')
       // 跳转回去
       close()
@@ -125,8 +125,8 @@ const save = (bpmnXml) => {
     return
   }
   // 添加的提交
-  createModelApi(data).then((response) => {
-    console.log(response, 'response1')
+  createModelApi(data).then(() => {
+    // console.log(response, 'response1')
     message.success('保存成功')
     // 跳转回去
     close()
