@@ -28,7 +28,7 @@
 
 <script setup lang="ts">
 import { MyProcessDesigner, MyProcessPenal } from '@/components/bpmnProcessDesigner/package'
-  // import { translations } from '@/components/bpmnProcessDesigner/src/translations'
+// import { translations } from '@/components/bpmnProcessDesigner/src/translations'
 // 自定义元素选中时的弹出菜单（修改 默认任务 为 用户任务）
 import CustomContentPadProvider from '@/components/bpmnProcessDesigner/package/designer/plugins/content-pad'
 // 自定义左侧菜单（修改 默认任务 为 用户任务）

@@ -1,4 +1,4 @@
-<script setup lang="ts">
+<script lang="ts" name="Message" setup>
 import { formatDate } from '@/utils/formatTime'
 import * as NotifyMessageApi from '@/api/system/notify/message'
 
@@ -43,10 +43,10 @@ onUnmounted(() => {
 </script>
 <template>
   <div class="message">
-    <ElPopover placement="bottom" :width="400" trigger="click">
+    <ElPopover :width="400" placement="bottom" trigger="click">
       <template #reference>
         <ElBadge :is-dot="unreadCount > 0" class="item">
-          <Icon icon="ep:bell" :size="18" class="cursor-pointer" @click="getList" />
+          <Icon :size="18" class="cursor-pointer" icon="ep:bell" @click="getList" />
         </ElBadge>
       </template>
       <ElTabs v-model="activeName">
@@ -54,7 +54,7 @@ onUnmounted(() => {
           <div class="message-list">
             <template v-for="item in list" :key="item.id">
               <div class="message-item">
-                <img src="@/assets/imgs/avatar.gif" alt="" class="message-icon" />
+                <img alt="" class="message-icon" src="@/assets/imgs/avatar.gif" />
                 <div class="message-content">
                   <span class="message-title">
                     {{ item.templateNickname }}：{{ item.templateContent }}
@@ -70,12 +70,12 @@ onUnmounted(() => {
       </ElTabs>
       <!-- 更多 -->
       <div style="text-align: right; margin-top: 10px">
-        <XButton type="primary" preIcon="ep:view" title="查看全部" @click="goMyList" />
+        <XButton preIcon="ep:view" title="查看全部" type="primary" @click="goMyList" />
       </div>
     </ElPopover>
   </div>
 </template>
-<style scoped lang="scss">
+<style lang="scss" scoped>
 .message-empty {
   display: flex;
   flex-direction: column;
@@ -84,28 +84,35 @@ onUnmounted(() => {
   height: 260px;
   line-height: 45px;
 }
+
 .message-list {
   display: flex;
   flex-direction: column;
+
   .message-item {
     display: flex;
     align-items: center;
     padding: 20px 0;
     border-bottom: 1px solid var(--el-border-color-light);
+
     &:last-child {
       border: none;
     }
+
     .message-icon {
       width: 40px;
       height: 40px;
       margin: 0 20px 0 5px;
     }
+
     .message-content {
       display: flex;
       flex-direction: column;
+
       .message-title {
         margin-bottom: 5px;
       }
+
       .message-date {
         font-size: 12px;
         color: var(--el-text-color-secondary);
