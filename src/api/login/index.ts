@@ -65,7 +65,7 @@ export const socialAuthRedirectApi = (type: number, redirectUri: string) => {
     url: '/system/auth/social-auth-redirect?type=' + type + '&redirectUri=' + redirectUri
   })
 }
-// 获取验证图片  以及token
+// 获取验证图片以及token
 export const getCodeApi = (data) => {
   return request.postOriginal({ url: 'system/captcha/get', data })
 }
