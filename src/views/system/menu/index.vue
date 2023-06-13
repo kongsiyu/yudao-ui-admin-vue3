@@ -11,6 +11,7 @@
           v-hasPermi="['system:menu:create']"
           @click="handleCreate()"
         />
+        <XButton title="刷新菜单缓存" @click="refreshMenu" />
         <XButton title="展开所有" @click="xGrid?.Ref.setAllTreeExpand(true)" />
         <XButton title="关闭所有" @click="xGrid?.Ref.clearTreeExpand()" />
       </template>
@@ -347,5 +348,19 @@ const submitForm = async () => {
 // 判断 path 是不是外部的 HTTP 等链接
 const isExternal = (path: string) => {
   return /^(https?:|mailto:|tel:)/.test(path)
+}
+
+/** 刷新菜单缓存按钮操作 */
+const refreshMenu = () => {
+  ElMessageBox.confirm('即将更新缓存刷新浏览器！', '刷新菜单缓存', {
+    confirmButtonText: t('common.ok'),
+    cancelButtonText: t('common.cancel'),
+    type: 'warning'
+  }).then(() => {
+    // 清空，从而触发刷新
+    wsCache.delete(CACHE_KEY.ROLE_ROUTERS)
+    // 刷新浏览器
+    location.reload()
+  })
 }
 </script>
