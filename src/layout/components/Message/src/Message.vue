@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { parseTime } from '@/utils/formatTime'
+import { formatDate } from '@/utils/formatTime'
 import * as NotifyMessageApi from '@/api/system/notify/message'
 
 const { push } = useRouter()
@@ -60,7 +60,7 @@ onUnmounted(() => {
                     {{ item.templateNickname }}：{{ item.templateContent }}
                   </span>
                   <span class="message-date">
-                    {{ parseTime(item.createTime) }}
+                    {{ formatDate(item.createTime) }}
                   </span>
                 </div>
               </div>
