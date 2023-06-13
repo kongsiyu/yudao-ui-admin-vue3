@@ -9,3 +9,6 @@ pnpm-debug
 
 .idea
 .history
+
+yarn.lock
+*.iml
