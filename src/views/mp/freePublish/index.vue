@@ -1,6 +1,6 @@
 <template>
   <!-- 搜索工作栏 -->
-  <content-wrap>
+  <ContentWrap>
     <el-form
       class="-mb-15px"
       :model="queryParams"
@@ -23,10 +23,10 @@
         <el-button @click="resetQuery"><Icon icon="ep:refresh" class="mr-5px" /> 重置</el-button>
       </el-form-item>
     </el-form>
-  </content-wrap>
+  </ContentWrap>
 
   <!-- 列表 -->
-  <content-wrap>
+  <ContentWrap>
     <div class="waterfall" v-loading="loading">
       <div
         class="waterfall-item"
@@ -54,7 +54,7 @@
       v-model:limit="queryParams.pageSize"
       @pagination="getList"
     />
-  </content-wrap>
+  </ContentWrap>
 </template>
 
 <script setup lang="ts" name="freePublish">

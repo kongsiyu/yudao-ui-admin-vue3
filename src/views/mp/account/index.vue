@@ -1,6 +1,6 @@
 <template>
   <!-- 搜索工作栏 -->
-  <content-wrap>
+  <ContentWrap>
     <el-form
       class="-mb-15px"
       :model="queryParams"
@@ -25,10 +25,10 @@
         </el-button>
       </el-form-item>
     </el-form>
-  </content-wrap>
+  </ContentWrap>
 
   <!-- 列表 -->
-  <content-wrap>
+  <ContentWrap>
     <el-table v-loading="loading" :data="list">
       <el-table-column label="名称" align="center" prop="name" />
       <el-table-column label="微信号" align="center" prop="account" width="180" />
@@ -86,15 +86,14 @@
         </template>
       </el-table-column>
     </el-table>
-    <!-- 分页组件 -->
-    <pagination
-      v-show="total > 0"
+    <!-- 分页 -->
+    <Pagination
       :total="total"
       v-model:page="queryParams.pageNo"
       v-model:limit="queryParams.pageSize"
       @pagination="getList"
     />
-  </content-wrap>
+  </ContentWrap>
 
   <!-- 对话框(添加 / 修改) -->
   <AccountForm ref="formRef" @success="getList" />
