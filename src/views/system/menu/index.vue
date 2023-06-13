@@ -350,17 +350,15 @@ const isExternal = (path: string) => {
   return /^(https?:|mailto:|tel:)/.test(path)
 }
 
+
 /** 刷新菜单缓存按钮操作 */
-const refreshMenu = () => {
-  ElMessageBox.confirm('即将更新缓存刷新浏览器！', '刷新菜单缓存', {
-    confirmButtonText: t('common.ok'),
-    cancelButtonText: t('common.cancel'),
-    type: 'warning'
-  }).then(() => {
+const refreshMenu = async () => {
+  try {
+    await message.confirm('即将更新缓存刷新浏览器！', '刷新菜单缓存')
     // 清空，从而触发刷新
     wsCache.delete(CACHE_KEY.ROLE_ROUTERS)
     // 刷新浏览器
     location.reload()
-  })
+  } catch {}
 }
 </script>
