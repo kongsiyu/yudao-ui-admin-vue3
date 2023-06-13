@@ -1,6 +1,4 @@
 <template>
-  <doc-alert title="Redis 缓存" url="https://doc.iocoder.cn/redis-cache/" />
-  <doc-alert title="本地缓存" url="https://doc.iocoder.cn/local-cache/" />
   <el-scrollbar height="calc(100vh - 88px - 40px - 50px)">
     <el-row>
       <!-- 基本信息 -->
@@ -69,7 +67,7 @@ const cache = ref<RedisMonitorInfoVO>()
 
 // 基本信息
 const readRedisInfo = async () => {
-  const data = await RedisApi.getCache()
+  const data = await RedisApi.getCacheApi()
   cache.value = data
 }
 
@@ -218,7 +216,7 @@ const initCommandStatsChart = async () => {
   usedmemoryEchartChika.series[0].data = []
   // 发起请求
   try {
-    const data = await RedisApi.getCache()
+    const data = await RedisApi.getCacheApi()
     cache.value = data
     // 处理数据
     const commandStats = [] as any[]
@@ -236,7 +234,7 @@ const initCommandStatsChart = async () => {
 }
 const usedMemoryInstance = async () => {
   try {
-    const data = await RedisApi.getCache()
+    const data = await RedisApi.getCacheApi()
     cache.value = data
     // 仪表盘详情，用于显示数据。
     usedmemoryEchartChika.series[0].detail = {
@@ -251,7 +249,7 @@ const usedMemoryInstance = async () => {
       value: cache.value!.info.used_memory_human,
       name: '内存消耗'
     }
-    console.log(cache.value!.info)
+    // console.log(cache.value!.info)
     usedmemoryEchartChika.tooltip = {
       formatter: '{b} <br/>{a} : ' + cache.value!.info.used_memory_human
     }

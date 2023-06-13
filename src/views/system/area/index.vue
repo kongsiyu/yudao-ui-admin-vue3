@@ -1,6 +1,5 @@
 <template>
   <div class="app-container">
-    <doc-alert title="地区 & IP" url="https://doc.iocoder.cn/area-and-ip/" />
     <!-- 操作工具栏 -->
     <el-row :gutter="10" class="mb8">
       <el-col :span="1.5">
@@ -82,7 +81,7 @@ const message = useMessage() // 消息弹窗
 const getList = async () => {
   loading.value = true
   const response = await areaApi.getAreaTree()
-  list.value = response.data
+  list.value = response
   loading.value = false
 }
 /** 取消按钮 */
@@ -113,7 +112,7 @@ const submitForm = async (formEl: FormInstance | undefined) => {
       console.log('submit!')
       const response = await areaApi.getAreaByIp(form.value.ip)
       message.success('查询成功')
-      form.value.result = response.data
+      form.value.result = response
     } else {
       console.log('error submit!', fields)
     }

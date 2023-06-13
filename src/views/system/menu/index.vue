@@ -350,7 +350,6 @@ const isExternal = (path: string) => {
   return /^(https?:|mailto:|tel:)/.test(path)
 }
 
-
 /** 刷新菜单缓存按钮操作 */
 const refreshMenu = async () => {
   try {
