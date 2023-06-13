@@ -10,7 +10,7 @@
           preIcon="ep:delete"
           :title="t('action.logout')"
           v-hasPermi="['system:oauth2-token:delete']"
-          @click="handleForceLogout(row.id)"
+          @click="handleForceLogout(row.accessToken)"
         />
       </template>
     </XTable>
@@ -49,11 +49,11 @@ const handleDetail = async (row: TokenApi.OAuth2TokenVO) => {
 }
 
 // 强退操作
-const handleForceLogout = (rowId: number) => {
+const handleForceLogout = (accessToken: string) => {
   message
     .confirm('是否要强制退出用户')
     .then(async () => {
-      await TokenApi.deleteAccessTokenApi(rowId)
+      await TokenApi.deleteAccessTokenApi(accessToken)
       message.success(t('common.success'))
     })
     .finally(async () => {
