@@ -88,6 +88,11 @@ export const getOrderApi = async (id: number) => {
   return await request.get({ url: '/pay/order/get?id=' + id })
 }
 
+// 获得支付订单的明细
+export const getOrderDetailApi = async (id: number) => {
+  return await request.get({ url: '/pay/order/get-detail?id=' + id })
+}
+
 // 新增支付订单
 export const createOrderApi = async (data: OrderVO) => {
   return await request.post({ url: '/pay/order/create', data })

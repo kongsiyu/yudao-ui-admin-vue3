@@ -39,9 +39,9 @@ export const getMerchantApi = (id: number) => {
 }
 
 // 根据商户名称搜索商户列表
-export const getMerchantListByNameApi = (name: string) => {
+export const getMerchantListByNameApi = (name?: string) => {
   return request.get({
-    url: '/pay/merchant/list-by-name?id=',
+    url: '/pay/merchant/list-by-name',
     params: {
       name: name
     }
@@ -67,6 +67,7 @@ export const deleteMerchantApi = (id: number) => {
 export const exportMerchantApi = (params: MerchantExportReqVO) => {
   return request.download({ url: '/pay/merchant/export-excel', params })
 }
+
 // 支付商户状态修改
 export const changeMerchantStatusApi = (id: number, status: number) => {
   const data = {
