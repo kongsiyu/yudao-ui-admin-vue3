@@ -1,13 +1,13 @@
 <template>
   <ContentWrap>
     <!-- 表单设计器 -->
-    <fc-designer ref="designer" height="780px">
+    <FcDesigner ref="designer" height="780px">
       <template #handle>
         <XButton type="primary" title="生成JSON" @click="showJson" />
         <XButton type="primary" title="生成Options" @click="showOption" />
         <XButton type="primary" :title="t('action.save')" @click="handleSave" />
       </template>
-    </fc-designer>
+    </FcDesigner>
     <Dialog :title="dialogTitle" v-model="dialogVisible1" maxHeight="600">
       <div ref="editor" v-if="dialogVisible1">
         <XTextButton style="float: right" :title="t('common.copy')" @click="copy(formValue)" />
@@ -61,6 +61,7 @@ import { FormInstance } from 'element-plus'
 import { DICT_TYPE, getIntDictOptions } from '@/utils/dict'
 import { CommonStatusEnum } from '@/utils/constants'
 import * as FormApi from '@/api/bpm/form'
+import FcDesigner from '@form-create/designer'
 import { encodeConf, encodeFields, setConfAndFields } from '@/utils/formCreate'
 // import { useClipboard } from '@vueuse/core'
 

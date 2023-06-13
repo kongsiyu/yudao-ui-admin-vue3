@@ -12,17 +12,15 @@
         </div>
       </el-col>
       <el-col>
-        <fc-designer ref="designer" height="780px" />
+        <FcDesigner ref="designer" height="780px" />
       </el-col>
     </el-row>
     <Dialog :title="dialogTitle" v-model="dialogVisible" maxHeight="600">
       <div ref="editor" v-if="dialogVisible">
         <XTextButton style="float: right" :title="t('common.copy')" @click="copy(formValue)" />
         <el-scrollbar height="580">
-          <div v-highlight>
-            <code class="hljs">
-              {{ formValue }}
-            </code>
+          <div>
+            <pre><code class="hljs" v-html="highlightedCode(formData)"></code></pre>
           </div>
         </el-scrollbar>
       </div>
@@ -31,8 +29,10 @@
   </ContentWrap>
 </template>
 <script setup lang="ts" name="Build">
+import FcDesigner from '@form-create/designer'
 import formCreate from '@form-create/element-ui'
 // import { useClipboard } from '@vueuse/core'
+import { isString } from '@/utils/is'
 
 const { t } = useI18n()
 const message = useMessage()
@@ -96,6 +96,34 @@ const copy = async (text: string) => {
   message.success(t('common.copySuccess'))
   oInput.remove()
 }
+
+/**
+ * 代码高亮
+ */
+import hljs from 'highlight.js' // 导入代码高亮文件
+import 'highlight.js/styles/github.css' // 导入代码高亮样式
+import xml from 'highlight.js/lib/languages/java'
+import json from 'highlight.js/lib/languages/json'
+const highlightedCode = (code) => {
+  // 处理语言和代码
+  let language = 'json'
+  if (formType.value === 2) {
+    language = 'xml'
+  }
+  if (!isString(code)) {
+    code = JSON.stringify(code)
+  }
+  // 高亮
+  const result = hljs.highlight(language, code, true)
+  return result.value || '&nbsp;'
+}
+
+/** 初始化 **/
+onMounted(async () => {
+  // 注册代码高亮的各种语言
+  hljs.registerLanguage('xml', xml)
+  hljs.registerLanguage('json', json)
+})
 
 const makeTemplate = () => {
   const rule = designer.value.getRule()
