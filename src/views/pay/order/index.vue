@@ -1,53 +1,53 @@
+<!--
+ * @Author: 周建 1348660141@qq.com
+ * @Date: 2023-06-14 09:03:29
+ * @LastEditors: 周建 1348660141@qq.com
+ * @LastEditTime: 2023-06-14 14:21:08
+ * @FilePath: \yudao-ui-admin-vue3\src\views\pay\order\index.vue
+ * @Description: 这是默认设置,请设置`customMade`, 打开koroFileHeader查看配置 进行设置: https://github.com/OBKoro1/koro1FileHeader/wiki/%E9%85%8D%E7%BD%AE
+-->
 <template>
   <ContentWrap>
     <!-- 列表 -->
     <XTable @register="registerTable">
       <template #toolbar_buttons>
         <!-- 操作：新增 -->
-        <XButton
-          type="primary"
-          preIcon="ep:zoom-in"
-          :title="t('action.add')"
-          v-hasPermi="['pay:order:create']"
-          @click="handleCreate()"
-        />
+        <XButton type="primary" preIcon="ep:zoom-in" :title="t('action.add')" v-hasPermi="['pay:order:create']"
+          @click="handleCreate()" />
         <!-- 操作：导出 -->
-        <XButton
-          type="warning"
-          preIcon="ep:download"
-          :title="t('action.export')"
-          v-hasPermi="['pay:order:export']"
-          @click="exportList('订单数据.xls')"
-        />
+        <XButton type="warning" preIcon="ep:download" :title="t('action.export')" v-hasPermi="['pay:order:export']"
+          @click="exportList('订单数据.xls')" />
       </template>
       <template #actionbtns_default="{ row }">
         <!-- 操作：详情 -->
-        <XTextButton
-          preIcon="ep:view"
-          :title="t('action.detail')"
-          v-hasPermi="['pay:order:query']"
-          @click="handleDetail(row.id)"
-        />
+        <XTextButton preIcon="ep:view" :title="t('action.detail')" v-hasPermi="['pay:order:query']"
+          @click="handleDetail(row.id)" />
       </template>
     </XTable>
   </ContentWrap>
-  <XModal v-model="dialogVisible" :title="dialogTitle">
+  <XModal v-model="dialogVisible" :title="dialogTitle" :height="['create', 'update'].includes(actionType) ? '99%' : ''">
+    <!-- 对话框(添加 / 修改) -->
+    <Form v-if="['create', 'update'].includes(actionType)" :schema="allSchemas.formSchema" :rules="rules" ref="formRef" />
     <!-- 对话框(详情) -->
-    <Descriptions :schema="allSchemas.detailSchema" :data="detailData" />
+    <Descriptions v-if="actionType === 'detail'" :schema="allSchemas.detailSchema" :data="detailData" />
     <!-- 操作按钮 -->
     <template #footer>
+      <!-- 按钮：保存 -->
+      <XButton v-if="['create', 'update'].includes(actionType)" type="primary" :title="t('action.save')"
+        :loading="actionLoading" @click="submitForm()" />
       <!-- 按钮：关闭 -->
       <XButton :loading="actionLoading" :title="t('dialog.close')" @click="dialogVisible = false" />
     </template>
   </XModal>
 </template>
 <script setup lang="ts" name="Order">
-import { allSchemas } from './order.data'
+import type { FormExpose } from '@/components/Form'
+import { rules, allSchemas } from './order.data'
 import * as OrderApi from '@/api/pay/order'
 
 const { t } = useI18n() // 国际化
 // 列表相关的变量
-const [registerTable, { exportList }] = useXTable({
+const [registerTable, { reload, exportList }] = useXTable({
   allSchemas: allSchemas,
   getListApi: OrderApi.getOrderPageApi,
   exportListApi: OrderApi.exportOrderApi
@@ -57,7 +57,9 @@ const actionLoading = ref(false) // 遮罩层
 const actionType = ref('') // 操作按钮的类型
 const dialogVisible = ref(false) // 是否显示弹出层
 const dialogTitle = ref('edit') // 弹出层标题
+const formRef = ref<FormExpose>() // 表单 Ref
 const detailData = ref() // 详情 Ref
+const message = useMessage() // 消息弹窗
 // 设置标题
 const setDialogTile = (type: string) => {
   dialogTitle.value = t('action.' + type)
@@ -75,5 +77,30 @@ const handleDetail = async (rowId: number) => {
   setDialogTile('detail')
   const res = await OrderApi.getOrderApi(rowId)
   detailData.value = res
+}
+// 提交新增/修改的表单
+const submitForm = async () => {
+  const elForm = unref(formRef)?.getElFormRef()
+  if (!elForm) return
+  elForm.validate(async (valid) => {
+    if (valid) {
+      actionLoading.value = true
+      // 提交请求
+      try {
+        const data = unref(formRef)?.formModel as OrderApi.OrderVO
+        if (actionType.value === 'create') {
+          await OrderApi.createOrderApi(data)
+          message.success(t('common.createSuccess'))
+        } else {
+          await OrderApi.updateOrderApi(data)
+          message.success(t('common.updateSuccess'))
+        }
+        dialogVisible.value = false
+      } finally {
+        actionLoading.value = false
+        await reload()
+      }
+    }
+  })
 }
 </script>
