@@ -4,67 +4,36 @@
     <XTable @register="registerTable">
       <!-- 操作：新增 -->
       <template #toolbar_buttons>
-        <XButton
-          type="primary"
-          preIcon="ep:zoom-in"
-          :title="t('action.add')"
-          v-hasPermi="['system:notice:create']"
-          @click="handleCreate()"
-        />
+        <XButton type="primary" preIcon="ep:zoom-in" :title="t('action.add')" v-hasPermi="['system:notice:create']"
+          @click="handleCreate()" />
       </template>
       <template #actionbtns_default="{ row }">
         <!-- 操作：修改 -->
-        <XTextButton
-          preIcon="ep:edit"
-          :title="t('action.edit')"
-          v-hasPermi="['system:notice:update']"
-          @click="handleUpdate(row.id)"
-        />
+        <XTextButton preIcon="ep:edit" :title="t('action.edit')" v-hasPermi="['system:notice:update']"
+          @click="handleUpdate(row.id)" />
         <!-- 操作：详情 -->
-        <XTextButton
-          preIcon="ep:view"
-          :title="t('action.detail')"
-          v-hasPermi="['system:notice:query']"
-          @click="handleDetail(row.id)"
-        />
+        <XTextButton preIcon="ep:view" :title="t('action.detail')" v-hasPermi="['system:notice:query']"
+          @click="handleDetail(row.id)" />
         <!-- 操作：删除 -->
-        <XTextButton
-          preIcon="ep:delete"
-          :title="t('action.del')"
-          v-hasPermi="['system:notice:delete']"
-          @click="deleteData(row.id)"
-        />
+        <XTextButton preIcon="ep:delete" :title="t('action.del')" v-hasPermi="['system:notice:delete']"
+          @click="deleteData(row.id)" />
       </template>
     </XTable>
   </ContentWrap>
   <!-- 弹窗 -->
-  <XModal id="noticeModel" v-model="dialogVisible" :title="dialogTitle">
+  <XModal id="noticeModel" v-model="dialogVisible" :title="dialogTitle" height="99%">
     <!-- 对话框(添加 / 修改) -->
-    <Form
-      ref="formRef"
-      v-if="['create', 'update'].includes(actionType)"
-      :schema="allSchemas.formSchema"
-      :rules="rules"
-    />
+    <Form ref="formRef" v-if="['create', 'update'].includes(actionType)" :schema="allSchemas.formSchema" :rules="rules" />
     <!-- 对话框(详情) -->
-    <Descriptions
-      v-if="actionType === 'detail'"
-      :schema="allSchemas.detailSchema"
-      :data="detailData"
-    >
+    <Descriptions v-if="actionType === 'detail'" :schema="allSchemas.detailSchema" :data="detailData">
       <template #content="{ row }">
         <Editor :model-value="row.content" :readonly="true" />
       </template>
     </Descriptions>
     <template #footer>
       <!-- 按钮：保存 -->
-      <XButton
-        v-if="['create', 'update'].includes(actionType)"
-        type="primary"
-        :title="t('action.save')"
-        :loading="actionLoading"
-        @click="submitForm()"
-      />
+      <XButton v-if="['create', 'update'].includes(actionType)" type="primary" :title="t('action.save')"
+        :loading="actionLoading" @click="submitForm()" />
       <!-- 按钮：关闭 -->
       <XButton :loading="actionLoading" :title="t('dialog.close')" @click="dialogVisible = false" />
     </template>

@@ -4,43 +4,22 @@
     <XTable @register="registerTable">
       <template #toolbar_buttons>
         <!-- 操作：新增 -->
-        <XButton
-          type="primary"
-          preIcon="ep:zoom-in"
-          :title="t('action.add')"
-          v-hasPermi="['system:notify-template:create']"
-          @click="handleCreate()"
-        />
+        <XButton type="primary" preIcon="ep:zoom-in" :title="t('action.add')"
+          v-hasPermi="['system:notify-template:create']" @click="handleCreate()" />
       </template>
       <template #actionbtns_default="{ row }">
         <!-- 操作：测试站内信 -->
-        <XTextButton
-          preIcon="ep:cpu"
-          :title="t('action.test')"
-          v-hasPermi="['system:notify-template:send-notify']"
-          @click="handleSendNotify(row)"
-        />
+        <XTextButton preIcon="ep:cpu" :title="t('action.test')" v-hasPermi="['system:notify-template:send-notify']"
+          @click="handleSendNotify(row)" />
         <!-- 操作：修改 -->
-        <XTextButton
-          preIcon="ep:edit"
-          :title="t('action.edit')"
-          v-hasPermi="['system:notify-template:update']"
-          @click="handleUpdate(row.id)"
-        />
+        <XTextButton preIcon="ep:edit" :title="t('action.edit')" v-hasPermi="['system:notify-template:update']"
+          @click="handleUpdate(row.id)" />
         <!-- 操作：详情 -->
-        <XTextButton
-          preIcon="ep:view"
-          :title="t('action.detail')"
-          v-hasPermi="['system:notify-template:query']"
-          @click="handleDetail(row.id)"
-        />
+        <XTextButton preIcon="ep:view" :title="t('action.detail')" v-hasPermi="['system:notify-template:query']"
+          @click="handleDetail(row.id)" />
         <!-- 操作：删除 -->
-        <XTextButton
-          preIcon="ep:delete"
-          :title="t('action.del')"
-          v-hasPermi="['system:notify-template:delete']"
-          @click="deleteData(row.id)"
-        />
+        <XTextButton preIcon="ep:delete" :title="t('action.del')" v-hasPermi="['system:notify-template:delete']"
+          @click="deleteData(row.id)" />
       </template>
     </XTable>
   </ContentWrap>
@@ -48,27 +27,13 @@
   <!-- 添加/修改的弹窗 -->
   <XModal id="templateModel" :loading="modelLoading" v-model="dialogVisible" :title="dialogTitle">
     <!-- 表单：添加/修改 -->
-    <Form
-      ref="formRef"
-      v-if="['create', 'update'].includes(actionType)"
-      :schema="allSchemas.formSchema"
-      :rules="rules"
-    />
+    <Form ref="formRef" v-if="['create', 'update'].includes(actionType)" :schema="allSchemas.formSchema" :rules="rules" />
     <!-- 表单：详情 -->
-    <Descriptions
-      v-if="actionType === 'detail'"
-      :schema="allSchemas.detailSchema"
-      :data="detailData"
-    />
+    <Descriptions v-if="actionType === 'detail'" :schema="allSchemas.detailSchema" :data="detailData" />
     <template #footer>
       <!-- 按钮：保存 -->
-      <XButton
-        v-if="['create', 'update'].includes(actionType)"
-        type="primary"
-        :title="t('action.save')"
-        :loading="actionLoading"
-        @click="submitForm()"
-      />
+      <XButton v-if="['create', 'update'].includes(actionType)" type="primary" :title="t('action.save')"
+        :loading="actionLoading" @click="submitForm()" />
       <!-- 按钮：关闭 -->
       <XButton :loading="actionLoading" :title="t('dialog.close')" @click="dialogVisible = false" />
     </template>
@@ -82,34 +47,17 @@
       </el-form-item>
       <el-form-item label="接收人" prop="userId">
         <el-select v-model="sendForm.userId" placeholder="请选择接收人">
-          <el-option
-            v-for="item in userOption"
-            :key="item.id"
-            :label="item.nickname"
-            :value="item.id"
-          />
+          <el-option v-for="item in userOption" :key="item.id" :label="item.nickname" :value="item.id" />
         </el-select>
       </el-form-item>
-      <el-form-item
-        v-for="param in sendForm.params"
-        :key="param"
-        :label="'参数 {' + param + '}'"
-        :prop="'templateParams.' + param"
-      >
-        <el-input
-          v-model="sendForm.templateParams[param]"
-          :placeholder="'请输入 ' + param + ' 参数'"
-        />
+      <el-form-item v-for="param in sendForm.params" :key="param" :label="'参数 {' + param + '}'"
+        :prop="'templateParams.' + param">
+        <el-input v-model="sendForm.templateParams[param]" :placeholder="'请输入 ' + param + ' 参数'" />
       </el-form-item>
     </el-form>
     <!-- 操作按钮 -->
     <template #footer>
-      <XButton
-        type="primary"
-        :title="t('action.test')"
-        :loading="actionLoading"
-        @click="sendTest()"
-      />
+      <XButton type="primary" :title="t('action.test')" :loading="actionLoading" @click="sendTest()" />
       <XButton :title="t('dialog.close')" @click="sendVisible = false" />
     </template>
   </XModal>
@@ -202,7 +150,7 @@ const submitForm = async () => {
 const sendForm = ref({
   content: '',
   params: {},
-  userId: 0,
+  userId: '',
   templateCode: '',
   templateParams: {}
 })
