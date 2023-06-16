@@ -9,9 +9,17 @@
       </template>
       <el-input v-model="filterText" placeholder="搜索部门" />
       <el-scrollbar height="650">
-        <el-tree ref="treeRef" node-key="id" default-expand-all :data="deptOptions" :props="defaultProps"
-          :highlight-current="true" :filter-node-method="filterNode" :expand-on-click-node="false"
-          @node-click="handleDeptNodeClick" />
+        <el-tree
+          ref="treeRef"
+          node-key="id"
+          default-expand-all
+          :data="deptOptions"
+          :props="defaultProps"
+          :highlight-current="true"
+          :filter-node-method="filterNode"
+          :expand-on-click-node="false"
+          @node-click="handleDeptNodeClick"
+        />
       </el-scrollbar>
     </el-card>
     <el-card class="w-4/5 user" style="margin-left: 10px" :gutter="12" shadow="hover">
@@ -24,47 +32,90 @@
       <XTable @register="registerTable">
         <template #toolbar_buttons>
           <!-- 操作：新增 -->
-          <XButton type="primary" preIcon="ep:zoom-in" :title="t('action.add')" v-hasPermi="['system:user:create']"
-            @click="handleCreate()" />
+          <XButton
+            type="primary"
+            preIcon="ep:zoom-in"
+            :title="t('action.add')"
+            v-hasPermi="['system:user:create']"
+            @click="handleCreate()"
+          />
           <!-- 操作：导入用户 -->
-          <XButton type="warning" preIcon="ep:upload" :title="t('action.import')" v-hasPermi="['system:user:import']"
-            @click="importClick" />
+          <XButton
+            type="warning"
+            preIcon="ep:upload"
+            :title="t('action.import')"
+            v-hasPermi="['system:user:import']"
+            @click="importClick"
+          />
           <!-- 操作：导出用户 -->
-          <XButton type="warning" preIcon="ep:download" :title="t('action.export')" v-hasPermi="['system:user:export']"
-            @click="exportList('用户数据.xls')" />
+          <XButton
+            type="warning"
+            preIcon="ep:download"
+            :title="t('action.export')"
+            v-hasPermi="['system:user:export']"
+            @click="exportList('用户数据.xls')"
+          />
         </template>
         <template #status_default="{ row }">
-          <el-switch v-model="row.status" :active-value="0" :inactive-value="1" @change="handleStatusChange(row)" />
+          <el-switch
+            v-model="row.status"
+            :active-value="0"
+            :inactive-value="1"
+            @change="handleStatusChange(row)"
+          />
         </template>
         <template #actionbtns_default="{ row }">
           <!-- 操作：编辑 -->
-          <XTextButton preIcon="ep:edit" :title="t('action.edit')" v-hasPermi="['system:user:update']"
-            @click="handleUpdate(row.id)" />
+          <XTextButton
+            preIcon="ep:edit"
+            :title="t('action.edit')"
+            v-hasPermi="['system:user:update']"
+            @click="handleUpdate(row.id)"
+          />
           <!-- 操作：详情 -->
-          <XTextButton preIcon="ep:view" :title="t('action.detail')" v-hasPermi="['system:user:update']"
-            @click="handleDetail(row.id)" />
-          <el-dropdown class="p-0.5" v-hasPermi="[
-            'system:user:update-password',
-            'system:permission:assign-user-role',
-            'system:user:delete'
-          ]">
+          <XTextButton
+            preIcon="ep:view"
+            :title="t('action.detail')"
+            v-hasPermi="['system:user:update']"
+            @click="handleDetail(row.id)"
+          />
+          <el-dropdown
+            class="p-0.5"
+            v-hasPermi="[
+              'system:user:update-password',
+              'system:permission:assign-user-role',
+              'system:user:delete'
+            ]"
+          >
             <XTextButton :title="t('action.more')" postIcon="ep:arrow-down" />
             <template #dropdown>
               <el-dropdown-menu>
                 <el-dropdown-item>
                   <!-- 操作：重置密码 -->
-                  <XTextButton preIcon="ep:key" title="重置密码" v-hasPermi="['system:user:update-password']"
-                    @click="handleResetPwd(row)" />
+                  <XTextButton
+                    preIcon="ep:key"
+                    title="重置密码"
+                    v-hasPermi="['system:user:update-password']"
+                    @click="handleResetPwd(row)"
+                  />
                 </el-dropdown-item>
                 <el-dropdown-item>
                   <!-- 操作：分配角色 -->
-                  <XTextButton preIcon="ep:key" title="分配角色" v-hasPermi="['system:permission:assign-user-role']"
-                    @click="handleRole(row)" />
+                  <XTextButton
+                    preIcon="ep:key"
+                    title="分配角色"
+                    v-hasPermi="['system:permission:assign-user-role']"
+                    @click="handleRole(row)"
+                  />
                 </el-dropdown-item>
                 <el-dropdown-item>
                   <!-- 操作：删除 -->
-                  <XTextButton preIcon="ep:delete" :title="t('action.del')" v-hasPermi="['system:user:delete']"
-                    @click="deleteData(row.id)" />
+                  <XTextButton
+                    preIcon="ep:delete"
+                    :title="t('action.del')"
+                    v-hasPermi="['system:user:delete']"
+                    @click="deleteData(row.id)"
+                  />
                 </el-dropdown-item>
               </el-dropdown-menu>
             </template>
@@ -75,19 +126,38 @@
   </div>
   <XModal v-model="dialogVisible" :title="dialogTitle">
     <!-- 对话框(添加 / 修改) -->
-    <Form v-if="['create', 'update'].includes(actionType)" :rules="rules" :schema="allSchemas.formSchema" ref="formRef">
+    <Form
+      v-if="['create', 'update'].includes(actionType)"
+      :rules="rules"
+      :schema="allSchemas.formSchema"
+      ref="formRef"
+    >
       <template #deptId="form">
-        <el-tree-select node-key="id" v-model="form['deptId']" :props="defaultProps" :data="deptOptions" check-strictly />
+        <el-tree-select
+          node-key="id"
+          v-model="form['deptId']"
+          :props="defaultProps"
+          :data="deptOptions"
+          check-strictly
+        />
       </template>
       <template #postIds="form">
         <el-select v-model="form['postIds']" multiple :placeholder="t('common.selectText')">
-          <el-option v-for="item in postOptions" :key="item.id" :label="item.name"
-            :value="(item.id as unknown as number)" />
+          <el-option
+            v-for="item in postOptions"
+            :key="item.id"
+            :label="item.name"
+            :value="(item.id as unknown as number)"
+          />
         </el-select>
       </template>
     </Form>
     <!-- 对话框(详情) -->
-    <Descriptions v-if="actionType === 'detail'" :schema="allSchemas.detailSchema" :data="detailData">
+    <Descriptions
+      v-if="actionType === 'detail'"
+      :schema="allSchemas.detailSchema"
+      :data="detailData"
+    >
       <template #deptId="{ row }">
         <el-tag>{{ dataFormater(row.deptId) }}</el-tag>
       </template>
@@ -105,8 +175,13 @@
     <!-- 操作按钮 -->
     <template #footer>
       <!-- 按钮：保存 -->
-      <XButton v-if="['create', 'update'].includes(actionType)" type="primary" :title="t('action.save')"
-        :loading="loading" @click="submitForm()" />
+      <XButton
+        v-if="['create', 'update'].includes(actionType)"
+        type="primary"
+        :title="t('action.save')"
+        :loading="loading"
+        @click="submitForm()"
+      />
       <!-- 按钮：关闭 -->
       <XButton :loading="loading" :title="t('dialog.close')" @click="dialogVisible = false" />
     </template>
@@ -121,10 +196,15 @@
         <el-tag>{{ userRole.nickname }}</el-tag>
       </el-form-item>
       <el-form-item label="角色">
-        <el-transfer v-model="userRole.roleIds" :titles="['角色列表', '已选择']" :props="{
-          key: 'id',
-          label: 'name'
-        }" :data="roleOptions" />
+        <el-transfer
+          v-model="userRole.roleIds"
+          :titles="['角色列表', '已选择']"
+          :props="{
+            key: 'id',
+            label: 'name'
+          }"
+          :data="roleOptions"
+        />
       </el-form-item>
     </el-form>
     <!-- 操作按钮 -->
@@ -142,11 +222,22 @@
         <XButton type="primary" prefix="ep:download" title="点击下载" @click="handleImportTemp()" />
       </el-form-item>
       <el-form-item label="文件上传 :">
-        <el-upload ref="uploadRef" :action="updateUrl + '?updateSupport=' + updateSupport" :headers="uploadHeaders"
-          :drag="true" :limit="1" :multiple="true" :show-file-list="true" :disabled="uploadDisabled"
-          :before-upload="beforeExcelUpload" :on-exceed="handleExceed" :on-success="handleFileSuccess"
-          :on-error="excelUploadError" :auto-upload="false"
-          accept="application/vnd.ms-excel,application/vnd.openxmlformats-officedocument.spreadsheetml.sheet">
+        <el-upload
+          ref="uploadRef"
+          :action="updateUrl + '?updateSupport=' + updateSupport"
+          :headers="uploadHeaders"
+          :drag="true"
+          :limit="1"
+          :multiple="true"
+          :show-file-list="true"
+          :disabled="uploadDisabled"
+          :before-upload="beforeExcelUpload"
+          :on-exceed="handleExceed"
+          :on-success="handleFileSuccess"
+          :on-error="excelUploadError"
+          :auto-upload="false"
+          accept="application/vnd.ms-excel,application/vnd.openxmlformats-officedocument.spreadsheetml.sheet"
+        >
           <Icon icon="ep:upload-filled" />
           <div class="el-upload__text">将文件拖到此处，或<em>点击上传</em></div>
           <template #tip>
@@ -160,7 +251,12 @@
     </el-form>
     <template #footer>
       <!-- 按钮：保存 -->
-      <XButton type="warning" preIcon="ep:upload-filled" :title="t('action.save')" @click="submitFileForm()" />
+      <XButton
+        type="warning"
+        preIcon="ep:upload-filled"
+        :title="t('action.save')"
+        @click="submitFileForm()"
+      />
       <!-- 按钮：关闭 -->
       <XButton :title="t('dialog.close')" @click="importDialogVisible = false" />
     </template>

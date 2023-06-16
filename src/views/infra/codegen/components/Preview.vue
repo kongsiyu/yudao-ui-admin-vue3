@@ -3,14 +3,24 @@
     <div class="flex">
       <el-card class="w-1/4" :gutter="12" shadow="hover">
         <el-scrollbar height="calc(100vh - 88px - 40px - 50px)">
-          <el-tree ref="treeRef" node-key="id" :data="preview.fileTree" :expand-on-click-node="false" highlight-current
-            @node-click="handleNodeClick" />
+          <el-tree
+            ref="treeRef"
+            node-key="id"
+            :data="preview.fileTree"
+            :expand-on-click-node="false"
+            highlight-current
+            @node-click="handleNodeClick"
+          />
         </el-scrollbar>
       </el-card>
       <el-card class="w-3/4 ml-3" :gutter="12" shadow="hover">
         <el-tabs v-model="preview.activeName">
-          <el-tab-pane v-for="item in previewCodegen" :label="item.filePath.substring(item.filePath.lastIndexOf('/') + 1)"
-            :name="item.filePath" :key="item.filePath">
+          <el-tab-pane
+            v-for="item in previewCodegen"
+            :label="item.filePath.substring(item.filePath.lastIndexOf('/') + 1)"
+            :name="item.filePath"
+            :key="item.filePath"
+          >
             <XTextButton style="float: right" :title="t('common.copy')" @click="copy(item.code)" />
             <pre>{{ item.code }}</pre>
           </el-tab-pane>

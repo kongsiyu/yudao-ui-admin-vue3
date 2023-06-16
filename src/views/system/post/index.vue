@@ -4,35 +4,72 @@
     <XTable @register="registerTable">
       <template #toolbar_buttons>
         <!-- 操作：新增 -->
-        <XButton type="primary" preIcon="ep:zoom-in" :title="t('action.add')" v-hasPermi="['system:post:create']"
-          @click="openModel('create')" />
+        <XButton
+          type="primary"
+          preIcon="ep:zoom-in"
+          :title="t('action.add')"
+          v-hasPermi="['system:post:create']"
+          @click="openModel('create')"
+        />
         <!-- 操作：导出 -->
-        <XButton type="primary" plain preIcon="ep:download" :title="t('action.export')"
-          v-hasPermi="['system:post:export']" @click="exportList('岗位列表.xls')" />
+        <XButton
+          type="primary"
+          plain
+          preIcon="ep:download"
+          :title="t('action.export')"
+          v-hasPermi="['system:post:export']"
+          @click="exportList('岗位列表.xls')"
+        />
       </template>
       <template #actionbtns_default="{ row }">
         <!-- 操作：修改 -->
-        <XTextButton preIcon="ep:edit" :title="t('action.edit')" v-hasPermi="['system:post:update']"
-          @click="openModel('update', row?.id)" />
+        <XTextButton
+          preIcon="ep:edit"
+          :title="t('action.edit')"
+          v-hasPermi="['system:post:update']"
+          @click="openModel('update', row?.id)"
+        />
         <!-- 操作：详情 -->
-        <XTextButton preIcon="ep:view" :title="t('action.detail')" v-hasPermi="['system:post:query']"
-          @click="openModel('detail', row?.id)" />
+        <XTextButton
+          preIcon="ep:view"
+          :title="t('action.detail')"
+          v-hasPermi="['system:post:query']"
+          @click="openModel('detail', row?.id)"
+        />
         <!-- 操作：删除 -->
-        <XTextButton preIcon="ep:delete" :title="t('action.delete')" v-hasPermi="['system:post:delete']"
-          @click="deleteData(row?.id)" />
+        <XTextButton
+          preIcon="ep:delete"
+          :title="t('action.delete')"
+          v-hasPermi="['system:post:delete']"
+          @click="deleteData(row?.id)"
+        />
       </template>
     </XTable>
   </ContentWrap>
   <!-- 弹窗 -->
   <XModal id="postModel" :loading="modelLoading" v-model="modelVisible" :title="modelTitle">
     <!-- 表单：添加/修改 -->
-    <Form ref="formRef" v-if="['create', 'update'].includes(actionType)" :schema="allSchemas.formSchema" :rules="rules" />
+    <Form
+      ref="formRef"
+      v-if="['create', 'update'].includes(actionType)"
+      :schema="allSchemas.formSchema"
+      :rules="rules"
+    />
     <!-- 表单：详情 -->
-    <Descriptions v-if="actionType === 'detail'" :schema="allSchemas.detailSchema" :data="detailData" />
+    <Descriptions
+      v-if="actionType === 'detail'"
+      :schema="allSchemas.detailSchema"
+      :data="detailData"
+    />
     <template #footer>
       <!-- 按钮：保存 -->
-      <XButton v-if="['create', 'update'].includes(actionType)" type="primary" :title="t('action.save')"
-        :loading="actionLoading" @click="submitForm()" />
+      <XButton
+        v-if="['create', 'update'].includes(actionType)"
+        type="primary"
+        :title="t('action.save')"
+        :loading="actionLoading"
+        @click="submitForm()"
+      />
       <!-- 按钮：关闭 -->
       <XButton :loading="actionLoading" :title="t('dialog.close')" @click="modelVisible = false" />
     </template>

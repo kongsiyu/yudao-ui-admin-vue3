@@ -12,29 +12,61 @@
     <XTable @register="registerTable">
       <template #toolbar_buttons>
         <!-- 操作：新增 -->
-        <XButton type="primary" preIcon="ep:zoom-in" :title="t('action.add')" v-hasPermi="['pay:order:create']"
-          @click="handleCreate()" />
+        <XButton
+          type="primary"
+          preIcon="ep:zoom-in"
+          :title="t('action.add')"
+          v-hasPermi="['pay:order:create']"
+          @click="handleCreate()"
+        />
         <!-- 操作：导出 -->
-        <XButton type="warning" preIcon="ep:download" :title="t('action.export')" v-hasPermi="['pay:order:export']"
-          @click="exportList('订单数据.xls')" />
+        <XButton
+          type="warning"
+          preIcon="ep:download"
+          :title="t('action.export')"
+          v-hasPermi="['pay:order:export']"
+          @click="exportList('订单数据.xls')"
+        />
       </template>
       <template #actionbtns_default="{ row }">
         <!-- 操作：详情 -->
-        <XTextButton preIcon="ep:view" :title="t('action.detail')" v-hasPermi="['pay:order:query']"
-          @click="handleDetail(row.id)" />
+        <XTextButton
+          preIcon="ep:view"
+          :title="t('action.detail')"
+          v-hasPermi="['pay:order:query']"
+          @click="handleDetail(row.id)"
+        />
       </template>
     </XTable>
   </ContentWrap>
-  <XModal v-model="dialogVisible" :title="dialogTitle" :height="['create', 'update'].includes(actionType) ? '99%' : ''">
+  <XModal
+    v-model="dialogVisible"
+    :title="dialogTitle"
+    :height="['create', 'update'].includes(actionType) ? '99%' : ''"
+  >
     <!-- 对话框(添加 / 修改) -->
-    <Form v-if="['create', 'update'].includes(actionType)" :schema="allSchemas.formSchema" :rules="rules" ref="formRef" />
+    <Form
+      v-if="['create', 'update'].includes(actionType)"
+      :schema="allSchemas.formSchema"
+      :rules="rules"
+      ref="formRef"
+    />
     <!-- 对话框(详情) -->
-    <Descriptions v-if="actionType === 'detail'" :schema="allSchemas.detailSchema" :data="detailData" />
+    <Descriptions
+      v-if="actionType === 'detail'"
+      :schema="allSchemas.detailSchema"
+      :data="detailData"
+    />
     <!-- 操作按钮 -->
     <template #footer>
       <!-- 按钮：保存 -->
-      <XButton v-if="['create', 'update'].includes(actionType)" type="primary" :title="t('action.save')"
-        :loading="actionLoading" @click="submitForm()" />
+      <XButton
+        v-if="['create', 'update'].includes(actionType)"
+        type="primary"
+        :title="t('action.save')"
+        :loading="actionLoading"
+        @click="submitForm()"
+      />
       <!-- 按钮：关闭 -->
       <XButton :loading="actionLoading" :title="t('dialog.close')" @click="dialogVisible = false" />
     </template>
