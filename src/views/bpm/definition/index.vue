@@ -83,6 +83,7 @@ const queryParams = reactive({
 })
 const [registerTable] = useXTable({
   allSchemas: allSchemas,
+  topActionSlots: false,
   getListApi: DefinitionApi.getProcessDefinitionPageApi,
   params: queryParams
 })

@@ -4,7 +4,7 @@
     <XTable @register="registerTable">
       <template #accountId_search>
         <el-select v-model="queryParams.accountId">
-          <el-option :key="undefined" label="全部" :value="undefined" />
+          <el-option :key="undefined" label="全部" value="" />
           <el-option
             v-for="item in accountOptions"
             :key="item.id"

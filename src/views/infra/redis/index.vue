@@ -61,7 +61,12 @@
     <el-row class="mt-3">
       <el-col :span="24" class="card-box" shadow="hover">
         <el-card>
-          <el-table v-loading="keyListLoad" :data="keyList" row-key="id" @row-click="openKeyTemplate">
+          <el-table
+            v-loading="keyListLoad"
+            :data="keyList"
+            row-key="id"
+            @row-click="openKeyTemplate"
+          >
             <el-table-column prop="keyTemplate" label="Key 模板" width="200" />
             <el-table-column prop="keyType" label="Key 类型" width="100" />
             <el-table-column prop="valueType" label="Value 类型" />
@@ -105,8 +110,12 @@
           <template #header>
             <div class="card-header">
               <span>缓存内容</span>
-              <XTextButton preIcon="ep:refresh" title="清理全部" @click="handleDeleteKeys(keyTemplate)"
-                class="float-right p-1" />
+              <XTextButton
+                preIcon="ep:refresh"
+                title="清理全部"
+                class="float-right p-1"
+                @click="handleDeleteKeys(keyTemplate)"
+              />
             </div>
           </template>
           <el-descriptions :column="1">
@@ -119,7 +128,6 @@
   </XModal>
 </template>
 <script setup lang="ts">
-// import * as echarts from 'echarts'
 import * as RedisApi from '@/api/infra/redis'
 import { RedisKeyInfo, RedisMonitorInfoVO } from '@/api/infra/redis/types'
 import { DICT_TYPE } from '@/utils/dict'
@@ -137,98 +145,6 @@ const readRedisInfo = async () => {
   keyList.value = redisKeysInfo
   keyListLoad.value = false //加载完成
 }
-// 图表
-// const commandStatsRef = ref<HTMLElement>()
-// const usedmemory = ref<HTMLDivElement>()
-// const loadEchartOptions = (stats) => {
-//   const commandStats = [] as any[]
-//   const nameList = [] as string[]
-//   stats.forEach((row) => {
-//     commandStats.push({
-//       name: row.command,
-//       value: row.calls
-//     })
-//     nameList.push(row.command)
-//   })
-
-//   const commandStatsInstance = echarts.init(commandStatsRef.value!, 'macarons')
-
-//   commandStatsInstance.setOption({
-//     title: {
-//       text: '命令统计',
-//       left: 'center'
-//     },
-//     tooltip: {
-//       trigger: 'item',
-//       formatter: '{a} <br/>{b} : {c} ({d}%)'
-//     },
-//     legend: {
-//       type: 'scroll',
-//       orient: 'vertical',
-//       right: 30,
-//       top: 10,
-//       bottom: 20,
-//       data: nameList,
-//       textStyle: {
-//         color: '#a1a1a1'
-//       }
-//     },
-//     series: [
-//       {
-//         name: '命令',
-//         type: 'pie',
-//         radius: [20, 120],
-//         center: ['40%', '60%'],
-//         data: commandStats,
-//         roseType: 'radius',
-//         label: {
-//           show: true
-//         },
-//         emphasis: {
-//           label: {
-//             show: true
-//           },
-//           itemStyle: {
-//             shadowBlur: 10,
-//             shadowOffsetX: 0,
-//             shadowColor: 'rgba(0, 0, 0, 0.5)'
-//           }
-//         }
-//       }
-//     ]
-//   })
-
-//   const usedMemoryInstance = echarts.init(usedmemory.value!, 'macarons')
-//   usedMemoryInstance.setOption({
-//     title: {
-//       text: '内存使用情况',
-//       left: 'center'
-//     },
-//     tooltip: {
-//       formatter: '{b} <br/>{a} : ' + cache.value!.info.used_memory_human
-//     },
-//     series: [
-//       {
-//         name: '峰值',
-//         type: 'gauge',
-//         min: 0,
-//         max: 100,
-//         progress: {
-//           show: true
-//         },
-//         detail: {
-//           formatter: cache.value!.info.used_memory_human
-//         },
-//         data: [
-//           {
-//             value: parseFloat(cache.value!.info.used_memory_human),
-//             name: '内存消耗'
-//           }
-//         ]
-//       }
-//     ]
-//   })
-// }
 const dialogVisible = ref(false)
 const keyTemplate = ref('')
 const cacheKeys = ref()
@@ -398,7 +314,7 @@ const initCommandStatsChart = async () => {
     })
     commandStatsRefChika.legend.data = nameList
     commandStatsRefChika.series[0].data = commandStats
-  } catch { }
+  } catch {}
 }
 const usedMemoryInstance = async () => {
   try {
@@ -421,7 +337,7 @@ const usedMemoryInstance = async () => {
     usedmemoryEchartChika.tooltip = {
       formatter: '{b} <br/>{a} : ' + cache.value!.info.used_memory_human
     }
-  } catch { }
+  } catch {}
 }
 
 /** 初始化 **/

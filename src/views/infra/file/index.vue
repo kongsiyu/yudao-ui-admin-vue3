@@ -1,154 +1,190 @@
 <template>
-  <!-- 搜索 -->
-  <content-wrap>
-    <el-form class="-mb-15px" :model="queryParams" ref="queryFormRef" :inline="true">
-      <el-form-item label="文件路径" prop="path">
-        <el-input
-          v-model="queryParams.path"
-          placeholder="请输入文件路径"
-          clearable
-          @keyup.enter="handleQuery"
+  <ContentWrap>
+    <!-- 列表 -->
+    <XTable @register="registerTable">
+      <template #toolbar_buttons>
+        <XButton type="primary" preIcon="ep:upload" title="上传文件" @click="uploadDialog" />
+      </template>
+      <template #actionbtns_default="{ row }">
+        <XTextButton
+          preIcon="ep:copy-document"
+          :title="t('common.copy')"
+          @click="handleCopy(row.url)"
         />
-      </el-form-item>
-      <el-form-item label="文件类型" prop="type" width="80">
-        <el-input
-          v-model="queryParams.type"
-          placeholder="请输入文件类型"
-          clearable
-          @keyup.enter="handleQuery"
+        <XTextButton preIcon="ep:view" :title="t('action.detail')" @click="handleDetail(row)" />
+        <XTextButton
+          preIcon="ep:delete"
+          :title="t('action.del')"
+          v-hasPermi="['infra:file:delete']"
+          @click="deleteData(row.id)"
         />
-      </el-form-item>
-      <el-form-item label="创建时间" prop="createTime">
-        <el-date-picker
-          v-model="queryParams.createTime"
-          value-format="YYYY-MM-DD HH:mm:ss"
-          type="daterange"
-          start-placeholder="开始日期"
-          end-placeholder="结束日期"
-          :default-time="[new Date('1 00:00:00'), new Date('1 23:59:59')]"
+      </template>
+    </XTable>
+  </ContentWrap>
+  <XModal v-model="dialogVisible" :title="dialogTitle">
+    <!-- 对话框(详情) -->
+    <Descriptions :schema="allSchemas.detailSchema" :data="detailData">
+      <template #url="{ row }">
+        <el-image
+          v-if="row.type === 'jpg' || 'png' || 'gif'"
+          style="width: 100px; height: 100px"
+          :src="row.url"
+          :key="row.url"
+          lazy
         />
-      </el-form-item>
-      <el-form-item>
-        <el-button @click="handleQuery"><Icon icon="ep:search" class="mr-5px" /> 搜索</el-button>
-        <el-button @click="resetQuery"><Icon icon="ep:refresh" class="mr-5px" /> 重置</el-button>
-        <el-button type="primary" @click="openModal">
-          <Icon icon="ep:upload" class="mr-5px" /> 上传文件
-        </el-button>
-      </el-form-item>
-    </el-form>
-  </content-wrap>
-
-  <!-- 列表 -->
-  <content-wrap>
-    <el-table v-loading="loading" :data="list" align="center">
-      <el-table-column label="文件名" align="center" prop="name" :show-overflow-tooltip="true" />
-      <el-table-column label="文件路径" align="center" prop="path" :show-overflow-tooltip="true" />
-      <el-table-column label="URL" align="center" prop="url" :show-overflow-tooltip="true" />
-      <el-table-column
-        label="文件大小"
-        align="center"
-        prop="size"
-        width="120"
-        :formatter="fileSizeFormatter"
+        <span>{{ row.url }}</span>
+      </template>
+    </Descriptions>
+    <!-- 操作按钮 -->
+    <template #footer>
+      <XButton :title="t('dialog.close')" @click="dialogVisible = false" />
+    </template>
+  </XModal>
+  <XModal v-model="uploadDialogVisible" :title="uploadDialogTitle">
+    <el-upload
+      ref="uploadRef"
+      :action="updateUrl + '?updateSupport=' + updateSupport"
+      :headers="uploadHeaders"
+      :drag="true"
+      :limit="1"
+      :multiple="true"
+      :show-file-list="true"
+      :disabled="uploadDisabled"
+      :before-upload="beforeUpload"
+      :on-exceed="handleExceed"
+      :on-success="handleFileSuccess"
+      :on-error="excelUploadError"
+      :before-remove="beforeRemove"
+      :on-change="handleFileChange"
+      :auto-upload="false"
+      accept=".jpg, .png, .gif"
+    >
+      <Icon icon="ep:upload-filled" />
+      <div class="el-upload__text">将文件拖到此处，或<em>点击上传</em></div>
+      <template #tip>
+        <div class="el-upload__tip">请上传 .jpg, .png, .gif 标准格式文件</div>
+      </template>
+    </el-upload>
+    <template #footer>
+      <!-- 按钮：保存 -->
+      <XButton
+        type="primary"
+        preIcon="ep:upload-filled"
+        :title="t('action.save')"
+        @click="submitFileForm()"
       />
-      <el-table-column label="文件类型" align="center" prop="type" width="180px" />
-      <el-table-column
-        label="上传时间"
-        align="center"
-        prop="createTime"
-        width="180"
-        :formatter="dateFormatter"
-      />
-      <el-table-column label="操作" align="center">
-        <template #default="scope">
-          <el-button
-            link
-            type="danger"
-            @click="handleDelete(scope.row.id)"
-            v-hasPermi="['infra:config:delete']"
-          >
-            删除
-          </el-button>
-        </template>
-      </el-table-column>
-    </el-table>
-    <!-- 分页 -->
-    <Pagination
-      :total="total"
-      v-model:page="queryParams.pageNo"
-      v-model:limit="queryParams.pageSize"
-      @pagination="getList"
-    />
-  </content-wrap>
-
-  <!-- 表单弹窗：添加/修改 -->
-  <file-upload-form ref="modalRef" @success="getList" />
+      <!-- 按钮：关闭 -->
+      <XButton :title="t('dialog.close')" @click="uploadDialogVisible = false" />
+    </template>
+  </XModal>
 </template>
-<script setup lang="ts" name="Config">
-import { fileSizeFormatter } from '@/utils'
-import { dateFormatter } from '@/utils/formatTime'
-import * as FileApi from '@/api/infra/file'
-import FileUploadForm from './form.vue'
-const message = useMessage() // 消息弹窗
+<script setup lang="ts" name="FileList">
+import type { UploadInstance, UploadRawFile, UploadProps, UploadFile } from 'element-plus'
+// 业务相关的 import
+import { allSchemas } from './fileList.data'
+import * as FileApi from '@/api/infra/fileList'
+import { getAccessToken, getTenantId } from '@/utils/auth'
+// import { useClipboard } from '@vueuse/core'
+
 const { t } = useI18n() // 国际化
+const message = useMessage() // 消息弹窗
 
-const loading = ref(true) // 列表的加载中
-const total = ref(0) // 列表的总页数
-const list = ref([]) // 列表的数据
-const queryParams = reactive({
-  pageNo: 1,
-  pageSize: 10,
-  name: undefined,
-  type: undefined,
-  createTime: []
+// 列表相关的变量
+const [registerTable, { reload, deleteData }] = useXTable({
+  allSchemas: allSchemas,
+  getListApi: FileApi.getFilePageApi,
+  deleteApi: FileApi.deleteFileApi
 })
-const queryFormRef = ref() // 搜索的表单
 
-/** 查询列表 */
-const getList = async () => {
-  loading.value = true
-  try {
-    const data = await FileApi.getFilePage(queryParams)
-    list.value = data.list
-    total.value = data.total
-  } finally {
-    loading.value = false
+const detailData = ref() // 详情 Ref
+const dialogVisible = ref(false) // 是否显示弹出层
+const dialogTitle = ref('') // 弹出层标题
+const uploadDialogVisible = ref(false)
+const uploadDialogTitle = ref('上传')
+const updateSupport = ref(0)
+const uploadDisabled = ref(false)
+const uploadRef = ref<UploadInstance>()
+let updateUrl = import.meta.env.VITE_UPLOAD_URL
+const uploadHeaders = ref()
+// 文件上传之前判断
+const beforeUpload = (file: UploadRawFile) => {
+  const isImg = file.type === 'image/jpeg' || 'image/gif' || 'image/png'
+  const isLt5M = file.size / 1024 / 1024 < 5
+  if (!isImg) message.error('上传文件只能是 jpeg / gif / png 格式!')
+  if (!isLt5M) message.error('上传文件大小不能超过 5MB!')
+  return isImg && isLt5M
+}
+// 处理上传的文件发生变化
+const handleFileChange = (uploadFile: UploadFile): void => {
+  // uploadRef.value.data.path = uploadFile.name
+  console.log(uploadFile, 'uploadFile')
+  uploadDisabled.value = false
+}
+// 文件上传
+const submitFileForm = () => {
+  uploadHeaders.value = {
+    Authorization: 'Bearer ' + getAccessToken(),
+    'tenant-id': getTenantId()
   }
+  uploadDisabled.value = true
+  uploadRef.value!.submit()
+}
+// 文件上传成功
+const handleFileSuccess = async (response: any): Promise<void> => {
+  if (response.code !== 0) {
+    message.error(response.msg)
+    return
+  }
+  message.success('上传成功')
+  uploadDialogVisible.value = false
+  uploadDisabled.value = false
+  await reload()
+}
+const beforeRemove: UploadProps['beforeRemove'] = () => {
+  uploadDisabled.value = false
+}
+// 文件数超出提示
+const handleExceed = (): void => {
+  message.error('最多只能上传一个文件！')
+  uploadDisabled.value = false
+}
+// 上传错误提示
+const excelUploadError = (): void => {
+  message.error('导入数据失败，请您重新上传！')
+  uploadDisabled.value = false
 }
 
-/** 搜索按钮操作 */
-const handleQuery = () => {
-  queryParams.pageNo = 1
-  getList()
+// 详情操作
+const handleDetail = (row: FileApi.FileVO) => {
+  // 设置数据
+  detailData.value = row
+  dialogTitle.value = t('action.detail')
+  dialogVisible.value = true
 }
-
-/** 重置按钮操作 */
-const resetQuery = () => {
-  queryFormRef.value.resetFields()
-  handleQuery()
+// 打开上传对话框
+const uploadDialog = () => {
+  uploadDialogVisible.value = true
+  uploadDisabled.value = false
 }
-
-/** 添加/修改操作 */
-const modalRef = ref()
-const openModal = () => {
-  modalRef.value.openModal()
+// ========== 复制相关 ==========
+const handleCopy = async (text: string) => {
+  // const { copy, copied, isSupported } = useClipboard({ source: text, read: true })
+  // if (!isSupported.value) {
+  //   message.error(t('common.copyError'))
+  // } else {
+  //   await copy()
+  //   if (unref(copied.value)) {
+  //     message.success(t('common.copySuccess'))
+  //   }
+  // }
+  let url = text
+  let oInput = document.createElement('textarea')
+  oInput.value = url
+  document.body.appendChild(oInput)
+  oInput.select() // 选择对象;
+  // console.log(oInput.value)
+  document.execCommand('Copy') // 执行浏览器复制命令
+  message.success(t('common.copySuccess'))
+  oInput.remove()
 }
-
-/** 删除按钮操作 */
-const handleDelete = async (id: number) => {
-  try {
-    // 删除的二次确认
-    await message.delConfirm()
-    // 发起删除
-    await FileApi.deleteFile(id)
-    message.success(t('common.delSuccess'))
-    // 刷新列表
-    await getList()
-  } catch {}
-}
-
-/** 初始化 **/
-onMounted(() => {
-  getList()
-})
 </script>

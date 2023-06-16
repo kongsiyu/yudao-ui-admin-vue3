@@ -515,12 +515,15 @@ const handleChangeState = (row) => {
 
 // 发布流程
 const handleDeploy = (row) => {
-  message.confirm('是否部署该流程！！').then(async () => {
-    await ModelApi.deployModelApi(row.id)
-    message.success(t('部署成功'))
-    // 刷新列表
-    reload()
-  })
+  message
+    .confirm('是否部署该流程！！')
+    .then(async () => {
+      await ModelApi.deployModelApi(row.id)
+      message.success(t('部署成功'))
+      // 刷新列表
+      reload()
+    })
+    .catch(() => {})
 }
 
 // ========== 导入流程 ==========
