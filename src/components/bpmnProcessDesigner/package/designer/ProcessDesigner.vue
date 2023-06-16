@@ -233,14 +233,6 @@ import flowableModdleExtension from './plugins/extension-moddle/flowable'
 // import xml2js from 'xml-js'
 // import xml2js from 'fast-xml-parser'
 import { XmlNode, XmlNodeType, parseXmlString } from 'steady-xml'
-// 代码高亮插件
-// import hljs from 'highlight.js/lib/highlight'
-// import 'highlight.js/styles/github-gist.css'
-// hljs.registerLanguage('xml', 'highlight.js/lib/languages/xml')
-// hljs.registerLanguage('json', 'highlight.js/lib/languages/json')
-// const eventName = reactive({
-//   name: ''
-// })
 const bpmnCanvas = ref()
 const refFile = ref()
 const emit = defineEmits([
@@ -673,17 +665,10 @@ const processSave = async () => {
   // 触发 save 事件
   emit('save', xml)
 }
-/** 高亮显示 */
-// const highlightedCode = (previewType, previewResult) => {
-//   console.log(previewType, 'previewType, previewResult')
-//   console.log(previewResult, 'previewType, previewResult')
-//   console.log(hljs.highlight, 'hljs.highlight')
-//   const result = hljs.highlight(previewType, previewResult.value || '', true)
-//   return result.value || '&nbsp;'
-// }
 onBeforeMount(() => {
   // console.log(props, 'propspropspropsprops')
 })
+
 /**
  * 代码高亮
  */
