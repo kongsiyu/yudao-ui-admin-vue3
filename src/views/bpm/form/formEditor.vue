@@ -1,21 +1,19 @@
 <template>
   <ContentWrap>
     <!-- 表单设计器 -->
-    <fc-designer ref="designer" height="780px">
+    <FcDesigner ref="designer" height="780px">
       <template #handle>
         <XButton type="primary" title="生成JSON" @click="showJson" />
         <XButton type="primary" title="生成Options" @click="showOption" />
         <XButton type="primary" :title="t('action.save')" @click="handleSave" />
       </template>
-    </fc-designer>
+    </FcDesigner>
     <Dialog :title="dialogTitle" v-model="dialogVisible1" maxHeight="600">
       <div ref="editor" v-if="dialogVisible1">
         <XTextButton style="float: right" :title="t('common.copy')" @click="copy(formValue)" />
         <el-scrollbar height="580">
-          <div v-highlight>
-            <code class="hljs">
-              {{ formValue }}
-            </code>
+          <div>
+            <pre><code class="hljs" v-html="highlightedCode(formValue)"></code></pre>
           </div>
         </el-scrollbar>
       </div>
@@ -61,6 +59,7 @@ import { FormInstance } from 'element-plus'
 import { DICT_TYPE, getIntDictOptions } from '@/utils/dict'
 import { CommonStatusEnum } from '@/utils/constants'
 import * as FormApi from '@/api/bpm/form'
+import FcDesigner from '@form-create/designer'
 import { encodeConf, encodeFields, setConfAndFields } from '@/utils/formCreate'
 // import { useClipboard } from '@vueuse/core'
 
@@ -152,8 +151,25 @@ const copy = async (text: string) => {
   message.success(t('common.copySuccess'))
   oInput.remove()
 }
-// ========== 初始化 ==========
-onMounted(() => {
+
+/**
+ * 代码高亮
+ */
+import hljs from 'highlight.js' // 导入代码高亮文件
+import 'highlight.js/styles/github.css' // 导入代码高亮样式
+import java from 'highlight.js/lib/languages/java'
+import xml from 'highlight.js/lib/languages/java'
+import javascript from 'highlight.js/lib/languages/javascript'
+import sql from 'highlight.js/lib/languages/sql'
+import typescript from 'highlight.js/lib/languages/typescript'
+const highlightedCode = (item) => {
+  const language = item.filePath.substring(item.filePath.lastIndexOf('.') + 1)
+  const result = hljs.highlight(language, item.code || '', true)
+  return result.value || '&nbsp;'
+}
+
+/** 初始化 **/
+onMounted(async () => {
   // 场景一：新增表单
   const id = query.id as unknown as number
   if (!id) {
@@ -164,5 +180,13 @@ onMounted(() => {
     formValues.value = data
     setConfAndFields(designer, data.conf, data.fields)
   })
+  // 注册代码高亮的各种语言
+  hljs.registerLanguage('java', java)
+  hljs.registerLanguage('xml', xml)
+  hljs.registerLanguage('html', xml)
+  hljs.registerLanguage('vue', xml)
+  hljs.registerLanguage('javascript', javascript)
+  hljs.registerLanguage('sql', sql)
+  hljs.registerLanguage('typescript', typescript)
 })
 </script>

@@ -4,7 +4,7 @@
     <XTable @register="registerTable">
       <template #accountId_search>
         <el-select v-model="queryParams.accountId">
-          <el-option :key="undefined" label="全部" :value="undefined" />
+          <el-option :key="undefined" label="全部" value="" />
           <el-option
             v-for="item in accountOptions"
             :key="item.id"
@@ -60,7 +60,13 @@
   </ContentWrap>
 
   <!-- 添加/修改/详情的弹窗 -->
-  <XModal id="mailTemplateModel" :loading="modelLoading" v-model="modelVisible" :title="modelTitle">
+  <XModal
+    id="mailTemplateModel"
+    :loading="modelLoading"
+    v-model="modelVisible"
+    :title="modelTitle"
+    :height="['create', 'update'].includes(actionType) ? '99%' : ''"
+  >
     <!-- 表单：添加/修改 -->
     <Form
       ref="formRef"

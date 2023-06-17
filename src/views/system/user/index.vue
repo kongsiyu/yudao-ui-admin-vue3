@@ -187,7 +187,7 @@
     </template>
   </XModal>
   <!-- 分配用户角色 -->
-  <XModal v-model="roleDialogVisible" title="分配角色">
+  <XModal v-model="roleDialogVisible" title="分配角色" width="50%">
     <el-form :model="userRole" label-width="140px" :inline="true">
       <el-form-item label="用户名称">
         <el-tag>{{ userRole.username }}</el-tag>
@@ -573,6 +573,7 @@ onMounted(async () => {
   height: 780px;
   max-height: 800px;
 }
+
 .card-header {
   display: flex;
   justify-content: space-between;

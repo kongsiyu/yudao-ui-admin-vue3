@@ -443,5 +443,6 @@ export default {
     btn_zoom_in: 'Zoom in',
     btn_zoom_out: 'Zoom out',
     preview: 'Preivew'
-  }
+  },
+  'OAuth 2.0': 'OAuth 2.0'
 }

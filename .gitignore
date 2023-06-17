@@ -6,6 +6,9 @@ dist-ssr
 /dist*
 *-lock.*
 pnpm-debug
-
+auto-*.d.ts
 .idea
 .history
+
+yarn.lock
+*.iml

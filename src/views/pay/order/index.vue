@@ -31,23 +31,47 @@
       </template>
     </XTable>
   </ContentWrap>
-  <XModal v-model="dialogVisible" :title="dialogTitle">
+  <XModal
+    v-model="dialogVisible"
+    :title="dialogTitle"
+    :height="['create', 'update'].includes(actionType) ? '99%' : ''"
+  >
+    <!-- 对话框(添加 / 修改) -->
+    <Form
+      v-if="['create', 'update'].includes(actionType)"
+      :schema="allSchemas.formSchema"
+      :rules="rules"
+      ref="formRef"
+    />
     <!-- 对话框(详情) -->
-    <Descriptions :schema="allSchemas.detailSchema" :data="detailData" />
+    <Descriptions
+      v-if="actionType === 'detail'"
+      :schema="allSchemas.detailSchema"
+      :data="detailData"
+    />
     <!-- 操作按钮 -->
     <template #footer>
+      <!-- 按钮：保存 -->
+      <XButton
+        v-if="['create', 'update'].includes(actionType)"
+        type="primary"
+        :title="t('action.save')"
+        :loading="actionLoading"
+        @click="submitForm()"
+      />
       <!-- 按钮：关闭 -->
       <XButton :loading="actionLoading" :title="t('dialog.close')" @click="dialogVisible = false" />
     </template>
   </XModal>
 </template>
 <script setup lang="ts" name="Order">
-import { allSchemas } from './order.data'
+import type { FormExpose } from '@/components/Form'
+import { rules, allSchemas } from './order.data'
 import * as OrderApi from '@/api/pay/order'
 
 const { t } = useI18n() // 国际化
 // 列表相关的变量
-const [registerTable, { exportList }] = useXTable({
+const [registerTable, { reload, exportList }] = useXTable({
   allSchemas: allSchemas,
   getListApi: OrderApi.getOrderPageApi,
   exportListApi: OrderApi.exportOrderApi
@@ -57,7 +81,9 @@ const actionLoading = ref(false) // 遮罩层
 const actionType = ref('') // 操作按钮的类型
 const dialogVisible = ref(false) // 是否显示弹出层
 const dialogTitle = ref('edit') // 弹出层标题
+const formRef = ref<FormExpose>() // 表单 Ref
 const detailData = ref() // 详情 Ref
+const message = useMessage() // 消息弹窗
 // 设置标题
 const setDialogTile = (type: string) => {
   dialogTitle.value = t('action.' + type)
@@ -75,5 +101,30 @@ const handleDetail = async (rowId: number) => {
   setDialogTile('detail')
   const res = await OrderApi.getOrderApi(rowId)
   detailData.value = res
+}
+// 提交新增/修改的表单
+const submitForm = async () => {
+  const elForm = unref(formRef)?.getElFormRef()
+  if (!elForm) return
+  elForm.validate(async (valid) => {
+    if (valid) {
+      actionLoading.value = true
+      // 提交请求
+      try {
+        const data = unref(formRef)?.formModel as OrderApi.OrderVO
+        if (actionType.value === 'create') {
+          await OrderApi.createOrderApi(data)
+          message.success(t('common.createSuccess'))
+        } else {
+          await OrderApi.updateOrderApi(data)
+          message.success(t('common.updateSuccess'))
+        }
+        dialogVisible.value = false
+      } finally {
+        actionLoading.value = false
+        await reload()
+      }
+    }
+  })
 }
 </script>

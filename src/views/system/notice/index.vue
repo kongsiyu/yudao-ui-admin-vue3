@@ -38,7 +38,7 @@
     </XTable>
   </ContentWrap>
   <!-- 弹窗 -->
-  <XModal id="noticeModel" v-model="dialogVisible" :title="dialogTitle">
+  <XModal id="noticeModel" v-model="dialogVisible" :title="dialogTitle" height="99%">
     <!-- 对话框(添加 / 修改) -->
     <Form
       ref="formRef"

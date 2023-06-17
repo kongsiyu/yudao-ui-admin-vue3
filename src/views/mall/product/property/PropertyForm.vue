@@ -1,34 +1,35 @@
 <template>
-  <Dialog :title="modelTitle" v-model="modelVisible">
+  <Dialog v-model="dialogVisible" :title="dialogTitle">
     <el-form
       ref="formRef"
+      v-loading="formLoading"
       :model="formData"
       :rules="formRules"
       label-width="80px"
-      v-loading="formLoading"
     >
       <el-form-item label="名称" prop="name">
         <el-input v-model="formData.name" placeholder="请输入名称" />
       </el-form-item>
       <el-form-item label="备注" prop="remark">
-        <el-input v-model="formData.remark" type="textarea" placeholder="请输入内容" />
+        <el-input v-model="formData.remark" placeholder="请输入内容" type="textarea" />
       </el-form-item>
     </el-form>
     <template #footer>
       <div class="dialog-footer">
-        <el-button @click="submitForm" type="primary" :disabled="formLoading">确 定</el-button>
-        <el-button @click="modelVisible = false">取 消</el-button>
+        <el-button :disabled="formLoading" type="primary" @click="submitForm">确 定</el-button>
+        <el-button @click="dialogVisible = false">取 消</el-button>
       </div>
     </template>
   </Dialog>
 </template>
-<script setup lang="ts">
+<script lang="ts" name="ProductPropertyForm" setup>
 import * as PropertyApi from '@/api/mall/product/property'
+
 const { t } = useI18n() // 国际化
 const message = useMessage() // 消息弹窗
 
-const modelVisible = ref(false) // 弹窗的是否展示
-const modelTitle = ref('') // 弹窗的标题
+const dialogVisible = ref(false) // 弹窗的是否展示
+const dialogTitle = ref('') // 弹窗的标题
 const formLoading = ref(false) // 表单的加载中：1）修改时的数据加载；2）提交的按钮禁用
 const formType = ref('') // 表单的类型：create - 新增；update - 修改
 const formData = ref({
@@ -42,8 +43,8 @@ const formRef = ref() // 表单 Ref
 
 /** 打开弹窗 */
 const open = async (type: string, id?: number) => {
-  modelVisible.value = true
-  modelTitle.value = t('action.' + type)
+  dialogVisible.value = true
+  dialogTitle.value = t('action.' + type)
   formType.value = type
   resetForm()
   // 修改时，设置数据
@@ -76,7 +77,7 @@ const submitForm = async () => {
       await PropertyApi.updateProperty(data)
       message.success(t('common.updateSuccess'))
     }
-    modelVisible.value = false
+    dialogVisible.value = false
     // 发送操作成功的事件
     emit('success')
   } finally {

@@ -1,5 +1,5 @@
 <template>
-  <XModal title="预览" v-model="preview.open">
+  <XModal title="预览" v-model="preview.open" height="99%">
     <div class="flex">
       <el-card class="w-1/4" :gutter="12" shadow="hover">
         <el-scrollbar height="calc(100vh - 88px - 40px - 50px)">

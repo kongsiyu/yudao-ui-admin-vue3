@@ -3,7 +3,7 @@
     {{ getFormTitle }}
   </h2>
 </template>
-<script setup lang="ts">
+<script lang="ts" name="LoginFormTitle" setup>
 import { LoginStateEnum, useLoginState } from './useLogin'
 
 const { t } = useI18n()
@@ -16,7 +16,8 @@ const getFormTitle = computed(() => {
     [LoginStateEnum.LOGIN]: t('sys.login.signInFormTitle'),
     [LoginStateEnum.REGISTER]: t('sys.login.signUpFormTitle'),
     [LoginStateEnum.MOBILE]: t('sys.login.mobileSignInFormTitle'),
-    [LoginStateEnum.QR_CODE]: t('sys.login.qrSignInFormTitle')
+    [LoginStateEnum.QR_CODE]: t('sys.login.qrSignInFormTitle'),
+    [LoginStateEnum.SSO]: t('sys.login.ssoFormTitle')
   }
   return titleObj[unref(getLoginState)]
 })

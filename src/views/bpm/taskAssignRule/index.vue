@@ -175,6 +175,7 @@ const queryParams = reactive({
 })
 const [registerTable, { reload }] = useXTable({
   allSchemas: allSchemas,
+  topActionSlots: false,
   params: queryParams,
   getListApi: TaskAssignRuleApi.getTaskAssignRuleList,
   isList: true

@@ -11,7 +11,8 @@ import AutoImport from 'unplugin-auto-import/vite'
 import Components from 'unplugin-vue-components/vite'
 import { ElementPlusResolver } from 'unplugin-vue-components/resolvers'
 import viteCompression from 'vite-plugin-compression'
-import vueSetupExtend from 'vite-plugin-vue-setup-extend'
+import topLevelAwait from 'vite-plugin-top-level-await'
+import vueSetupExtend from 'vite-plugin-vue-setup-extend-plus'
 import VueI18nPlugin from '@intlify/unplugin-vue-i18n/vite'
 import { createSvgIconsPlugin } from 'vite-plugin-svg-icons'
 
@@ -95,6 +96,13 @@ export function createVitePlugins() {
       ext: '.gz', // 生成的压缩包后缀
       deleteOriginFile: false //压缩后是否删除源文件
     }),
-    ViteEjsPlugin()
+    ViteEjsPlugin(),
+    topLevelAwait({
+      // https://juejin.cn/post/7152191742513512485
+      // The export name of top-level await promise for each chunk module
+      promiseExportName: '__tla',
+      // The function to generate import names of top-level await promise in each chunk module
+      promiseImportName: (i) => `__tla_${i}`
+    })
   ]
 }

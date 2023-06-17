@@ -23,6 +23,6 @@ export const getAccessTokenPageApi = (params: OAuth2TokenPageReqVO) => {
 }
 
 // 删除 token
-export const deleteAccessTokenApi = (accessToken: number) => {
+export const deleteAccessTokenApi = (accessToken: string) => {
   return request.delete({ url: '/system/oauth2-token/delete?accessToken=' + accessToken })
 }

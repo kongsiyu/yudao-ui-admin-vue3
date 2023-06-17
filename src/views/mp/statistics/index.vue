@@ -1,6 +1,6 @@
 <template>
   <!-- 搜索工作栏 -->
-  <content-wrap>
+  <ContentWrap>
     <el-form class="-mb-15px" ref="queryForm" :inline="true" label-width="68px">
       <el-form-item label="公众号" prop="accountId">
         <el-select v-model="accountId" @change="getSummary" class="!w-240px">
@@ -24,10 +24,10 @@
         />
       </el-form-item>
     </el-form>
-  </content-wrap>
+  </ContentWrap>
 
   <!-- 图表 -->
-  <content-wrap>
+  <ContentWrap>
     <el-row>
       <el-col :span="12" class="card-box">
         <el-card>
@@ -70,7 +70,7 @@
         </el-card>
       </el-col>
     </el-row>
-  </content-wrap>
+  </ContentWrap>
 </template>
 
 <script setup lang="ts" name="MpStatistics">
@@ -84,7 +84,7 @@ const dateRange = ref([
   beginOfDay(new Date(new Date().getTime() - 3600 * 1000 * 24 * 7)),
   endOfDay(new Date(new Date().getTime() - 3600 * 1000 * 24))
 ])
-const accountId = ref() // 选中的公众号编号
+const accountId = ref(-1) // 选中的公众号编号
 const accountList = ref<MpAccountApi.AccountVO[]>([]) // 公众号账号列表
 
 const xAxisDate = ref([] as any[]) // X 轴的日期范围
@@ -232,7 +232,7 @@ const getAccountList = async () => {
   accountList.value = await MpAccountApi.getSimpleAccountList()
   // 默认选中第一个
   if (accountList.value.length > 0) {
-    accountId.value = accountList.value[0].id
+    accountId.value = accountList.value[0].id!
   }
 }
 

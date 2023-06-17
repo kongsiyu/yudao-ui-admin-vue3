@@ -87,8 +87,7 @@ export function getWeek(dateTime: Date): number {
   if (dayOfWeek != 0) spendDay = 7 - dayOfWeek + 1
   firstDay = new Date(temptTime.getFullYear(), 0, 1 + spendDay)
   const d = Math.ceil((temptTime.valueOf() - firstDay.valueOf()) / 86400000)
-  const result = Math.ceil(d / 7)
-  return result
+  return Math.ceil(d / 7)
 }
 
 /**

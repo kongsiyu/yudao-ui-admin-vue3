@@ -5,46 +5,52 @@
         <div class="mb-2 float-right">
           <el-button size="small" @click="setJson"> 导入JSON</el-button>
           <el-button size="small" @click="setOption"> 导入Options</el-button>
-          <el-button size="small" type="primary" @click="showJson">生成JSON</el-button>
-          <el-button size="small" type="success" @click="showOption">生成Options</el-button>
+          <el-button size="small" type="primary" @click="showJson">生成 JSON</el-button>
+          <el-button size="small" type="success" @click="showOption">生成 Options</el-button>
           <el-button size="small" type="danger" @click="showTemplate">生成组件</el-button>
-          <!-- <el-button size="small" @click="changeLocale">中英切换</el-button> -->
         </div>
       </el-col>
+      <!-- 表单设计器 -->
       <el-col>
-        <fc-designer ref="designer" height="780px" />
+        <FcDesigner ref="designer" height="780px" />
       </el-col>
     </el-row>
-    <Dialog :title="dialogTitle" v-model="dialogVisible" maxHeight="600">
-      <div ref="editor" v-if="dialogVisible">
-        <XTextButton style="float: right" :title="t('common.copy')" @click="copy(formValue)" />
-        <el-scrollbar height="580">
-          <div v-highlight>
-            <code class="hljs">
-              {{ formValue }}
-            </code>
-          </div>
-        </el-scrollbar>
-      </div>
-      <span style="color: red" v-if="err">输入内容格式有误!</span>
-    </Dialog>
   </ContentWrap>
+
+  <!-- 弹窗：表单预览 -->
+  <Dialog :title="dialogTitle" v-model="dialogVisible" max-height="600">
+    <div ref="editor" v-if="dialogVisible">
+      <el-button style="float: right" @click="copy(formData)">
+        {{ t('common.copy') }}
+      </el-button>
+      <el-scrollbar height="580">
+        <div>
+          <pre><code class="hljs" v-html="highlightedCode(formData)"></code></pre>
+        </div>
+      </el-scrollbar>
+    </div>
+  </Dialog>
 </template>
-<script setup lang="ts" name="Build">
-import formCreate from '@form-create/element-ui'
+<script setup lang="ts" name="InfraBuild">
+import FcDesigner from '@form-create/designer'
 // import { useClipboard } from '@vueuse/core'
+import { isString } from '@/utils/is'
 
-const { t } = useI18n()
-const message = useMessage()
+import hljs from 'highlight.js' // 导入代码高亮文件
+import 'highlight.js/styles/github.css' // 导入代码高亮样式
+import xml from 'highlight.js/lib/languages/java'
+import json from 'highlight.js/lib/languages/json'
 
-const designer = ref()
+const { t } = useI18n() // 国际化
+const message = useMessage() // 消息
 
-const dialogVisible = ref(false)
-const dialogTitle = ref('')
-const err = ref(false)
-const type = ref(-1)
-const formValue = ref('')
+const designer = ref() // 表单设计器
+const dialogVisible = ref(false) // 弹窗的是否展示
+const dialogTitle = ref('') // 弹窗的标题
+const formType = ref(-1) // 表单的类型：0 - 生成 JSON；1 - 生成 Options；2 - 生成组件
+const formData = ref('') // 表单数据
 
+/** 打开弹窗 */
 const openModel = (title: string) => {
   dialogVisible.value = true
   dialogTitle.value = title
@@ -57,23 +63,51 @@ const setOption = () => {
   openModel('导入Options--未实现')
 }
 const showJson = () => {
-  openModel('生成JSON')
-  type.value = 0
-  formValue.value = designer.value.getRule()
+  openModel('生成 JSON')
+  formType.value = 0
+  formData.value = designer.value.getRule()
 }
+
+/** 生成 Options */
 const showOption = () => {
-  openModel('生成Options')
-  type.value = 1
-  formValue.value = designer.value.getOption()
+  openModel('生成 Options')
+  formType.value = 1
+  formData.value = designer.value.getOption()
 }
+
+/** 生成组件 */
 const showTemplate = () => {
   openModel('生成组件')
-  type.value = 2
-  formValue.value = makeTemplate()
+  formType.value = 2
+  formData.value = makeTemplate()
 }
-// const changeLocale = () => {
-//   console.info('changeLocale')
-// }
+
+const makeTemplate = () => {
+  const rule = designer.value.getRule()
+  const opt = designer.value.getOption()
+  return `<template>
+    <form-create
+      v-model="fapi"
+      :rule="rule"
+      :option="option"
+      @submit="onSubmit"
+    ></form-create>
+  </template>
+  <script setup lang=ts>
+    import formCreate from "@form-create/element-ui";
+    const faps = ref(null)
+    const rule = ref('')
+    const option = ref('')
+    const init = () => {
+      rule.value = formCreate.parseJson('${formCreate.toJson(rule).replaceAll('\\', '\\\\')}')
+      option.value = formCreate.parseJson('${JSON.stringify(opt)}')
+    }
+    const onSubmit = (formData) => {
+      //todo 提交表单
+    }
+    init()
+  <\/script>`
+}
 
 /** 复制 **/
 const copy = async (text: string) => {
@@ -97,30 +131,27 @@ const copy = async (text: string) => {
   oInput.remove()
 }
 
-const makeTemplate = () => {
-  const rule = designer.value.getRule()
-  const opt = designer.value.getOption()
-  return `<template>
-  <form-create
-    v-model="fapi"
-    :rule="rule"
-    :option="option"
-    @submit="onSubmit"
-  ></form-create>
-</template>
-<script setup lang=ts>
-  import formCreate from "@form-create/element-ui";
-  const faps = ref(null)
-  const rule = ref('')
-  const option = ref('')
-  const init = () => {
-    rule.value = formCreate.parseJson('${formCreate.toJson(rule).replaceAll('\\', '\\\\')}')
-    option.value = formCreate.parseJson('${JSON.stringify(opt)}')
+/**
+ * 代码高亮
+ */
+const highlightedCode = (code) => {
+  // 处理语言和代码
+  let language = 'json'
+  if (formType.value === 2) {
+    language = 'xml'
   }
-  const onSubmit = (formData) => {
-    //todo 提交表单
+  if (!isString(code)) {
+    code = JSON.stringify(code)
   }
-  init()
-<\/script>`
+  // 高亮
+  const result = hljs.highlight(language, code, true)
+  return result.value || '&nbsp;'
 }
+
+/** 初始化 **/
+onMounted(async () => {
+  // 注册代码高亮的各种语言
+  hljs.registerLanguage('xml', xml)
+  hljs.registerLanguage('json', json)
+})
 </script>

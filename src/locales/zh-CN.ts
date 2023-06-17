@@ -297,8 +297,7 @@ export default {
     typeCreate: '字典类型新增',
     typeUpdate: '字典类型编辑',
     dataCreate: '字典数据新增',
-    dataUpdate: '字典数据编辑',
-    fileUpload: '上传文件'
+    dataUpdate: '字典数据编辑'
   },
   dialog: {
     dialog: '弹窗',
@@ -353,6 +352,7 @@ export default {
     login: {
       backSignIn: '返回',
       signInFormTitle: '登录',
+      ssoFormTitle: '三方授权',
       mobileSignInFormTitle: '手机登录',
       qrSignInFormTitle: '二维码登录',
       signUpFormTitle: '注册',
@@ -436,5 +436,6 @@ export default {
     btn_zoom_in: '放大',
     btn_zoom_out: '缩小',
     preview: '预览'
-  }
+  },
+  'OAuth 2.0': 'OAuth 2.0'
 }

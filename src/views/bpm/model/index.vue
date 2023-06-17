@@ -305,7 +305,7 @@
 
     <!-- 流程模型图的预览 -->
     <XModal title="流程图" v-model="showBpmnOpen" width="80%" height="90%">
-      <my-process-viewer
+      <MyProcessViewer
         key="designer"
         v-model="bpmnXML"
         :value="bpmnXML"
@@ -319,6 +319,7 @@
 <script setup lang="ts">
 // 全局相关的 import
 import { DICT_TYPE, getDictOptions } from '@/utils/dict'
+import { MyProcessViewer } from '@/components/bpmnProcessDesigner/package'
 import { FormInstance, UploadInstance } from 'element-plus'
 
 // 业务相关的 import
@@ -514,12 +515,15 @@ const handleChangeState = (row) => {
 
 // 发布流程
 const handleDeploy = (row) => {
-  message.confirm('是否部署该流程！！').then(async () => {
-    await ModelApi.deployModelApi(row.id)
-    message.success(t('部署成功'))
-    // 刷新列表
-    reload()
-  })
+  message
+    .confirm('是否部署该流程！！')
+    .then(async () => {
+      await ModelApi.deployModelApi(row.id)
+      message.success(t('部署成功'))
+      // 刷新列表
+      reload()
+    })
+    .catch(() => {})
 }
 
 // ========== 导入流程 ==========

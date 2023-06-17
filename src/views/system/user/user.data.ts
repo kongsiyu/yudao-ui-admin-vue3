@@ -1,7 +1,7 @@
 import type { VxeCrudSchema } from '@/hooks/web/useVxeCrudSchemas'
 // 国际化
 const { t } = useI18n()
-const validateMobile = (rule: any, value: any, callback: any) => {
+const validateMobile = (_: any, value: any, callback: any) => {
   const reg = /^1(3[0-9]|4[01456879]|5[0-35-9]|6[2567]|7[0-8]|8[0-9]|9[0-35-9])\d{8}$/
   if (value === '') {
     callback(new Error('请输入联系手机'))
@@ -13,7 +13,7 @@ const validateMobile = (rule: any, value: any, callback: any) => {
     }
   }
 }
-const validatePassword = (rule: any, value: any, callback: any) => {
+const validatePassword = (_: any, value: any, callback: any) => {
   const reg = /^(?! +$).+/
   if (value === '') {
     callback(new Error('请输入用户密码'))

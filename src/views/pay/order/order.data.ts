@@ -96,17 +96,26 @@ const crudSchemas = reactive<VxeCrudSchema>({
     {
       title: '订单失效时间',
       field: 'expireTime',
-      formatter: 'formatDate'
+      formatter: 'formatDate',
+      form: {
+        component: 'DatePicker'
+      }
     },
     {
       title: '支付时间',
       field: 'successTime',
-      formatter: 'formatDate'
+      formatter: 'formatDate',
+      form: {
+        component: 'DatePicker'
+      }
     },
     {
       title: '支付通知时间',
       field: 'notifyTime',
-      formatter: 'formatDate'
+      formatter: 'formatDate',
+      form: {
+        component: 'DatePicker'
+      }
     },
     {
       title: '拓展编号',
@@ -140,6 +149,9 @@ const crudSchemas = reactive<VxeCrudSchema>({
       field: 'createTime',
       formatter: 'formatDate',
       isForm: false,
+      form: {
+        component: 'DatePicker'
+      },
       search: {
         show: true,
         itemRender: {

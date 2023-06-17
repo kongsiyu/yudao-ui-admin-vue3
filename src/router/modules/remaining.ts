@@ -2,9 +2,9 @@ import { Layout } from '@/utils/routerHelper'
 
 const { t } = useI18n()
 /**
-* redirect: noredirect        当设置 noredirect 的时候该路由在面包屑导航中不可被点击
-* name:'router-name'          设定路由的名字，一定要填写不然使用<keep-alive>时会出现各种问题
-* meta : {
+ * redirect: noredirect        当设置 noredirect 的时候该路由在面包屑导航中不可被点击
+ * name:'router-name'          设定路由的名字，一定要填写不然使用<keep-alive>时会出现各种问题
+ * meta : {
     hidden: true              当设置 true 的时候该路由不会再侧边栏出现 如404，login等页面(默认 false)
 
     alwaysShow: true          当你一个路由下面的 children 声明的路由大于1个时，自动会变成嵌套的模式，
@@ -31,7 +31,7 @@ const { t } = useI18n()
 
     canTo: true               设置为true即使hidden为true，也依然可以进行路由跳转(默认 false)
   }
-**/
+ **/
 const remainingRouter: AppRouteRecordRaw[] = [
   {
     path: '/redirect',
@@ -186,6 +186,16 @@ const remainingRouter: AppRouteRecordRaw[] = [
     }
   },
   {
+    path: '/sso',
+    component: () => import('@/views/Login/Login.vue'),
+    name: 'SSOLogin',
+    meta: {
+      hidden: true,
+      title: t('router.login'),
+      noTagsView: true
+    }
+  },
+  {
     path: '/403',
     component: () => import('@/views/Error/403.vue'),
     name: 'NoAccess',
@@ -303,7 +313,19 @@ const remainingRouter: AppRouteRecordRaw[] = [
           hidden: true,
           canTo: true,
           title: '发起 OA 请假',
-          activeMenu: 'bpm/oa/leave/create'
+          activeMenu: '/bpm/oa/leave'
+        }
+      },
+      {
+        path: '/bpm/oa/leave/detail',
+        component: () => import('@/views/bpm/oa/leave/detail.vue'),
+        name: 'OALeaveDetail',
+        meta: {
+          noCache: true,
+          hidden: true,
+          canTo: true,
+          title: '查看 OA 请假',
+          activeMenu: '/bpm/oa/leave'
         }
       },
       {
@@ -333,6 +355,42 @@ const remainingRouter: AppRouteRecordRaw[] = [
         component: () => import('@/views/mall/product/property/value/index.vue'),
         name: 'PropertyValue',
         meta: { title: '商品属性值', icon: '', activeMenu: '/product/property' }
+      }
+    ]
+  },
+  {
+    path: '/product',
+    component: Layout,
+    name: 'Product',
+    meta: {
+      hidden: true
+    },
+    children: [
+      {
+        path: 'productSpuAdd', // TODO @puhui999：最好拆成 add 和 edit 两个路由；添加商品；修改商品 fix
+        component: () => import('@/views/mall/product/spu/addForm.vue'),
+        name: 'ProductSpuAdd',
+        meta: {
+          noCache: true,
+          hidden: true,
+          canTo: true,
+          icon: 'ep:edit',
+          title: '添加商品',
+          activeMenu: '/product/product-spu'
+        }
+      },
+      {
+        path: 'productSpuEdit/:spuId(\\d+)',
+        component: () => import('@/views/mall/product/spu/addForm.vue'),
+        name: 'productSpuEdit',
+        meta: {
+          noCache: true,
+          hidden: true,
+          canTo: true,
+          icon: 'ep:edit',
+          title: '编辑商品',
+          activeMenu: '/product/product-spu'
+        }
       }
     ]
   }

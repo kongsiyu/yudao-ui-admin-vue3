@@ -9,7 +9,10 @@
 
 ## 🐶 新手必读
 
-* 演示地址：<http://dashboard.yudao.iocoder.cn>
+* nodejs > 16.0.0 && pnpm > 7.30.0
+* 演示地址【Vue3 + element-plus】：<http://dashboard-vue3.yudao.iocoder.cn>
+* 演示地址【Vue3 + vben(ant-design-vue)】：<http://dashboard-vben.yudao.iocoder.cn>
+* 演示地址【Vue2 + element-ui】：<http://dashboard.yudao.iocoder.cn>
 * 启动文档：<https://doc.iocoder.cn/quick-start/>
 * 视频教程：<https://doc.iocoder.cn/video/>
 
@@ -17,8 +20,8 @@
 
 **芋道**，以开发者为中心，打造中国第一流的快速开发平台，全部开源，个人与企业可 100% 免费使用。
 
-* 采用 [vue-element-plus-admin](https://gitee.com/kailong110120130/vue-element-plus-admin) 
-* 改换saas，自动引入等功能 [vue-element-plus-admin](https://gitee.com/yudaocode/vue-element-plus-admin)
+* 采用 [vue-element-plus-admin](https://gitee.com/kailong110120130/vue-element-plus-admin) 实现
+* 改换 saas，自动引入等功能
 * 使用 Element Plus 免费开源的中后台模版，具备如下特性：
 
 ![首页](preview/home.png)
@@ -35,15 +38,14 @@
 
 | 框架                                                                   | 说明               | 版本     |
 |----------------------------------------------------------------------|------------------|--------|
-| [Vue](https://staging-cn.vuejs.org/)                                 | Vue 框架           | 3.2.47 |
-| [Vite](https://cn.vitejs.dev//)                                      | 开发与构建工具          | 4.1.4  |
-| [Element Plus](https://element-plus.org/zh-CN/)                      | Element Plus     | 2.2.34 |
-| [TypeScript](https://www.typescriptlang.org/docs/)                   | JavaScript 的超集   | 4.9.5  |
-| [pinia](https://pinia.vuejs.org/)                                    | Vue 存储库 替代 vuex5 | 2.0.33 |
-| [vueuse](https://vueuse.org/)                                        | 常用工具集            | 9.13.0 |
-| [vxe-table](https://vxetable.cn/)                                    | Vue 最强表单         | 4.3.10  |
+| [Vue](https://staging-cn.vuejs.org/)                                 | Vue 框架           | 3.3.4 |
+| [Vite](https://cn.vitejs.dev//)                                      | 开发与构建工具          | 4.3.8  |
+| [Element Plus](https://element-plus.org/zh-CN/)                      | Element Plus     | 2.3.4 |
+| [TypeScript](https://www.typescriptlang.org/docs/)                   | JavaScript 的超集   | 5.0.4  |
+| [pinia](https://pinia.vuejs.org/)                                    | Vue 存储库 替代 vuex5 | 2.1.3 |
+| [vueuse](https://vueuse.org/)                                        | 常用工具集            | 10.1.2 |
 | [vue-i18n](https://kazupon.github.io/vue-i18n/zh/introduction.html/) | 国际化              | 9.2.2  |
-| [vue-router](https://router.vuejs.org/)                              | Vue 路由           | 4.1.6  |
+| [vue-router](https://router.vuejs.org/)                              | Vue 路由           | 4.2.1  |
 | [windicss](https://cn.windicss.org/)                                 | 下一代工具优先的 CSS 框架  | 3.5.6  |
 | [iconify](https://icon-sets.iconify.design/)                         | 在线图标库            | 3.1.0  |
 | [wangeditor](https://www.wangeditor.com/)                            | 富文本编辑器           | 5.1.23 |

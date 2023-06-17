@@ -54,7 +54,12 @@
     </XTable>
   </ContentWrap>
   <!-- 弹窗 -->
-  <XModal id="postModel" v-model="dialogVisible" :title="dialogTitle">
+  <XModal
+    id="postModel"
+    v-model="dialogVisible"
+    :title="dialogTitle"
+    :height="['create', 'update'].includes(actionType) ? '99%' : ''"
+  >
     <!-- 表单：添加/修改 -->
     <Form
       ref="formRef"

@@ -1,8 +1,8 @@
 import axios, {
+  AxiosError,
   AxiosInstance,
   AxiosRequestHeaders,
   AxiosResponse,
-  AxiosError,
   InternalAxiosRequestConfig
 } from 'axios'
 
@@ -219,21 +219,20 @@ const handleAuthorized = () => {
   if (!isRelogin.show) {
     isRelogin.show = true
     ElMessageBox.confirm(t('sys.api.timeoutMessage'), t('common.confirmTitle'), {
+      showCancelButton: false,
+      closeOnClickModal: false,
+      showClose: false,
       confirmButtonText: t('login.relogin'),
-      cancelButtonText: t('common.cancel'),
       type: 'warning'
+    }).then(() => {
+      const { wsCache } = useCache()
+      resetRouter() // 重置静态路由表
+      wsCache.clear()
+      removeToken()
+      isRelogin.show = false
+      // 干掉token后再走一次路由让它过router.beforeEach的校验
+      window.location.href = window.location.href
     })
-      .then(() => {
-        const { wsCache } = useCache()
-        resetRouter() // 重置静态路由表
-        wsCache.clear()
-        removeToken()
-        isRelogin.show = false
-        window.location.href = '/'
-      })
-      .catch(() => {
-        isRelogin.show = false
-      })
   }
   return Promise.reject(t('sys.api.timeoutMessage'))
 }
