@@ -103,7 +103,7 @@ const crudSchemas = reactive<VxeCrudSchema>({
       form: {
         component: 'Select',
         componentProps: {
-          options: [],
+          //   options: [],
           multiple: true,
           filterable: true,
           allowCreate: true,
@@ -118,7 +118,7 @@ const crudSchemas = reactive<VxeCrudSchema>({
       form: {
         component: 'Select',
         componentProps: {
-          options: [],
+          // options: [],
           multiple: true,
           filterable: true,
           allowCreate: true,
@@ -133,7 +133,7 @@ const crudSchemas = reactive<VxeCrudSchema>({
       form: {
         component: 'Select',
         componentProps: {
-          options: [],
+          // options: [],
           multiple: true,
           filterable: true,
           allowCreate: true,
@@ -148,7 +148,7 @@ const crudSchemas = reactive<VxeCrudSchema>({
       form: {
         component: 'Select',
         componentProps: {
-          options: [],
+          // options: [],
           multiple: true,
           filterable: true,
           allowCreate: true,
@@ -163,7 +163,7 @@ const crudSchemas = reactive<VxeCrudSchema>({
       form: {
         component: 'Select',
         componentProps: {
-          options: [],
+          // options: [],
           multiple: true,
           filterable: true,
           allowCreate: true,
