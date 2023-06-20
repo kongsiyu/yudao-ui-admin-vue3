@@ -80,13 +80,13 @@ const open = async (type: string, id?: number) => {
   if (id) {
     formLoading.value = true
     try {
-      formData.value = await UserGroupApi.getUserGroup(id)
+      formData.value = await UserGroupApi.getUserGroupApi(id)
     } finally {
       formLoading.value = false
     }
   }
   // 加载用户列表
-  userList.value = await UserApi.getSimpleUserList()
+  userList.value = await UserApi.getListSimpleUsersApi()
 }
 defineExpose({ open }) // 提供 open 方法，用于打开弹窗
 
@@ -102,10 +102,10 @@ const submitForm = async () => {
   try {
     const data = formData.value as unknown as UserGroupApi.UserGroupVO
     if (formType.value === 'create') {
-      await UserGroupApi.createUserGroup(data)
+      await UserGroupApi.createUserGroupApi(data)
       message.success(t('common.createSuccess'))
     } else {
-      await UserGroupApi.updateUserGroup(data)
+      await UserGroupApi.updateUserGroupApi(data)
       message.success(t('common.updateSuccess'))
     }
     dialogVisible.value = false
