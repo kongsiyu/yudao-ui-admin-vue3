@@ -12,7 +12,7 @@ const src = ref(import.meta.env.VITE_BASE_URL + '/admin/applications')
 /** 初始化 */
 onMounted(async () => {
   try {
-    const data = await ConfigApi.getConfigKey('url.spring-boot-admin')
+    const data = await ConfigApi.getConfigKeyApi('url.spring-boot-admin')
     if (data && data.length > 0) {
       src.value = data
     }

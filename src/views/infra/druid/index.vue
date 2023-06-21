@@ -12,7 +12,7 @@ const url = ref(import.meta.env.VITE_BASE_URL + '/druid/index.html')
 /** 初始化 */
 onMounted(async () => {
   try {
-    const data = await ConfigApi.getConfigKey('url.druid')
+    const data = await ConfigApi.getConfigKeyApi('url.druid')
     if (data && data.length > 0) {
       url.value = data
     }

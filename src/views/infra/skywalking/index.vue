@@ -12,7 +12,7 @@ const src = ref('http://skywalking.shop.iocoder.cn')
 /** 初始化 */
 onMounted(async () => {
   try {
-    const data = await ConfigApi.getConfigKey('url.skywalking')
+    const data = await ConfigApi.getConfigKeyApi('url.skywalking')
     if (data && data.length > 0) {
       src.value = data
     }

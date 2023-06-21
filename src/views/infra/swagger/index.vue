@@ -13,7 +13,7 @@ const src = ref(import.meta.env.VITE_BASE_URL + '/doc.html') // Knife4j UI
 /** 初始化 */
 onMounted(async () => {
   try {
-    const data = await ConfigApi.getConfigKey('url.swagger')
+    const data = await ConfigApi.getConfigKeyApi('url.swagger')
     if (data && data.length > 0) {
       src.value = data
     }

@@ -20,9 +20,7 @@
   <!-- 弹窗：表单预览 -->
   <Dialog :title="dialogTitle" v-model="dialogVisible" max-height="600">
     <div ref="editor" v-if="dialogVisible">
-      <el-button style="float: right" @click="copy(formData)">
-        {{ t('common.copy') }}
-      </el-button>
+      <XTextButton style="float: right" :title="t('common.copy')" @click="copy(formData)" />
       <el-scrollbar height="580">
         <div>
           <pre><code class="hljs" v-html="highlightedCode(formData)"></code></pre>
@@ -35,7 +33,7 @@
 import FcDesigner from '@form-create/designer'
 // import { useClipboard } from '@vueuse/core'
 import { isString } from '@/utils/is'
-
+import formCreate from '@form-create/element-ui'
 import hljs from 'highlight.js' // 导入代码高亮文件
 import 'highlight.js/styles/github.css' // 导入代码高亮样式
 import xml from 'highlight.js/lib/languages/java'
