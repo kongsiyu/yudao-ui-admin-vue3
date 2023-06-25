@@ -49,7 +49,7 @@
             pre-icon="ep:edit"
             type="primary"
             title="转办"
-            @click="openTaskUpdateAssigneeForm(item.id)"
+            @click="handleUpdateAssignee(item)"
           />
           <XButton
             pre-icon="ep:position"
@@ -78,7 +78,7 @@
       </el-col>
       <!-- 情况二：流程表单 -->
       <div v-if="processInstance?.processDefinition?.formType === 20">
-        <!-- <router-link
+        <router-link
           :to="
             processInstance.processDefinition.formCustomViewPath +
             '?id=' +
@@ -86,21 +86,24 @@
           "
         >
           <XButton type="primary" preIcon="ep:view" title="点击查看" />
-        </router-link> -->
-        <autoComponent :id="processInstance.businessKey" />
+        </router-link>
       </div>
     </el-card>
 
     <!-- 审批记录 -->
-    <!-- <el-card class="box-card" v-loading="tasksLoad">
+    <el-card class="box-card" v-loading="tasksLoad">
       <template #header>
         <span class="el-icon-picture-outline">审批记录</span>
       </template>
       <el-col :span="16" :offset="4">
         <div class="block">
           <el-timeline>
-            <el-timeline-item v-for="(item, index) in tasks" :key="index" :icon="getTimelineItemIcon(item)"
-              :type="getTimelineItemType(item)">
+            <el-timeline-item
+              v-for="(item, index) in tasks"
+              :key="index"
+              :icon="getTimelineItemIcon(item)"
+              :type="getTimelineItemType(item)"
+            >
               <p style="font-weight: 700">任务：{{ item.name }}</p>
               <el-card :body-style="{ padding: '10px' }">
                 <label v-if="item.assigneeUser" style="font-weight: normal; margin-right: 30px">
@@ -131,67 +134,79 @@
           </el-timeline>
         </div>
       </el-col>
-    </el-card> -->
-    <ProcessInstanceTaskList :loading="tasksLoad" :tasks="tasks" />
+    </el-card>
 
     <!-- 高亮流程图 -->
-    <!-- <el-card class="box-card" v-loading="processInstanceLoading"> -->
-    <!--  <template #header>
+    <el-card class="box-card" v-loading="processInstanceLoading">
+      <template #header>
         <span class="el-icon-picture-outline">流程图</span>
       </template>
-      <my-process-viewer key="designer" v-model="bpmnXML" :value="bpmnXML" v-bind="bpmnControlForm"
-        :prefix="bpmnControlForm.prefix" :activityData="activityList" :processInstanceData="processInstance"
-        :taskData="tasks" /> -->
-    <ProcessInstanceBpmnViewer
-      :id="`${id}`"
-      :bpmn-xml="bpmnXML"
-      :loading="processInstanceLoading"
-      :process-instance="processInstance"
-      :tasks="tasks"
-    />
-    <!-- </el-card> -->
+      <my-process-viewer
+        key="designer"
+        v-model="bpmnXML"
+        :value="bpmnXML"
+        v-bind="bpmnControlForm"
+        :prefix="bpmnControlForm.prefix"
+        :activityData="activityList"
+        :processInstanceData="processInstance"
+        :taskData="tasks"
+      />
+    </el-card>
 
     <!-- 对话框(转派审批人) -->
-    <!-- <XModal v-model="updateAssigneeVisible" title="转派审批人" width="500">
-      <el-form ref="updateAssigneeFormRef" :model="updateAssigneeForm" :rules="updateAssigneeRules" label-width="110px">
+    <XModal v-model="updateAssigneeVisible" title="转派审批人" width="500">
+      <el-form
+        ref="updateAssigneeFormRef"
+        :model="updateAssigneeForm"
+        :rules="updateAssigneeRules"
+        label-width="110px"
+      >
         <el-form-item label="新审批人" prop="assigneeUserId">
           <el-select v-model="updateAssigneeForm.assigneeUserId" clearable style="width: 100%">
-            <el-option v-for="item in userOptions" :key="parseInt(item.id)" :label="item.nickname"
-              :value="parseInt(item.id)" />
+            <el-option
+              v-for="item in userOptions"
+              :key="parseInt(item.id)"
+              :label="item.nickname"
+              :value="parseInt(item.id)"
+            />
           </el-select>
         </el-form-item>
       </el-form>
-      操作按钮
+      <!-- 操作按钮 -->
       <template #footer>
-        按钮：保存
-        <XButton type="primary" :title="t('action.save')" :loading="updateAssigneeLoading"
-          @click="submitUpdateAssigneeForm" />
-        按钮：关闭
-        <XButton :loading="updateAssigneeLoading" :title="t('dialog.close')" @click="updateAssigneeLoading = false" />
+        <!-- 按钮：保存 -->
+        <XButton
+          type="primary"
+          :title="t('action.save')"
+          :loading="updateAssigneeLoading"
+          @click="submitUpdateAssigneeForm"
+        />
+        <!-- 按钮：关闭 -->
+        <XButton
+          :loading="updateAssigneeLoading"
+          :title="t('dialog.close')"
+          @click="updateAssigneeLoading = false"
+        />
       </template>
-    </XModal> -->
-    <TaskUpdateAssigneeForm ref="taskUpdateAssigneeFormRef" @success="getDetail" />
+    </XModal>
   </ContentWrap>
 </template>
 <script setup lang="ts">
-// import dayjs from 'dayjs'
+import dayjs from 'dayjs'
 import * as UserApi from '@/api/system/user'
 import * as ProcessInstanceApi from '@/api/bpm/processInstance'
 import * as DefinitionApi from '@/api/bpm/definition'
 import * as TaskApi from '@/api/bpm/task'
 import * as ActivityApi from '@/api/bpm/activity'
-// import { formatPast2 } from '@/utils/formatTime'
+import { formatPast2 } from '@/utils/formatTime'
 import { setConfAndFields2 } from '@/utils/formCreate'
 // import { OptionAttrs } from '@form-create/element-ui/types/config'
 import type { ApiAttrs } from '@form-create/element-ui/types/config'
 import { useUserStore } from '@/store/modules/user'
-import { registerComponent } from '@/utils/routerHelper'
-import ProcessInstanceBpmnViewer from './detail/ProcessInstanceBpmnViewer.vue'
-import ProcessInstanceTaskList from './detail/ProcessInstanceTaskList.vue'
-import TaskUpdateAssigneeForm from './detail/TaskUpdateAssigneeForm.vue'
+
 const { query } = useRoute() // 查询参数
 const message = useMessage() // 消息弹窗
-// const { t } = useI18n() // 国际化
+const { t } = useI18n() // 国际化
 const { proxy } = getCurrentInstance() as any
 
 // ========== 审批信息 ==========
@@ -247,85 +262,88 @@ const detailForm = ref({
 const tasksLoad = ref(true)
 const tasks = ref<any[]>([])
 
-// const getTimelineItemIcon = (item) => {
-//   if (item.result === 1) {
-//     return 'el-icon-time'
-//   }
-//   if (item.result === 2) {
-//     return 'el-icon-check'
-//   }
-//   if (item.result === 3) {
-//     return 'el-icon-close'
-//   }
-//   if (item.result === 4) {
-//     return 'el-icon-remove-outline'
-//   }
-//   return ''
-// }
-// const getTimelineItemType = (item) => {
-//   if (item.result === 1) {
-//     return 'primary'
-//   }
-//   if (item.result === 2) {
-//     return 'success'
-//   }
-//   if (item.result === 3) {
-//     return 'danger'
-//   }
-//   if (item.result === 4) {
-//     return 'info'
-//   }
-//   return ''
-// }
+const getTimelineItemIcon = (item) => {
+  if (item.result === 1) {
+    return 'el-icon-time'
+  }
+  if (item.result === 2) {
+    return 'el-icon-check'
+  }
+  if (item.result === 3) {
+    return 'el-icon-close'
+  }
+  if (item.result === 4) {
+    return 'el-icon-remove-outline'
+  }
+  return ''
+}
+const getTimelineItemType = (item) => {
+  if (item.result === 1) {
+    return 'primary'
+  }
+  if (item.result === 2) {
+    return 'success'
+  }
+  if (item.result === 3) {
+    return 'danger'
+  }
+  if (item.result === 4) {
+    return 'info'
+  }
+  return ''
+}
 
 // ========== 审批记录 ==========
-// const updateAssigneeVisible = ref(false)
-// const updateAssigneeLoading = ref(false)
-// const updateAssigneeForm = ref({
-//   id: undefined,
-//   assigneeUserId: undefined
-// })
-// const updateAssigneeRules = ref({
-//   assigneeUserId: [{ required: true, message: '新审批人不能为空', trigger: 'change' }]
-// })
-// const updateAssigneeFormRef = ref()
+const updateAssigneeVisible = ref(false)
+const updateAssigneeLoading = ref(false)
+const updateAssigneeForm = ref({
+  id: undefined,
+  assigneeUserId: undefined
+})
+const updateAssigneeRules = ref({
+  assigneeUserId: [{ required: true, message: '新审批人不能为空', trigger: 'change' }]
+})
+const updateAssigneeFormRef = ref()
 const userOptions = ref<any[]>([])
 
 // 处理转派审批人
-const taskUpdateAssigneeFormRef = ref()
-const openTaskUpdateAssigneeForm = (id: string) => {
-  taskUpdateAssigneeFormRef.value.open(id)
+const handleUpdateAssignee = (task) => {
+  // 设置表单
+  resetUpdateAssigneeForm()
+  updateAssigneeForm.value.id = task.id
+  // 设置为打开
+  updateAssigneeVisible.value = true
 }
 
 // 提交转派审批人
-// const submitUpdateAssigneeForm = async () => {
-//   // 1. 校验表单
-//   const elForm = unref(updateAssigneeFormRef)
-//   if (!elForm) return
-//   const valid = await elForm.validate()
-//   if (!valid) return
+const submitUpdateAssigneeForm = async () => {
+  // 1. 校验表单
+  const elForm = unref(updateAssigneeFormRef)
+  if (!elForm) return
+  const valid = await elForm.validate()
+  if (!valid) return
 
-//   // 2.1 提交审批
-//   updateAssigneeLoading.value = true
-//   try {
-//     await TaskApi.updateTaskAssignee(updateAssigneeForm.value)
-//     // 2.2 设置为隐藏
-//     updateAssigneeVisible.value = false
-//     // 加载最新数据
-//     getDetail()
-//   } finally {
-//     updateAssigneeLoading.value = false
-//   }
-// }
+  // 2.1 提交审批
+  updateAssigneeLoading.value = true
+  try {
+    await TaskApi.updateTaskAssignee(updateAssigneeForm.value)
+    // 2.2 设置为隐藏
+    updateAssigneeVisible.value = false
+    // 加载最新数据
+    getDetail()
+  } finally {
+    updateAssigneeLoading.value = false
+  }
+}
 
 // 重置转派审批人表单
-// const resetUpdateAssigneeForm = () => {
-//   updateAssigneeForm.value = {
-//     id: undefined,
-//     assigneeUserId: undefined
-//   }
-//   updateAssigneeFormRef.value?.resetFields()
-// }
+const resetUpdateAssigneeForm = () => {
+  updateAssigneeForm.value = {
+    id: undefined,
+    assigneeUserId: undefined
+  }
+  updateAssigneeFormRef.value?.resetFields()
+}
 
 /** 处理审批退回的操作 */
 const handleDelegate = async (task) => {
@@ -350,9 +368,9 @@ const handleBack = async (task) => {
 
 // ========== 高亮流程图 ==========
 const bpmnXML = ref(null)
-// const bpmnControlForm = ref({
-//   prefix: 'flowable'
-// })
+const bpmnControlForm = ref({
+  prefix: 'flowable'
+})
 const activityList = ref([])
 
 // ========== 初始化 ==========
@@ -364,7 +382,7 @@ onMounted(() => {
     userOptions.value.push(...data)
   })
 })
-const autoComponent = ref(null) // 异步组件
+
 const getDetail = () => {
   // 1. 获得流程实例相关
   processInstanceLoading.value = true
@@ -375,7 +393,6 @@ const getDetail = () => {
         return
       }
       processInstance.value = data
-      autoComponent.value = registerComponent(data.processDefinition.formCustomViewPath)
 
       // 设置表单信息
       const processDefinition = data.processDefinition

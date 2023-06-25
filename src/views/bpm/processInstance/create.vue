@@ -38,10 +38,17 @@
         </el-col>
       </el-card>
       <el-card class="box-card">
-        <!-- <div class="clearfix">
+        <div class="clearfix">
           <span class="el-icon-picture-outline">流程图</span>
-        </div> -->
-        <ProcessInstanceBpmnViewer :bpmn-xml="bpmnXML" />
+        </div>
+        <!-- TODO 芋艿：待完成？？？ -->
+        <my-process-viewer
+          key="designer"
+          v-model="bpmnXML"
+          :value="bpmnXML"
+          v-bind="bpmnControlForm"
+          :prefix="bpmnControlForm.prefix"
+        />
       </el-card>
     </div>
   </ContentWrap>
@@ -54,7 +61,7 @@ import * as ProcessInstanceApi from '@/api/bpm/processInstance'
 import { setConfAndFields2 } from '@/utils/formCreate'
 import type { ApiAttrs } from '@form-create/element-ui/types/config'
 import { DICT_TYPE } from '@/utils/dict'
-import ProcessInstanceBpmnViewer from './detail/ProcessInstanceBpmnViewer.vue'
+
 const router = useRouter() // 路由
 const message = useMessage() // 消息
 
@@ -133,9 +140,9 @@ const submitForm = async (formData) => {
 
 // // BPMN 数据
 const bpmnXML = ref(null)
-// const bpmnControlForm = ref({
-//   prefix: 'flowable'
-// })
+const bpmnControlForm = ref({
+  prefix: 'flowable'
+})
 </script>
 
 <style lang="scss" scoped>

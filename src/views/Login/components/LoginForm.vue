@@ -213,6 +213,7 @@ const getTenantId = async () => {
   if (loginData.tenantEnable === 'true') {
     const res = await LoginApi.getTenantIdByNameApi(loginData.loginForm.tenantName)
     authUtil.setTenantId(res)
+    authUtil.setTenantName(loginData.loginForm.tenantName)
   }
 }
 // 记住我
