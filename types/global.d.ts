@@ -19,7 +19,17 @@ declare global {
     | 'application/x-www-form-urlencoded'
     | 'multipart/form-data'
 
-  type AxiosMethod = 'get' | 'post' | 'delete' | 'put' | 'GET' | 'POST' | 'DELETE' | 'PUT'
+  type AxiosMethod =
+    | 'get'
+    | 'post'
+    | 'delete'
+    | 'put'
+    | 'patch'
+    | 'GET'
+    | 'POST'
+    | 'DELETE'
+    | 'PUT'
+    | 'PATCH'
 
   type AxiosResponseType = 'arraybuffer' | 'blob' | 'document' | 'json' | 'text' | 'stream'
 

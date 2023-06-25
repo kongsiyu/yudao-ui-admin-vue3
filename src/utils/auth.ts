@@ -71,8 +71,8 @@ export const getTenantName = () => {
   return wsCache.get(TenantNameKey)
 }
 
-export const setTenantName = (username: string) => {
-  wsCache.set(TenantNameKey, username, { exp: 30 * 24 * 60 * 60 })
+export const setTenantName = (tenantName: string) => {
+  wsCache.set(TenantNameKey, tenantName, { exp: 30 * 24 * 60 * 60 })
 }
 
 export const removeTenantName = () => {

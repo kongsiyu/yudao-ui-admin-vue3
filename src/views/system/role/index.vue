@@ -134,7 +134,7 @@
                 :check-strictly="!checkStrictly"
                 :props="defaultProps"
                 :data="treeOptions"
-                empty-text="加载中，请稍后"
+                empty-text="加载中，请稍候"
               />
             </el-card>
           </el-form-item> </el-col

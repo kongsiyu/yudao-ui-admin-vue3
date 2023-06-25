@@ -295,9 +295,9 @@ export default {
     logout: 'Login Out',
     test: 'Test',
     typeCreate: 'Dict Type Create',
-    typeUpdate: 'Dict Type Eidt',
+    typeUpdate: 'Dict Type Edit',
     dataCreate: 'Dict Data Create',
-    dataUpdate: 'Dict Data Eidt',
+    dataUpdate: 'Dict Data Edit',
     fileUpload: 'File Upload'
   },
   dialog: {

@@ -90,7 +90,7 @@ export const useTagsViewStore = defineStore('tagsView', {
     // 删除其他
     delOthersViews(view: RouteLocationNormalizedLoaded) {
       this.delOthersVisitedViews(view)
-      this.addCachedView()
+      this.delCachedView()
     },
     // 删除其他tag
     delOthersVisitedViews(view: RouteLocationNormalizedLoaded) {

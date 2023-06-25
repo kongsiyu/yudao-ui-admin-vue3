@@ -8,7 +8,7 @@ import { listSimpleDictDataApi } from '@/api/system/dict/dict.data'
 export interface DictValueType {
   value: any
   label: string
-  clorType?: string
+  colorType?: string
   cssClass?: string
 }
 export interface DictTypeType {

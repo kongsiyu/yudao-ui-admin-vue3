@@ -278,7 +278,6 @@ const getToolBarConfig = (options: XTableProps) => {
   if (toolbarConfig) return
   if (toolBar) {
     if (!isBoolean(toolBar)) {
-      console.info(2)
       options.toolbarConfig = toolBar
       return
     }

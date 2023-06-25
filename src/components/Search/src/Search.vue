@@ -22,7 +22,7 @@ const props = defineProps({
   // 操作按钮风格位置
   layout: propTypes.string.validate((v: string) => ['inline', 'bottom'].includes(v)).def('inline'),
   // 底部按钮的对齐方式
-  buttomPosition: propTypes.string
+  bottomPosition: propTypes.string
     .validate((v: string) => ['left', 'center', 'right'].includes(v))
     .def('center'),
   showSearch: propTypes.bool.def(true),
@@ -85,9 +85,9 @@ const reset = async () => {
   emit('reset', model)
 }
 
-const bottonButtonStyle = computed(() => {
+const bottomButtonStyle = computed(() => {
   return {
-    textAlign: props.buttomPosition as unknown as 'left' | 'center' | 'right'
+    textAlign: props.bottomPosition as unknown as 'left' | 'center' | 'right'
   }
 })
 
@@ -135,7 +135,7 @@ const setVisible = () => {
   </Form>
 
   <template v-if="layout === 'bottom'">
-    <div :style="bottonButtonStyle">
+    <div :style="bottomButtonStyle">
       <ElButton v-if="showSearch" type="primary" @click="search">
         <Icon class="mr-5px" icon="ep:search" />
         {{ t('common.query') }}
