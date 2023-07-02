@@ -71,6 +71,13 @@ export function parseTime(time: any, pattern?: string) {
 }
 
 /**
+ * 获取当前的日期+时间
+ */
+export function getNowDateTime() {
+  return dayjs().format('YYYY-MM-DD HH:mm:ss')
+}
+
+/**
  * 获取当前日期是第几周
  * @param dateTime 当前传入的日期值
  * @returns 返回第几周数字值
