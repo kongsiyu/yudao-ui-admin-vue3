@@ -74,7 +74,7 @@ export function parseTime(time: any, pattern?: string) {
  * 获取当前的日期+时间
  */
 export function getNowDateTime() {
-  return dayjs().format('YYYY-MM-DD HH:mm:ss')
+  return dayjs()
 }
 
 /**
