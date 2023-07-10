@@ -157,7 +157,7 @@
     </template>
   </XModal>
 </template>
-<script setup lang="ts" name="Role">
+<script setup lang="ts" name="SystemRole">
 import type { ElTree } from 'element-plus'
 import type { FormExpose } from '@/components/Form'
 import { handleTree, defaultProps } from '@/utils/tree'

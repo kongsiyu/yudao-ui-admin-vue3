@@ -85,7 +85,7 @@
     </template>
   </XModal>
 </template>
-<script setup lang="ts" name="Tenant">
+<script setup lang="ts" name="SystemTenant">
 import type { FormExpose } from '@/components/Form'
 import * as TenantApi from '@/api/system/tenant'
 import { rules, allSchemas, tenantPackageOption } from './tenant.data'

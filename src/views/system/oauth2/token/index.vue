@@ -24,7 +24,7 @@
     </template>
   </XModal>
 </template>
-<script setup lang="ts" name="Token">
+<script setup lang="ts" name="SystemTokenClient">
 import { allSchemas } from './token.data'
 import * as TokenApi from '@/api/system/oauth2/token'
 

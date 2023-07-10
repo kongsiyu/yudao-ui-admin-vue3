@@ -200,7 +200,7 @@
     </template>
   </XModal>
 </template>
-<script setup lang="ts" name="Menu">
+<script setup lang="ts" name="SystemMenu">
 import { CACHE_KEY, useCache } from '@/hooks/web/useCache'
 import { FormInstance } from 'element-plus'
 // 业务相关的 import

@@ -11,7 +11,7 @@
     />
   </ContentWrap>
 </template>
-<script setup lang="ts">
+<script setup lang="ts" name="BpmOALeaveCreate">
 import { FormExpose } from '@/components/Form'
 // import XEUtils from 'xe-utils'
 

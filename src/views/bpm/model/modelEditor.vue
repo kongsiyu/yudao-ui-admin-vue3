@@ -26,7 +26,7 @@
   </div>
 </template>
 
-<script setup lang="ts">
+<script setup lang="ts" name="BpmModelEditor">
 import { MyProcessDesigner, MyProcessPenal } from '@/components/bpmnProcessDesigner/package'
 // import { translations } from '@/components/bpmnProcessDesigner/src/translations'
 // 自定义元素选中时的弹出菜单（修改 默认任务 为 用户任务）

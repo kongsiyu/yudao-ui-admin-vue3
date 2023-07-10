@@ -74,7 +74,7 @@
     </template>
   </XModal>
 </template>
-<script setup lang="ts" name="Dept">
+<script setup lang="ts" name="SystemDept">
 import { handleTree, defaultProps } from '@/utils/tree'
 import type { FormExpose } from '@/components/Form'
 import { allSchemas, rules } from './dept.data'

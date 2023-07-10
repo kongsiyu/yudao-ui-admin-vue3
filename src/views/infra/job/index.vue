@@ -128,7 +128,7 @@
     </template>
   </XModal>
 </template>
-<script setup lang="ts" name="Job">
+<script setup lang="ts" name="InfraJob">
 import type { FormExpose } from '@/components/Form'
 import * as JobApi from '@/api/infra/job'
 import { rules, allSchemas } from './job.data'

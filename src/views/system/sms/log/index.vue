@@ -30,7 +30,7 @@
     </template>
   </XModal>
 </template>
-<script setup lang="ts" name="SmsLog">
+<script setup lang="ts" name="SystemSmsLog">
 import { allSchemas } from './sms.log.data'
 import * as SmsLoglApi from '@/api/system/sms/smsLog'
 const { t } = useI18n() // 国际化

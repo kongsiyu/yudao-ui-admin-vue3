@@ -138,7 +138,7 @@
     </template>
   </XModal>
 </template>
-<script setup lang="ts" name="MailTemplate">
+<script setup lang="ts" name="SystemMailTemplate">
 import { FormExpose } from '@/components/Form'
 // 业务相关的 import
 import { rules, allSchemas } from './template.data'

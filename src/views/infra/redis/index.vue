@@ -127,7 +127,7 @@
     </el-row>
   </XModal>
 </template>
-<script setup lang="ts">
+<script setup lang="ts" name="InfraRedis">
 import * as RedisApi from '@/api/infra/redis'
 import { RedisKeyInfo, RedisMonitorInfoVO } from '@/api/infra/redis/types'
 import { DICT_TYPE } from '@/utils/dict'

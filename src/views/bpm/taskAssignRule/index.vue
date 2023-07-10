@@ -133,7 +133,7 @@
     </XModal>
   </ContentWrap>
 </template>
-<script setup lang="ts" name="TaskAssignRule">
+<script setup lang="ts" name="BpmTaskAssignRule">
 // 全局相关的 import
 import { FormInstance } from 'element-plus'
 // 业务相关的 import

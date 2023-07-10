@@ -41,7 +41,7 @@
     </template>
   </Dialog>
 </template>
-<script lang="ts" name="UserGroupForm" setup>
+<script lang="ts" name="BpmUserGroupForm" setup>
 import { DICT_TYPE, getIntDictOptions } from '@/utils/dict'
 import { CommonStatusEnum } from '@/utils/constants'
 import * as UserGroupApi from '@/api/bpm/userGroup'

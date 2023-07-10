@@ -157,7 +157,7 @@
     </template>
   </XModal>
 </template>
-<script setup lang="ts" name="FileConfig">
+<script setup lang="ts" name="InfraFileConfig">
 import type { FormInstance } from 'element-plus'
 // 业务相关的 import
 import * as FileConfigApi from '@/api/infra/fileConfig'

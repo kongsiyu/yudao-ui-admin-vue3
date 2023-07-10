@@ -44,7 +44,7 @@
     </template>
   </XModal>
 </template>
-<script setup lang="ts" name="MailLog">
+<script setup lang="ts" name="SystemMailLog">
 // 业务相关的 import
 import { DICT_TYPE } from '@/utils/dict'
 import { allSchemas } from './log.data'

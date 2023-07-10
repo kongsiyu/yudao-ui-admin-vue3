@@ -316,7 +316,7 @@
   </ContentWrap>
 </template>
 
-<script setup lang="ts">
+<script setup lang="ts" name="BpmModel">
 // 全局相关的 import
 import { DICT_TYPE, getDictOptions } from '@/utils/dict'
 import { MyProcessViewer } from '@/components/bpmnProcessDesigner/package'
@@ -349,7 +349,7 @@ const forms = ref() // 流程表单的下拉框的数据
 const handleDesign = (row) => {
   console.log(row, '设计流程')
   router.push({
-    name: 'modelEditor',
+    name: 'BpmModelEditor',
     query: {
       modelId: row.id
     }
@@ -359,7 +359,7 @@ const handleDesign = (row) => {
 // 跳转到指定流程定义列表
 const handleDefinitionList = (row) => {
   router.push({
-    name: 'BpmProcessDefinitionList',
+    name: 'BpmProcessDefinition',
     query: {
       key: row.key
     }
@@ -402,7 +402,7 @@ const handleBpmnDetail = (row) => {
 // 点击任务分配按钮
 const handleAssignRule = (row) => {
   router.push({
-    name: 'BpmTaskAssignRuleList',
+    name: 'BpmTaskAssignRule',
     query: {
       modelId: row.id
     }

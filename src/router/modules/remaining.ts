@@ -116,7 +116,7 @@ const remainingRouter: AppRouteRecordRaw[] = [
       {
         path: 'type/data/:dictType',
         component: () => import('@/views/system/dict/index.vue'),
-        name: 'data',
+        name: 'SystemDictData',
         meta: {
           title: '字典数据',
           noCache: true,
@@ -140,7 +140,7 @@ const remainingRouter: AppRouteRecordRaw[] = [
       {
         path: 'edit',
         component: () => import('@/views/infra/codegen/EditTable.vue'),
-        name: 'EditTable',
+        name: 'InfraCodegenEditTable',
         meta: {
           noCache: true,
           hidden: true,
@@ -163,7 +163,7 @@ const remainingRouter: AppRouteRecordRaw[] = [
       {
         path: 'job-log',
         component: () => import('@/views/infra/job/JobLog.vue'),
-        name: 'JobLog',
+        name: 'InfraJobLog',
         meta: {
           noCache: true,
           hidden: true,
@@ -236,7 +236,7 @@ const remainingRouter: AppRouteRecordRaw[] = [
       {
         path: '/manager/form/edit',
         component: () => import('@/views/bpm/form/formEditor.vue'),
-        name: 'bpmFormEditor',
+        name: 'BpmFormEditor',
         meta: {
           noCache: true,
           hidden: true,
@@ -248,7 +248,7 @@ const remainingRouter: AppRouteRecordRaw[] = [
       {
         path: '/manager/model/edit',
         component: () => import('@/views/bpm/model/modelEditor.vue'),
-        name: 'modelEditor',
+        name: 'BpmModelEditor',
         meta: {
           noCache: true,
           hidden: true,
@@ -260,7 +260,7 @@ const remainingRouter: AppRouteRecordRaw[] = [
       {
         path: '/manager/definition',
         component: () => import('@/views/bpm/definition/index.vue'),
-        name: 'BpmProcessDefinitionList',
+        name: 'BpmProcessDefinition',
         meta: {
           noCache: true,
           hidden: true,
@@ -272,7 +272,7 @@ const remainingRouter: AppRouteRecordRaw[] = [
       {
         path: '/manager/task-assign-rule',
         component: () => import('@/views/bpm/taskAssignRule/index.vue'),
-        name: 'BpmTaskAssignRuleList',
+        name: 'BpmTaskAssignRule',
         meta: {
           noCache: true,
           hidden: true,
@@ -307,31 +307,19 @@ const remainingRouter: AppRouteRecordRaw[] = [
       {
         path: '/bpm/oa/leave/create',
         component: () => import('@/views/bpm/oa/leave/create.vue'),
-        name: 'OALeaveCreate',
+        name: 'BpmOALeaveCreate',
         meta: {
           noCache: true,
           hidden: true,
           canTo: true,
           title: '发起 OA 请假',
-          activeMenu: '/bpm/oa/leave'
+          activeMenu: '/bpm/oa/leave/create'
         }
       },
       {
         path: '/bpm/oa/leave/detail',
         component: () => import('@/views/bpm/oa/leave/detail.vue'),
-        name: 'OALeaveDetail',
-        meta: {
-          noCache: true,
-          hidden: true,
-          canTo: true,
-          title: '查看 OA 请假',
-          activeMenu: '/bpm/oa/leave'
-        }
-      },
-      {
-        path: '/bpm/oa/leave/detail',
-        component: () => import('@/views/bpm/oa/leave/detail.vue'),
-        name: 'OALeaveDetail',
+        name: 'BpmOALeaveDetail',
         meta: {
           noCache: true,
           hidden: true,
@@ -345,7 +333,7 @@ const remainingRouter: AppRouteRecordRaw[] = [
   {
     path: '/property',
     component: Layout,
-    name: 'property',
+    name: 'ProductProperty',
     meta: {
       hidden: true
     },
@@ -353,7 +341,7 @@ const remainingRouter: AppRouteRecordRaw[] = [
       {
         path: 'value/:propertyId(\\d+)',
         component: () => import('@/views/mall/product/property/value/index.vue'),
-        name: 'PropertyValue',
+        name: 'ProductPropertyValue',
         meta: { title: '商品属性值', icon: '', activeMenu: '/product/property' }
       }
     ]
@@ -382,7 +370,7 @@ const remainingRouter: AppRouteRecordRaw[] = [
       {
         path: 'productSpuEdit/:spuId(\\d+)',
         component: () => import('@/views/mall/product/spu/addForm.vue'),
-        name: 'productSpuEdit',
+        name: 'ProductSpuEdit',
         meta: {
           noCache: true,
           hidden: true,

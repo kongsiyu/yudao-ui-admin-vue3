@@ -41,7 +41,7 @@
     </XTable>
   </ContentWrap>
 </template>
-<script setup lang="ts">
+<script setup lang="ts" name="BpmProcessInstance">
 // 全局相关的 import
 import { ElMessageBox } from 'element-plus'
 import { DICT_TYPE } from '@/utils/dict'

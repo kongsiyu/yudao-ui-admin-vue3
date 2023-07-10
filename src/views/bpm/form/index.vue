@@ -63,14 +63,14 @@ const [registerTable, { deleteData }] = useXTable({
 // 新增操作
 const handleCreate = () => {
   push({
-    name: 'bpmFormEditor'
+    name: 'BpmFormEditor'
   })
 }
 
 // 修改操作
 const handleUpdate = async (rowId: number) => {
   await push({
-    name: 'bpmFormEditor',
+    name: 'BpmFormEditor',
     query: {
       id: rowId
     }
