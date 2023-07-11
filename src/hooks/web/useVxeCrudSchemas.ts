@@ -269,7 +269,8 @@ const filterFormSchema = (crudSchema: VxeCrudSchema): FormSchema[] => {
           defaultValue = 0
         }
       }
-      let comonentProps = {}
+      const componentProps =
+        schemaItem.form?.componentProps != null ? schemaItem.form?.componentProps : {}
       if (schemaItem.dictType) {
         const options: ComponentOptions[] = []
         if (schemaItem.dictClass && schemaItem.dictClass === 'number') {
@@ -285,14 +286,12 @@ const filterFormSchema = (crudSchema: VxeCrudSchema): FormSchema[] => {
             options.push(dict)
           })
         }
-        comonentProps = {
-          options: options
-        }
+        componentProps.options = options
         if (!(schemaItem.form && schemaItem.form.component)) component = 'Select'
       }
       const formSchemaItem = {
         component: component,
-        componentProps: comonentProps,
+        componentProps: componentProps,
         value: defaultValue,
         ...schemaItem.form,
         field: schemaItem.field,
