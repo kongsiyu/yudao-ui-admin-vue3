@@ -121,7 +121,7 @@
     </XModal>
   </div>
 </template>
-<script setup lang="ts" name="Dict">
+<script setup lang="ts" name="SystemDictType">
 import { VxeTableEvents } from 'vxe-table'
 import type { FormExpose } from '@/components/Form'
 import * as DictTypeSchemas from './dict.type'

@@ -56,7 +56,7 @@
   <!-- 弹窗：预览代码 -->
   <Preview ref="previewRef" />
 </template>
-<script setup lang="ts" name="Codegen">
+<script setup lang="ts" name="InfraCodegen">
 import download from '@/utils/download'
 import * as CodegenApi from '@/api/infra/codegen'
 import { CodegenTableVO } from '@/api/infra/codegen/types'

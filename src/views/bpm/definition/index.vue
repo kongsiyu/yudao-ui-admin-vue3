@@ -59,7 +59,7 @@
     </XModal>
   </ContentWrap>
 </template>
-<script setup lang="ts">
+<script setup lang="ts" name="BpmProcessDefinition">
 // 业务相关的 import
 import * as DefinitionApi from '@/api/bpm/definition'
 // import * as ModelApi from '@/api/bpm/model'
@@ -123,7 +123,7 @@ const handleBpmnDetail = (row) => {
 // 点击任务分配按钮
 const handleAssignRule = (row) => {
   router.push({
-    name: 'BpmTaskAssignRuleList',
+    name: 'BpmTaskAssignRule',
     query: {
       processDefinitionId: row.id
     }

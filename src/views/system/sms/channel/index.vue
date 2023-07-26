@@ -67,7 +67,7 @@
     </template>
   </XModal>
 </template>
-<script setup lang="ts" name="SmsChannel">
+<script setup lang="ts" name="SystemSmsChannel">
 import type { FormExpose } from '@/components/Form'
 // 业务相关的 import
 import * as SmsChannelApi from '@/api/system/sms/smsChannel'

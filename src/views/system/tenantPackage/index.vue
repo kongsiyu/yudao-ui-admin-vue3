@@ -64,7 +64,7 @@
     </XModal>
   </ContentWrap>
 </template>
-<script setup lang="ts" name="TenantPackage">
+<script setup lang="ts" name="SystemTenantPackage">
 import { handleTree, defaultProps } from '@/utils/tree'
 import type { FormExpose } from '@/components/Form'
 import type { ElTree } from 'element-plus'

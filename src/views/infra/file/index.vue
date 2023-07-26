@@ -78,7 +78,7 @@
     </template>
   </XModal>
 </template>
-<script setup lang="ts" name="FileList">
+<script setup lang="ts" name="InfraFile">
 import type { UploadInstance, UploadRawFile, UploadProps, UploadFile } from 'element-plus'
 // 业务相关的 import
 import { allSchemas } from './fileList.data'

@@ -37,7 +37,7 @@
   </div>
 </template>
 
-<script lang="ts" setup name="Area">
+<script lang="ts" setup name="SystemArea">
 import * as areaApi from '@/api/system/area'
 import type { FormInstance } from 'element-plus'
 // import { allSchemas } from './area.data'

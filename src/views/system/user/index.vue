@@ -262,7 +262,7 @@
     </template>
   </XModal>
 </template>
-<script setup lang="ts" name="User">
+<script setup lang="ts" name="SystemUser">
 import type { ElTree, UploadRawFile, UploadInstance } from 'element-plus'
 import { handleTree, defaultProps } from '@/utils/tree'
 import download from '@/utils/download'

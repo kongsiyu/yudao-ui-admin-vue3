@@ -66,7 +66,7 @@
     </template>
   </XModal>
 </template>
-<script setup lang="ts" name="ErrorCode">
+<script setup lang="ts" name="SystemErrorCode">
 import type { FormExpose } from '@/components/Form'
 // 业务相关的 import
 import { rules, allSchemas } from './errorCode.data'

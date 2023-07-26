@@ -13,7 +13,7 @@
   </ContentWrap>
 </template>
 
-<script setup lang="ts">
+<script setup lang="ts" name="BpmTodoTask">
 // 业务相关的 import
 import { allSchemas } from './todo.data'
 import * as TaskApi from '@/api/bpm/task'

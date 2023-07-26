@@ -12,7 +12,7 @@
     </XTable>
   </ContentWrap>
 </template>
-<script setup lang="ts">
+<script setup lang="ts" name="BpmDoneTask">
 // 业务相关的 import
 import { allSchemas } from './done.data'
 import * as TaskApi from '@/api/bpm/task'

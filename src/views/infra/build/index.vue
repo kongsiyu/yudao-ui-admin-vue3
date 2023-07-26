@@ -29,7 +29,7 @@
     </div>
   </Dialog>
 </template>
-<script setup lang="ts" name="Build">
+<script setup lang="ts" name="InfraBuild">
 import FcDesigner from '@form-create/designer'
 // import { useClipboard } from '@vueuse/core'
 import { isString } from '@/utils/is'

@@ -27,7 +27,7 @@
     </template>
   </XModal>
 </template>
-<script setup lang="ts" name="NotifyMessage">
+<script setup lang="ts" name="SystemNotifyMessage">
 // 业务相关的 import
 import { allSchemas } from './message.data'
 import * as NotifyMessageApi from '@/api/system/notify/message'

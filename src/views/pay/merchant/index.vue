@@ -74,7 +74,7 @@
     </template>
   </XModal>
 </template>
-<script setup lang="ts" name="Merchant">
+<script setup lang="ts" name="PayMerchant">
 import type { FormExpose } from '@/components/Form'
 import { rules, allSchemas } from './merchant.data'
 import * as MerchantApi from '@/api/pay/merchant'

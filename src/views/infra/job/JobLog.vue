@@ -47,7 +47,7 @@
     </template>
   </XModal>
 </template>
-<script setup lang="ts" name="JobLog">
+<script setup lang="ts" name="InfraJobLog">
 import dayjs from 'dayjs'
 
 import * as JobLogApi from '@/api/infra/jobLog'

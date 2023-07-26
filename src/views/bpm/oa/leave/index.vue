@@ -23,7 +23,7 @@
   </ContentWrap>
 </template>
 
-<script setup lang="ts">
+<script setup lang="ts" name="BpmOALeave">
 // 全局相关的 import
 import { ElMessageBox } from 'element-plus'
 // 业务相关的 import
@@ -43,7 +43,7 @@ const [registerTable, { reload }] = useXTable({
 // 发起请假
 const handleCreate = () => {
   push({
-    name: 'OALeaveCreate'
+    name: 'BpmOALeaveCreate'
   })
 }
 
@@ -64,7 +64,7 @@ const cancelLeave = (row) => {
 // 详情
 const handleDetail = (row) => {
   push({
-    name: 'OALeaveDetail',
+    name: 'BpmOALeaveDetail',
     query: {
       id: row.id
     }

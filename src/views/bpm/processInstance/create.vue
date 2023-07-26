@@ -53,7 +53,7 @@
     </div>
   </ContentWrap>
 </template>
-<script setup lang="ts">
+<script setup lang="ts" name="BpmProcessInstanceCreate">
 // 业务相关的 import
 import { allSchemas } from './process.create'
 import * as DefinitionApi from '@/api/bpm/definition'

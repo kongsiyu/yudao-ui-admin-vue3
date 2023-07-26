@@ -27,7 +27,7 @@
     </template>
   </XModal>
 </template>
-<script setup lang="ts" name="Loginlog">
+<script setup lang="ts" name="SystemLoginLog">
 // 业务相关的 import
 import { allSchemas } from './loginLog.data'
 import { getLoginLogPageApi, exportLoginLogApi, LoginLogVO } from '@/api/system/loginLog'
