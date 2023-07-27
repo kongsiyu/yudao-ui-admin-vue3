@@ -12,6 +12,7 @@ const include = [
   'vue-router',
   'vue-types',
   'vue-i18n',
+  'xe-utils',
   'crypto-js',
   'cropperjs',
   'lodash-es',
