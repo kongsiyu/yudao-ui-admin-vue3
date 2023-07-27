@@ -53,6 +53,7 @@ const openModel = (title: string) => {
   dialogTitle.value = title
 }
 
+/** 生成 JSON */
 const showJson = () => {
   openModel('生成 JSON')
   formType.value = 0
