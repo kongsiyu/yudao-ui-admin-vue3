@@ -10,6 +10,7 @@
 import BpmnViewer from 'bpmn-js/lib/Viewer'
 import DefaultEmptyXML from './plugins/defaultEmpty'
 import { DICT_TYPE, getIntDictOptions } from '@/utils/dict'
+import { formatDate } from '@/utils/formatTime'
 const props = defineProps({
   value: {
     // BPMN XML 字符串
