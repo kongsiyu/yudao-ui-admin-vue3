@@ -3,8 +3,6 @@
     <el-row>
       <el-col>
         <div class="mb-2 float-right">
-          <el-button size="small" @click="setJson"> 导入JSON</el-button>
-          <el-button size="small" @click="setOption"> 导入Options</el-button>
           <el-button size="small" type="primary" @click="showJson">生成 JSON</el-button>
           <el-button size="small" type="success" @click="showOption">生成 Options</el-button>
           <el-button size="small" type="danger" @click="showTemplate">生成组件</el-button>
@@ -18,18 +16,18 @@
   </ContentWrap>
 
   <!-- 弹窗：表单预览 -->
-  <Dialog :title="dialogTitle" v-model="dialogVisible" max-height="600">
-    <div ref="editor" v-if="dialogVisible">
+  <Dialog v-model="dialogVisible" :title="dialogTitle" max-height="600">
+    <div v-if="dialogVisible" ref="editor">
       <XTextButton style="float: right" :title="t('common.copy')" @click="copy(formData)" />
       <el-scrollbar height="580">
         <div>
-          <pre><code class="hljs" v-html="highlightedCode(formData)"></code></pre>
+          <pre><code v-dompurify-html="highlightedCode(formData)" class="hljs"></code></pre>
         </div>
       </el-scrollbar>
     </div>
   </Dialog>
 </template>
-<script setup lang="ts" name="InfraBuild">
+<script lang="ts" name="InfraBuild" setup>
 import FcDesigner from '@form-create/designer'
 // import { useClipboard } from '@vueuse/core'
 import { isString } from '@/utils/is'
@@ -54,12 +52,6 @@ const openModel = (title: string) => {
   dialogTitle.value = title
 }
 
-const setJson = () => {
-  openModel('导入JSON--未实现')
-}
-const setOption = () => {
-  openModel('导入Options--未实现')
-}
 const showJson = () => {
   openModel('生成 JSON')
   formType.value = 0

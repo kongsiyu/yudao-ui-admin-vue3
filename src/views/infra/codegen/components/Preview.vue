@@ -22,7 +22,7 @@
             :key="item.filePath"
           >
             <XTextButton style="float: right" :title="t('common.copy')" @click="copy(item.code)" />
-            <pre>{{ item.code }}</pre>
+            <pre><code v-dompurify-html="highlightedCode(item)" class="hljs"></code></pre>
           </el-tab-pane>
         </el-tabs>
       </el-card>
@@ -34,6 +34,14 @@
 import { handleTree2 } from '@/utils/tree'
 import { previewCodegenApi } from '@/api/infra/codegen'
 import { CodegenTableVO, CodegenPreviewVO } from '@/api/infra/codegen/types'
+
+import hljs from 'highlight.js' // 导入代码高亮文件
+import 'highlight.js/styles/github.css' // 导入代码高亮样式
+import java from 'highlight.js/lib/languages/java'
+import xml from 'highlight.js/lib/languages/java'
+import javascript from 'highlight.js/lib/languages/javascript'
+import sql from 'highlight.js/lib/languages/sql'
+import typescript from 'highlight.js/lib/languages/typescript'
 
 const { t } = useI18n() // 国际化
 const message = useMessage() // 消息弹窗
@@ -148,6 +156,28 @@ const copy = async (text: string) => {
   message.success(t('common.copySuccess'))
   oInput.remove()
 }
+
+/**
+ * 代码高亮
+ */
+const highlightedCode = (item) => {
+  const language = item.filePath.substring(item.filePath.lastIndexOf('.') + 1)
+  const result = hljs.highlight(language, item.code || '', true)
+  return result.value || '&nbsp;'
+}
+
+/** 初始化 **/
+onMounted(async () => {
+  // 注册代码高亮的各种语言
+  hljs.registerLanguage('java', java)
+  hljs.registerLanguage('xml', xml)
+  hljs.registerLanguage('html', xml)
+  hljs.registerLanguage('vue', xml)
+  hljs.registerLanguage('javascript', javascript)
+  hljs.registerLanguage('sql', sql)
+  hljs.registerLanguage('typescript', typescript)
+})
+
 defineExpose({
   show
 })
