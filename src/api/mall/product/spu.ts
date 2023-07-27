@@ -105,8 +105,3 @@ export const exportSpu = async (params) => {
 export const getSpuSimpleList = async () => {
   return request.get({ url: '/product/spu/get-simple-list' })
 }
-
-// 获得商品 SPU 精简列表
-export const getSpuSimpleList = async () => {
-  return request.get({ url: '/product/spu/get-simple-list' })
-}
