@@ -37,7 +37,12 @@
       v-if="actionType === 'detail'"
       :schema="allSchemas.detailSchema"
       :data="detailData"
-    />
+    >
+      <!-- 展示 HTML 内容 -->
+      <template #templateContent="{ row }">
+        <div v-dompurify-html="row.templateContent"></div>
+      </template>
+    </Descriptions>
     <template #footer>
       <!-- 按钮：关闭 -->
       <XButton :loading="actionLoading" :title="t('dialog.close')" @click="modelVisible = false" />

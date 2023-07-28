@@ -203,6 +203,7 @@ import { setConfAndFields2 } from '@/utils/formCreate'
 // import { OptionAttrs } from '@form-create/element-ui/types/config'
 import type { ApiAttrs } from '@form-create/element-ui/types/config'
 import { useUserStore } from '@/store/modules/user'
+import { MyProcessViewer } from '@/components/bpmnProcessDesigner/package'
 
 const { query } = useRoute() // 查询参数
 const message = useMessage() // 消息弹窗

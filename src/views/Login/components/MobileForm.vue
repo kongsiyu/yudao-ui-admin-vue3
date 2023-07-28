@@ -183,12 +183,17 @@ const signIn = async () => {
   await getTenantId()
   const data = await validForm()
   if (!data) return
+  ElLoading.service({
+    lock: true,
+    text: '正在加载系统中...',
+    background: 'rgba(0, 0, 0, 0.7)'
+  })
   loginLoading.value = true
   smsVO.loginSms.mobile = loginData.loginForm.mobileNumber
   smsVO.loginSms.code = loginData.loginForm.code
   await smsLoginApi(smsVO.loginSms)
     .then(async (res) => {
-      setToken(res?.token)
+      setToken(res)
       if (!redirect.value) {
         redirect.value = '/'
       }
@@ -197,6 +202,10 @@ const signIn = async () => {
     .catch(() => {})
     .finally(() => {
       loginLoading.value = false
+      setTimeout(() => {
+        const loadingInstance = ElLoading.service()
+        loadingInstance.close()
+      }, 400)
     })
 }
 </script>
